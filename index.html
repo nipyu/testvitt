@@ -1328,8 +1328,8 @@ async function signInWithGoogle() {
         const { data, error } = await _supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                // redirectTo: 'https://www.nnavittalo.com'
-                redirectTo: window.location.origin 
+                // redirectTo: 'https://www.nnavittalo.com' window.location.origin 
+                redirectTo: 'https://nipyu.github.io/testvitt/'
             }
         });
 
