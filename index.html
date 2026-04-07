@@ -438,13 +438,12 @@ button{cursor:pointer;font-family:inherit}
 
     <div class="nav-actions">
       <a href="https://wa.me/48729648997" target="_blank" class="btn-outline" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="20" height="20" alt="WhatsApp">
-        Chat
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="20" height="20" alt="WhatsApp"> Chat
       </a>
       <button class="btn-solid" onclick="document.querySelector('#packages').scrollIntoView({ behavior: 'smooth' })">Book a Trip</button>
     </div>
 
-    <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
+    <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
       <span></span><span></span><span></span>
     </button>
   </div>
@@ -455,10 +454,10 @@ button{cursor:pointer;font-family:inherit}
     <a href="#packages" onclick="toggleMobileMenu()">🏄 Camps</a>
     <a href="#contact" onclick="toggleMobileMenu()">📞 Contact</a>
     <div class="mobile-menu-btns">
-      <a href="https://wa.me/48729648997" class="btn-outline" style="background:#25D366; color:white; border:none; text-align:center; text-decoration:none; width:100%;">
+      <a href="https://wa.me/48729648997" class="btn-outline" style="background:#25D366; color:white; border:none; text-align:center; text-decoration:none; width:100%; display:block; padding: 12px; border-radius: 8px;">
         Chat on WhatsApp
       </a>
-      <button class="btn-solid" style="width: 100%;" onclick="toggleMobileMenu(); document.querySelector('#packages').scrollIntoView({behavior:'smooth'})">
+      <button class="btn-solid" style="width: 100%; margin-top: 10px;" onclick="toggleMobileMenu(); document.querySelector('#packages').scrollIntoView({behavior:'smooth'})">
         Book a Trip
       </button>
     </div>
@@ -1017,49 +1016,33 @@ function closeModal() {
 }
 
 async function confirmBooking() {
-  // 1. Check if user is logged in
-  const { data: { user } } = await _supabase.auth.getUser();
-
-  // 2. If NOT logged in, show Login Modal and stop
-  if (!user) {
-    showToast("⚠️ Please Log In to finish your booking!");
-    const authModal = document.getElementById('authModal');
-    if (authModal) authModal.style.display = 'flex'; 
-    closeModal(); 
-    return;
-  }
-
-  // 3. Get values from the inputs
+  // 1. Get values from the inputs
   const fullName = document.getElementById('bookName').value.trim();
   const phone = document.getElementById('bookPhone').value.trim();
-  
-  // Get the guest count from the dropdown
   const guestCount = parseInt(document.getElementById('bookGuests').value) || 1;
 
-  // 4. MANDATORY CHECK: stop if fields are empty
+  // 2. Stop if fields are empty
   if (!fullName || !phone) {
     showToast("⚠️ Name and Mobile Number are required!");
     return; 
   }
 
-  // --- NEW: Calculate Total Prices based on your Fixed Inputs ---
   const totalPln = currentTrip.price * guestCount;
   const totalEur = currentTrip.priceEur * guestCount;
 
-  // 5. Save the booking to Supabase
-  // Ensure your Supabase table has these columns: guests, total_price_pln, total_price_eur
+  // 3. Save the booking to Supabase
+  // Notice we removed user_id because we are allowing anonymous bookings
   const { error } = await _supabase
     .from('bookings')
     .insert([
       { 
-        user_id: user.id, 
         event_id: currentTrip.id,
         event_name: currentTrip.title, 
         customer_name: fullName, 
         phone_number: phone,      
-        guests: guestCount,                // <--- Added
-        total_price_pln: totalPln,         // <--- Added
-        total_price_eur: totalEur,         // <--- Added
+        guests: guestCount,                
+        total_price_pln: totalPln,         
+        total_price_eur: totalEur,         
         booking_date: new Date().toISOString().split('T')[0],
         status: 'pending' 
       }
@@ -1067,25 +1050,23 @@ async function confirmBooking() {
 
   if (error) {
     console.error("Supabase Error:", error);
-    showToast("❌ Error: " + error.message);
+    showToast("❌ Database Error: " + error.message);
   } else {
-    // 6. SUCCESS STATE
-    showToast("🎉 Booking confirmed! Check 'My Adventures' for details.");
-if (document.activeElement) {
-        document.activeElement.blur();
-    }
+    // 4. Success UI
+    showToast("🚀 Booking saved! Redirecting to Stripe...");
+
     const btn = document.querySelector('.btn-book-modal');
     if(btn) {
         btn.disabled = true;
-        btn.innerText = "✅ Confirmed";
+        btn.innerText = "Redirecting...";
     }
 
-    // 7. Wait 5 seconds before closing
+    // 5. REDIRECT TO STRIPE
     setTimeout(() => {
-      closeModal();
-      // 4. Force the window back to the top-left to reset the zoom/offset
-      window.scrollTo(0, 0);
-      if (typeof checkUserSession === "function") checkUserSession();
+      // REPLACE THIS WITH YOUR STRIPE LINK
+      // Inside your confirmBooking function, change the redirect line to this:
+const stripeLink = "https://buy.stripe.com/fZu8wO32A0Aye003dX48000";
+window.location.href = `${stripeLink}?quantity=${guestCount}`;
     }, 1500); 
   }
 }
@@ -1120,15 +1101,17 @@ function subscribeNewsletter() {
   showToast('✅ Subscribed! Welcome to the NNA VITTALO community 🏔️');
 }
 
-// Toggle Mobile Menu
+// Function to Open/Close Menu
 function toggleMobileMenu() {
     const menu = document.getElementById('mobileMenu');
     const hamburger = document.getElementById('hamburger');
-    menu.classList.toggle('open');
-    hamburger.classList.toggle('active');
+    if (menu && hamburger) {
+        menu.classList.toggle('open');
+        hamburger.classList.toggle('active');
+    }
 }
 
-// AUTO-CLOSE: Close menu when user starts scrolling
+// AUTO-CLOSE: Closes menu as soon as the user starts scrolling
 window.addEventListener('scroll', () => {
     const menu = document.getElementById('mobileMenu');
     const hamburger = document.getElementById('hamburger');
