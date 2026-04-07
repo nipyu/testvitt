@@ -428,10 +428,10 @@ button{cursor:pointer;font-family:inherit}
       <a href="#contact" style="color:#1a1f36">Contact</a>
     </div>
     <div class="nav-actions">
-  <button id="loginBtn" class="btn-outline" onclick="document.getElementById('authModal').style.display='flex'">Log In</button>
-  <button id="userAccountBtn" class="btn-solid" style="display:none;" onclick="showUserBookings()">My Bookings</button>
-  <button class="btn-solid" onclick="document.querySelector('#packages').scrollIntoView({ behavior: 'smooth' })">Book a Trip</button>
-</div>
+      <button id="loginBtn" class="btn-outline" onclick="document.getElementById('authModal').style.display='flex'">Log In</button>
+     <button id="userAccountBtn" class="btn-solid" style="display:none;" onclick="showUserBookings()">My Bookings</button>
+      <button class="btn-solid" onclick="document.querySelector('#packages').scrollIntoView({ behavior: 'smooth' })">Book a Trip</button>
+  </div>
     <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -1224,7 +1224,7 @@ async function openMyBookings() {
         startBookingTimers();
     }
 }
-// 3. CAncel booking
+
 async function cancelBooking(bookingId) {
     if (!confirm("Are you sure you want to cancel this booking? This cannot be undone.")) return;
 
@@ -1243,6 +1243,17 @@ async function cancelBooking(bookingId) {
 
 let timerInterval;
 
+async function handleLogout() {
+    const { error } = await _supabase.auth.signOut();
+    if (error) {
+        showToast("Error logging out");
+    } else {
+        // Refresh the page to clear all UI states
+        window.location.reload();
+    }
+}
+
+// 3. CAncel booking
 function startBookingTimers() {
     // Clear any old interval if it exists
     if (timerInterval) clearInterval(timerInterval);
@@ -1285,32 +1296,31 @@ checkUserSession();
 // Init
 renderTrips(TRIPS);
 
-_supabase.auth.onAuthStateChange(async (event, session) => {
-    if (event === "PASSWORD_RECOVERY") {
-        document.getElementById('authModal').style.display = 'flex';
-        document.getElementById('authContent').style.display = 'none';
-        document.getElementById('resetContent').style.display = 'none';
-        document.getElementById('updatePasswordContent').style.display = 'block';
-    }
-});
+
 // This function runs automatically whenever the "Auth State" changes
 _supabase.auth.onAuthStateChange((event, session) => {
   const loginBtn = document.getElementById('loginBtn');
   const accountBtn = document.getElementById('userAccountBtn');
+  const authModal = document.getElementById('authModal');
 
+  // If a session exists, the user is logged in
   if (session) {
-    // USER IS LOGGED IN
-    console.log("User signed in:", session.user.email);
-    loginBtn.style.display = 'none';
-    accountBtn.style.display = 'inline-block';
-    accountBtn.innerText = 'My Account (' + session.user.email.split('@')[0] + ')';
+    console.log("Logged in as:", session.user.email);
     
-    // Close the login modal if it's open
-    document.getElementById('authModal').style.display = 'none';
+    // Hide 'Log In' and Show 'My Bookings'
+    if (loginBtn) loginBtn.style.display = 'none';
+    if (accountBtn) {
+        accountBtn.style.display = 'inline-block';
+        // Optional: show user name/email on the button
+        accountBtn.innerText = 'My Bookings (' + session.user.email.split('@')[0] + ')';
+    }
+    
+    // Auto-close the login popup if it's open
+    if (authModal) authModal.style.display = 'none';
   } else {
-    // USER IS LOGGED OUT
-    loginBtn.style.display = 'inline-block';
-    accountBtn.style.display = 'none';
+    // User is logged out
+    if (loginBtn) loginBtn.style.display = 'inline-block';
+    if (accountBtn) accountBtn.style.display = 'none';
   }
 });
 async function signInWithGoogle() {
