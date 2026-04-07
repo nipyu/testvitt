@@ -428,9 +428,10 @@ button{cursor:pointer;font-family:inherit}
       <a href="#contact" style="color:#1a1f36">Contact</a>
     </div>
     <div class="nav-actions">
-      <button class="btn-outline" onclick="document.getElementById('authModal').style.display='flex'">Log In</button>
-      <button class="btn-solid" onclick="document.querySelector('#packages').scrollIntoView({ behavior: 'smooth' })">Book a Trip</button>
-    </div>
+  <button id="loginBtn" class="btn-outline" onclick="document.getElementById('authModal').style.display='flex'">Log In</button>
+  <button id="userAccountBtn" class="btn-solid" style="display:none;" onclick="showUserBookings()">My Bookings</button>
+  <button class="btn-solid" onclick="document.querySelector('#packages').scrollIntoView({ behavior: 'smooth' })">Book a Trip</button>
+</div>
     <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
