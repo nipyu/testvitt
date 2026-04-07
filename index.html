@@ -614,14 +614,23 @@ button{cursor:pointer;font-family:inherit}
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 <!-- supabase login -->
-<div id="authContent" style="text-align:center; padding: 20px;">
-  <h2 style="font-family:Montserrat,sans-serif; margin-bottom:10px; color:#0f2266;">Client Portal</h2>
-  <p style="margin-bottom:25px; color:#7a8599;">Sign in with your Google account to manage bookings.</p>
-  
-  <button class="btn-solid" style="width:100%; display:flex; align-items:center; justify-content:center; gap:10px; background:#fff; color:#1a1f36; border:1px solid #dae1e7;" onclick="signInWithGoogle()">
-    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18">
-    Continue with Google
-  </button>
+<div id="authModal" class="modal-overlay" style="display:none" onclick="if(event.target===this) this.style.display='none'">
+  <div class="modal-box" style="max-width:400px; padding:30px;">
+    <div id="authContent">
+      <h2 style="font-family:Montserrat,sans-serif; margin-bottom:20px; color:#0f2266; text-align:center;">Client Portal</h2>
+      
+      <p style="font-size: 0.85rem; color: #7a8599; text-align:center; margin-bottom: 20px;">
+        Sign in to manage your adventure bookings.
+      </p>
+
+      <button class="btn-solid" style="width:100%; display:flex; align-items:center; justify-content:center; gap:12px; background:#ffffff; color:#1a1f36; border:1px solid #dae1e7; margin-bottom:15px;" onclick="signInWithGoogle()">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18">
+        Continue with Google
+      </button>
+      
+      <button class="btn-details" style="width:100%; background:#f0f4ff;" onclick="document.getElementById('authModal').style.display='none'">Close</button>
+    </div>
+  </div>
 </div>
 
 <!-- BOOKING MODAL -->
