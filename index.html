@@ -271,20 +271,12 @@ button{cursor:pointer;font-family:inherit}
   display: block !important;
 }
 @media(max-width:768px){
-  .nav-links,.nav-actions{display:none}
-  .hamburger{display:flex}
-  .mobile-menu.open{display:block}
-  .hero{padding:48px 16px 0px}
-  .hero-stats{gap:24px}
-  .hero-stats strong{font-size:1.5rem}
-  .main-wrap{padding:16px 12px 48px;gap:16px}
-  .info-grid{padding:0 12px 48px;gap:16px}
-  .contact{padding:40px 16px}
-  .nl-form{flex-direction:column}
-  .nl-form input,.nl-form button{width:100%}
-  .banner{padding:14px 16px;font-size:.82rem}
-  .footer-grid{grid-template-columns:1fr}
-  .footer{padding:36px 16px 20px}
+  .nav-links, .nav-actions { display: none !important; }
+  .hamburger { display: flex !important; }
+}
+
+.mobile-menu.open {
+  display: block !important;
 }
 @media(max-width:640px){
   .trip-card{grid-template-columns:1fr}
@@ -433,21 +425,19 @@ button{cursor:pointer;font-family:inherit}
 <nav class="nav">
   <div class="nav-inner">
     <a href="#" class="nav-logo">
-      <div class="logo">
-        <img src="https://image2url.com/r2/default/images/1775205068668-9ce153cf-7aa5-4e66-8e5e-013745d94b55.jpg" alt="Logo" style="height: 40px; width: auto; display: block;">
-      </div>
+      <img src="https://image2url.com/r2/default/images/1775205068668-9ce153cf-7aa5-4e66-8e5e-013745d94b55.jpg" alt="Logo" style="height: 40px; width: auto; display: block;">
       <div class="nav-logo-text">NNA VITTALO<small>Adventure Travel</small></div>
     </a>
 
     <div class="nav-links">
       <a href="#">Home</a>
-      <a href="#about" style="color:#1a1f36">About Us</a>
-      <a href="#packages" style="color:#1a1f36">Camps</a>
-      <a href="#contact" style="color:#1a1f36">Contact</a>
+      <a href="#about">About Us</a>
+      <a href="#packages">Camps</a>
+      <a href="#contact">Contact</a>
     </div>
 
     <div class="nav-actions">
-      <a href="https://wa.me/48729648997" target="_blank" class="btn-outline" style="display: flex; align-items: center; gap: 8px; text-decoration: none; padding: 8px 15px;">
+      <a href="https://wa.me/48729648997" target="_blank" class="btn-outline" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="20" height="20" alt="WhatsApp">
         Chat
       </a>
@@ -464,13 +454,11 @@ button{cursor:pointer;font-family:inherit}
     <a href="#about" onclick="toggleMobileMenu()">ℹ️ About Us</a>
     <a href="#packages" onclick="toggleMobileMenu()">🏄 Camps</a>
     <a href="#contact" onclick="toggleMobileMenu()">📞 Contact</a>
-    
-    <div class="mobile-menu-btns" style="padding: 20px; display: flex; flex-direction: column; gap: 12px;">
-      <a href="https://wa.me/48729648997" class="btn-outline" style="text-decoration:none; text-align:center; background:#25D366; color:white; border:none; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 12px; border-radius: 8px;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="20" height="20" style="filter: brightness(0) invert(1);">
+    <div class="mobile-menu-btns">
+      <a href="https://wa.me/48729648997" class="btn-outline" style="background:#25D366; color:white; border:none; text-align:center; text-decoration:none; width:100%;">
         Chat on WhatsApp
       </a>
-      <button class="btn-solid" style="width: 100%; padding: 12px; border-radius: 8px;" onclick="toggleMobileMenu(); document.querySelector('#packages').scrollIntoView({behavior:'smooth'})">
+      <button class="btn-solid" style="width: 100%;" onclick="toggleMobileMenu(); document.querySelector('#packages').scrollIntoView({behavior:'smooth'})">
         Book a Trip
       </button>
     </div>
@@ -1132,31 +1120,25 @@ function subscribeNewsletter() {
   showToast('✅ Subscribed! Welcome to the NNA VITTALO community 🏔️');
 }
 
+// Toggle Mobile Menu
 function toggleMobileMenu() {
     const menu = document.getElementById('mobileMenu');
     const hamburger = document.getElementById('hamburger');
-    
-    // This adds/removes the 'open' class which triggers the CSS display:block
     menu.classList.toggle('open');
-    
-    // Optional: Animate the hamburger icon to an 'X'
     hamburger.classList.toggle('active');
 }
-// Close the mobile menu when the user scrolls
+
+// AUTO-CLOSE: Close menu when user starts scrolling
 window.addEventListener('scroll', () => {
     const menu = document.getElementById('mobileMenu');
     const hamburger = document.getElementById('hamburger');
-
-    // Only run the logic if the menu is actually open
+    
     if (menu && menu.classList.contains('open')) {
         menu.classList.remove('open');
-        
-        // Also reset the hamburger icon animation if you have one
-        if (hamburger) {
-            hamburger.classList.remove('active');
-        }
+        if (hamburger) hamburger.classList.remove('active');
     }
-}, { passive: true }); // 'passive' makes the scroll smooth and performant
+}, { passive: true });
+
 function closeMobileMenu() {
   document.getElementById('mobileMenu').classList.remove('open');
 }
