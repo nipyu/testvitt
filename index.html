@@ -1332,57 +1332,61 @@ window.addEventListener('load', () => {
 
 // Function to save final details after payment success
 async function saveFinalBooking() {
-    // 1. Get values using the IDs exactly as they appear in your HTML
-    const userNameInput = document.getElementById('successName');
-    const userPhoneInput = document.getElementById('successPhone');
-    const guestCountInput = document.getElementById('successGuests');
+    // 1. Get elements using the IDs from your SUCCESS MODAL
+    const nameEl = document.getElementById('successName');
+    const phoneEl = document.getElementById('successPhone');
+    const guestsEl = document.getElementById('successGuests');
+    const btn = document.getElementById('btnSaveFinal');
 
-    // Check if elements exist before reading values
-    if (!userNameInput || !userPhoneInput) {
-        console.error("Could not find input elements in the modal.");
-        return;
-    }
+    // 2. Validate that inputs exist and are filled
+    const userName = nameEl ? nameEl.value.trim() : "";
+    const userPhone = phoneEl ? phoneEl.value.trim() : "";
+    const guestCount = guestsEl ? guestsEl.value : "1";
 
-    const userName = userNameInput.value.trim();
-    const userPhone = userPhoneInput.value.trim();
-    const guestCount = guestCountInput.value;
-
-    // 2. Simple Validation
     if (!userName || !userPhone) {
-        showToast("⚠️ Name and Phone are required.");
+        showToast("⚠️ Please enter your name and phone number.");
         return;
     }
 
-    // 3. Disable button to prevent multiple clicks
-    const btn = document.getElementById('btnSaveFinal'); // Ensure your button has this ID or use 'this'
+    // 3. Prevent double-clicking
     if (btn) {
         btn.disabled = true;
         btn.innerText = "⏳ SAVING...";
     }
 
-    // 4. Save to Supabase (Anonymous/No-Login)
-    const { error } = await _supabase
-        .from('bookings')
-        .insert([{
-            full_name: userName,
-            phone: userPhone,
-            guests: guestCount,
-            status: 'confirmed',
-            created_at: new Date()
-        }]);
+    try {
+        // 4. Save to Supabase (Anonymous/No Login)
+        const { error } = await _supabase
+            .from('bookings')
+            .insert([{
+                full_name: userName,
+                phone: userPhone,
+                guests: guestCount,
+                status: 'confirmed',
+                created_at: new Date()
+            }]);
 
-    if (error) {
-        console.error("Supabase Error:", error);
-        showToast("❌ Error: " + error.message);
+        if (error) throw error;
+
+        // 5. Success!
+        showToast("✅ Adventure Confirmed! See you soon 🏔️");
+        
+        // Hide modal and clear the ?payment=success from the URL
+        document.getElementById('successModal').style.display = 'none';
+        window.history.replaceState({}, document.title, window.location.pathname);
+
+    } catch (err) {
+        console.error("Booking Error:", err);
+        showToast("❌ Error saving details: " + err.message);
+        
+        // Re-enable button if there was an error
         if (btn) {
             btn.disabled = false;
             btn.innerText = "🚀 CONFIRM MY ADVENTURE";
         }
-    } else {
-        showToast("✅ Adventure Confirmed! See you soon 🏔️");
-        closeSuccessModal(); 
     }
 }
+
 // 3. RUN THIS IMMEDIATELY when the page loads
 checkUserSession();
 // Init
