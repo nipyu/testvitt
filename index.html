@@ -1016,59 +1016,16 @@ function closeModal() {
 }
 
 async function confirmBooking() {
-  // 1. Get values from the inputs
-  const fullName = document.getElementById('bookName').value.trim();
-  const phone = document.getElementById('bookPhone').value.trim();
-  const guestCount = parseInt(document.getElementById('bookGuests').value) || 1;
+    const guestCount = parseInt(document.getElementById('bookGuests').value) || 1;
+    
+    showToast("🚀 Redirecting to Secure Payment...");
 
-  // 2. Stop if fields are empty
-  if (!fullName || !phone) {
-    showToast("⚠️ Name and Mobile Number are required!");
-    return; 
-  }
-
-  const totalPln = currentTrip.price * guestCount;
-  const totalEur = currentTrip.priceEur * guestCount;
-
-  // 3. Save the booking to Supabase
-  // Notice we removed user_id because we are allowing anonymous bookings
-  const { error } = await _supabase
-    .from('bookings')
-    .insert([
-      { 
-        event_id: currentTrip.id,
-        event_name: currentTrip.title, 
-        customer_name: fullName, 
-        phone_number: phone,      
-        guests: guestCount,                
-        total_price_pln: totalPln,         
-        total_price_eur: totalEur,         
-        booking_date: new Date().toISOString().split('T')[0],
-        status: 'pending' 
-      }
-    ]);
-
-  if (error) {
-    console.error("Supabase Error:", error);
-    showToast("❌ Database Error: " + error.message);
-  } else {
-    // 4. Success UI
-    showToast("🚀 Booking saved! Redirecting to Stripe...");
-
-    const btn = document.querySelector('.btn-book-modal');
-    if(btn) {
-        btn.disabled = true;
-        btn.innerText = "Redirecting...";
-    }
-
-    // 5. REDIRECT TO STRIPE
-    setTimeout(() => {
-      // REPLACE THIS WITH YOUR STRIPE LINK
-      // Inside your confirmBooking function, change the redirect line to this:
-const stripeLink = "https://buy.stripe.com/fZu8wO32A0Aye003dX48000";
-window.location.href = `${stripeLink}?quantity=${guestCount}`;
-    }, 1500); 
-  }
+    // Your Stripe Link
+    const stripeBaseLink = "https://buy.stripe.com/fZu8wO32A0Aye003dX48000"; 
+    
+    // We tell Stripe to return the user to your site with a "success" flag
+    // IMPORTANT: Ensure your Stripe Dashboard redirect matches this URL structure
+    window.location.href = `${stripeBaseLink}?quantity=${guestCount}`;
 }
 
 let toastTimer = null; // Ensure this is declared at the top of your script
@@ -1283,6 +1240,63 @@ function startBookingTimers() {
     }, 1000);
 }
 
+// Function to close the success popup
+function closeSuccessModal() {
+    document.getElementById('successModal').style.display = 'none';
+    // Clean the URL so the popup doesn't keep appearing if they refresh
+    window.history.replaceState({}, document.title, window.location.pathname);
+}
+
+// Check if user just paid when the page loads
+window.addEventListener('load', async () => {
+    // 1. Get URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // 2. Check if the user just returned from a successful payment
+    if (urlParams.get('payment') === 'success') {
+        const sessionId = urlParams.get('session_id');
+        const customerEmail = urlParams.get('email');
+
+        // Show a loading state immediately
+        showToast("⏳ Finalizing your booking...");
+
+        try {
+            // Check if a user is logged in
+            const { data: { user } } = await _supabase.auth.getUser();
+
+            // SAVE TO SUPABASE
+            const { error } = await _supabase
+                .from('bookings')
+                .insert([
+                    {
+                        user_id: user ? user.id : null,
+                        customer_name: "Stripe Customer", 
+                        phone_number: customerEmail, // Using email since name/phone aren't in URL
+                        status: 'paid',
+                        booking_date: new Date().toISOString().split('T')[0],
+                        notes: "Stripe Session: " + (sessionId || 'N/A')
+                    }
+                ]);
+
+            if (!error) {
+                // Trigger the UI success elements
+                if (document.getElementById('successModal')) {
+                    document.getElementById('successModal').style.display = 'flex';
+                }
+                showToast("✅ Payment Confirmed & Saved!");
+            } else {
+                console.error("Supabase Save Error:", error);
+                showToast("❌ Payment received but error saving booking.");
+            }
+        } catch (err) {
+            console.error("System Error:", err);
+        }
+
+        // 3. Clean the URL bar so the logic doesn't run again if they refresh
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+});
+
 // Ensure timers stop when modal closes to save browser memory
 function closeBookingsModal() {
     document.getElementById('bookingsModal').style.display = 'none';
@@ -1294,7 +1308,14 @@ checkUserSession();
 renderTrips(TRIPS);
 
 
-
 </script>
+<div id="successModal" class="modal-overlay" style="display:none; z-index: 10000; background: rgba(0,0,0,0.8); position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; align-items: center; justify-content: center;">
+    <div class="modal-box" style="background: white; padding: 40px; border-radius: 20px; text-align: center; max-width: 400px;">
+        <div style="font-size: 50px;">🎉</div>
+        <h2 style="margin: 20px 0;">Payment Received!</h2>
+        <p>Your booking has been saved to our database. See you on the adventure!</p>
+        <button onclick="closeSuccessModal()" style="margin-top: 20px; padding: 10px 20px; background: #0f2266; color: white; border: none; border-radius: 8px; cursor: pointer;">Awesome!</button>
+    </div>
+</div>
 </body>
 </html>
