@@ -998,15 +998,18 @@ function closeModal() {
 }
 
 async function confirmBooking() {
-    const guestCount = parseInt(document.getElementById('bookGuests').value) || 1;
-    
-    showToast("🚀 Redirecting to Secure Payment...");
+    // 1. Show a toast or alert so the user knows something is happening
+    if (typeof showToast === "function") {
+        showToast("🚀 Redirecting to Secure Payment...");
+    } else {
+        console.log("Redirecting...");
+    }
 
-    // Your Stripe Link (Make sure "Collect Phone Number" is ON in Stripe settings)
-    const stripeLink = "https://buy.stripe.com/test_fZu8wO32A0Aye003dX48000"; 
-    
-    // Redirect with quantity, and tell Stripe to return with ?payment=success
-    window.location.href = `${stripeLink}?quantity=${guestCount}`;
+    // 2. Your Stripe Link
+    const stripeLink = "https://buy.stripe.com/fZu8wO32A0Aye003dX"; 
+
+    // 3. Force the redirect
+    window.location.href = stripeLink;
 }
 
 let toastTimer = null; // Ensure this is declared at the top of your script
