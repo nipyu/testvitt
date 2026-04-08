@@ -672,24 +672,24 @@ button{cursor:pointer;font-family:inherit}
     <div id="modalPrice" class="booking-price"></div>
     <div id="modalIncluded" style="font-size:.78rem;color:#7a8599;margin-bottom:16px"></div>
     
-    <label class="form-label">Your Name *</label>
-    <input class="form-input" id="bookName" placeholder="Full name" required />
-    
-    <label class="form-label">Mobile Number *</label>
-    <input class="form-input" type="tel" id="bookPhone" placeholder="+48 000 000 000" required />
-    
-    <div class="guest-selector-row" style="display: flex; align-items: center; justify-content: space-between; background: #f8fafc; padding: 12px 15px; border: 1px solid #dde4f5; border-radius: 10px; margin-bottom: 20px;">
-  <span style="font-weight: 600; font-size: 0.9rem; color: #4a5568;">Number of Guests</span>
-  <select id="bookGuests" onchange="updateLivePrice()" style="width: 70px; padding: 6px; border: 1px solid #cbd5e0; border-radius: 6px; font-weight: 700; color: #2952c8; background: #fff;">
-      </select>
-</div>
-    
-    <button class="btn-book-modal" onclick="confirmBooking()">🎉 Book Your Spot</button>
-    <p style="font-size:.72rem;color:#7a8599;text-align:center;margin-top:10px">Free cancellation up to 7 days before departure</p>
-  </div>
-  <div class="trust-box">🏆 Trusted by 150+ adventurers<br><span style="font-weight:400;color:#4a5568">4.9 ⭐ average rating</span></div>
-</div>
+    <div style="background: #f0f7ff; border: 1px dashed #2952c8; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+        <p style="font-size: 0.82rem; color: #2952c8; line-height: 1.4; margin: 0;">
+            <strong>Secure Booking:</strong> Click below to pay via Stripe. You will provide your contact details and guest count on the next page.
+        </p>
     </div>
+    
+    <button class="btn-book-modal" onclick="confirmBooking()" style="width: 100%; padding: 18px; font-weight: 800;">
+        🎉 Book Your Spot
+    </button>
+    
+    <p style="font-size:.72rem;color:#7a8599;text-align:center;margin-top:10px">
+        Your fellow trip mates are waiting for you 🥰 !!
+    </p>
+  </div>
+
+  <div class="trust-box">
+    🏆 Trusted by 150+ adventurers<br>
+    <span style="font-weight:400;color:#4a5568">4.9 ⭐ average rating</span>
   </div>
 </div>
 
@@ -942,72 +942,54 @@ document.getElementById('filtersBody').style.display = filtersOpen ? 'block' : '
 document.getElementById('filtersArrow').style.transform = filtersOpen ? 'rotate(180deg)' : 'rotate(0deg)';
 
 function openModal(id) {
-  currentTrip = TRIPS.find(t => t.id === id);
-  if (!currentTrip) return;
-  const t = currentTrip;
-  
-  // --- NEW LOGIC START: Check if trip is Coming Soon ---
-  const isComingSoon = t.comingSoon === true;
-  // --- NEW LOGIC END ---
-
-  const gallery = GALLERY[t.activity] || GALLERY.Kayaking;
-  document.getElementById('modalEmoji').textContent = t.emoji;
-  document.getElementById('modalTitle').textContent = t.title;
-  document.getElementById('modalMeta').innerHTML = `📍 ${t.location} &nbsp;·&nbsp; 🏷️ ${t.activity} &nbsp;·&nbsp; 📅 ${t.duration}`;
-  document.getElementById('galleryMain').src = gallery[0];
-  document.getElementById('gallerySub').innerHTML = gallery.slice(1, 5).map(img => `<img src="${img}" alt="" loading="lazy" />`).join('');
-  document.getElementById('modalDesc').textContent = t.desc + ' Whether you\'re a first-timer or a seasoned adventurer, this package is carefully designed to deliver an unforgettable experience from start to finish.';
-  
-  const amenities = ['✅ ' + (t.included || 'Equipment included'), '✅ Professional guide / instructor', '✅ Accommodation included', '✅ Meals & snacks', '✅ Safety gear & insurance', '✅ Transport from meeting point'];
-  document.getElementById('amenitiesGrid').innerHTML = amenities.map(a => `<div class="amenity-item">${a}</div>`).join('');
-  document.getElementById('modalDate').textContent = t.showPrice ? (t.tripDate || '17 April 2026') : 'Date TBA';
-  
-  if (t.showPrice) {
-    // Show your fixed PLN and fixed EUR inputs
-    const priceText = t.comingSoon 
-        ? "Price Coming Soon" 
-        : `${t.price} <span style="font-size:1rem">PLN</span> <span style="font-size:.9rem;font-weight:700;color:#4a5568;margin-left:8px">(~${t.priceEur} EUR)</span>`;
+    // 1. Find the trip data (Using TRIPS as per your snippet)
+    currentTrip = TRIPS.find(t => t.id === id);
+    if (!currentTrip) return;
+    const t = currentTrip;
     
-    document.getElementById('modalPrice').innerHTML = priceText;
-}
-  
-  document.getElementById('modalIncluded').textContent = '✓ ' + (t.included || 'Equipment & guide included');
+    // Check if trip is Coming Soon
+    const isComingSoon = t.comingSoon === true;
 
-  // --- NEW LOGIC START: Update Form & Guest Selector ---
-  const bookName = document.getElementById('bookName');
-  const bookPhone = document.getElementById('bookPhone');
-  const bookBtn = document.querySelector('.btn-book-modal');
-  const guestSelect = document.getElementById('bookGuests');
-
-  // Generate 1-30 guests
-  if (guestSelect) {
-    guestSelect.innerHTML = Array.from({length: 30}, (_, i) => `<option value="${i+1}">${i+1}</option>`).join('');
-    guestSelect.disabled = isComingSoon;
-  }
-
-  // Lock inputs if Coming Soon
-  if (bookName) bookName.disabled = isComingSoon;
-  if (bookPhone) bookPhone.disabled = isComingSoon;
-  
-  // Lock button and change style if Coming Soon
-  if (bookBtn) {
-    bookBtn.disabled = isComingSoon;
-    bookBtn.innerText = isComingSoon ? 'Coming Soon' : '🎉 Book Your Spot';
-    bookBtn.style.background = isComingSoon ? '#cbd5e0' : ''; // Grey if locked
-    bookBtn.style.cursor = isComingSoon ? 'not-allowed' : '';
-  }
-  // --- NEW LOGIC END ---
-
-  document.getElementById('modal').style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-  // 1. Create the 1-30 list
-    populateGuestDropdown();
+    // 2. Populate basic content
+    const gallery = GALLERY[t.activity] || GALLERY.Kayaking;
+    document.getElementById('modalEmoji').textContent = t.emoji;
+    document.getElementById('modalTitle').textContent = t.title;
+    document.getElementById('modalMeta').innerHTML = `📍 ${t.location} &nbsp;·&nbsp; 🏷️ ${t.activity} &nbsp;·&nbsp; 📅 ${t.duration}`;
+    document.getElementById('galleryMain').src = gallery[0];
+    document.getElementById('gallerySub').innerHTML = gallery.slice(1, 5).map(img => `<img src="${img}" alt="" loading="lazy" />`).join('');
+    document.getElementById('modalDesc').textContent = t.desc + ' Whether you\'re a first-timer or a seasoned adventurer, this package is carefully designed to deliver an unforgettable experience from start to finish.';
     
-    // 2. Set default to 1 guest
-    document.getElementById('bookGuests').value = "1";
+    // 3. Populate Amenities
+    const amenities = ['✅ ' + (t.included || 'Equipment included'), '✅ Professional guide / instructor', '✅ Accommodation included', '✅ Meals & snacks', '✅ Safety gear & insurance', '✅ Transport from meeting point'];
+    document.getElementById('amenitiesGrid').innerHTML = amenities.map(a => `<div class="amenity-item">${a}</div>`).join('');
     
-    // 3. Run the initial price calculation
-    updateLivePrice();
+    document.getElementById('modalDate').textContent = t.showPrice ? (t.tripDate || '17 April 2026') : 'Date TBA';
+    document.getElementById('modalIncluded').textContent = '✓ ' + (t.included || 'Equipment & guide included');
+
+    // 4. CLEANED PRICE LOGIC (No live calculation needed anymore)
+    if (t.showPrice) {
+        const priceText = isComingSoon 
+            ? "Price Coming Soon" 
+            : `${t.price} <span style="font-size:1rem">PLN</span> <span style="font-size:.9rem;font-weight:700;color:#4a5568;margin-left:8px">(~${t.priceEur} EUR)</span>`;
+        
+        document.getElementById('modalPrice').innerHTML = priceText;
+    }
+
+    // 5. BUTTON LOGIC (Remove all form/guest code references)
+    const bookBtn = document.querySelector('.btn-book-modal');
+    if (bookBtn) {
+        bookBtn.disabled = isComingSoon;
+        bookBtn.innerText = isComingSoon ? 'Coming Soon' : '🎉 Book Your Spot';
+        bookBtn.style.background = isComingSoon ? '#cbd5e0' : ''; // Grey if locked
+        bookBtn.style.cursor = isComingSoon ? 'not-allowed' : '';
+    }
+
+    // 6. Show the modal
+    document.getElementById('modal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+
+    // NOTE: We remove populateGuestDropdown() and updateLivePrice() 
+    // because the form and guest selector no longer exist in this modal.
 }
 
 function closeModal() {
@@ -1247,21 +1229,85 @@ function closeSuccessModal() {
 }
 
 // Check if user just paid when the page loads
-window.addEventListener('load', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    
-    if (urlParams.get('payment') === 'success') {
-        // Just show the "Thank You" popup
-        const successModal = document.getElementById('successModal');
-        if (successModal) {
-            successModal.style.display = 'flex';
-        }
-        showToast("✅ Payment Received! See you soon.");
+// Temp storage for Stripe data
+let tempBookingInfo = {};
 
-        // Clean the URL bar
+window.addEventListener('load', async () => {
+    // 1. Populate the 1-30 Dropdown automatically
+    const guestSelect = document.getElementById('finalGuests');
+    if (guestSelect) {
+        for (let i = 1; i <= 30; i++) {
+            let opt = document.createElement('option');
+            opt.value = i;
+            opt.innerHTML = i === 1 ? '1 Person' : `${i} People`;
+            guestSelect.appendChild(opt);
+        }
+    }
+
+    // 2. Check for successful payment from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('payment') === 'success') {
+        tempBookingInfo = {
+            email: urlParams.get('email') || "",
+            session: urlParams.get('session_id') || ""
+        };
+
+        // Show the modal
+        document.getElementById('successModal').style.display = 'flex';
+
+        // Clean URL
         window.history.replaceState({}, document.title, window.location.pathname);
     }
 });
+
+async function saveFinalBooking() {
+    const fullName = document.getElementById('finalName').value.trim();
+    const phone = document.getElementById('finalPhone').value.trim();
+    const guests = document.getElementById('finalGuests').value;
+    const btn = document.getElementById('btnSaveFinal');
+
+    if (!fullName || !phone) {
+        showToast("⚠️ Name and Mobile Number are required!");
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerText = "Saving Adventure...";
+
+    try {
+        const { data: { user } } = await _supabase.auth.getUser();
+
+        const { error } = await _supabase
+            .from('bookings')
+            .insert([{
+                user_id: user ? user.id : null,
+                customer_name: fullName,
+                phone_number: phone,
+                email: tempBookingInfo.email,
+                guests: parseInt(guests),
+                status: 'paid',
+                booking_date: new Date().toISOString().split('T')[0],
+                notes: "Stripe Session: " + tempBookingInfo.session,
+                event_name: "Website Booking" // You can change this to match your trip titles
+            }]);
+
+        if (error) {
+            console.error("Supabase Error:", error);
+            showToast("❌ Error: " + error.message);
+            btn.disabled = false;
+            btn.innerText = "CONFIRM MY ADVENTURE";
+        } else {
+            showToast("🚀 All set! Welcome aboard.");
+            // Close modal after short delay
+            setTimeout(() => {
+                document.getElementById('successModal').style.display = 'none';
+            }, 2500);
+        }
+    } catch (err) {
+        console.error("System Error:", err);
+        btn.disabled = false;
+    }
+}
 
 // Ensure timers stop when modal closes to save browser memory
 function closeBookingsModal() {
@@ -1275,12 +1321,39 @@ renderTrips(TRIPS);
 
 
 </script>
-<div id="successModal" class="modal-overlay" style="display:none; z-index: 10000; background: rgba(0,0,0,0.8); position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: none; align-items: center; justify-content: center;">
-    <div class="modal-box" style="background: white; padding: 40px; border-radius: 20px; text-align: center; max-width: 400px;">
-        <div style="font-size: 50px;">🎉</div>
-        <h2 style="margin: 20px 0;">Payment Received!</h2>
-        <p>Your booking has been saved to our database. See you on the adventure!</p>
-        <button onclick="closeSuccessModal()" style="margin-top: 20px; padding: 10px 20px; background: #0f2266; color: white; border: none; border-radius: 8px; cursor: pointer;">Awesome!</button>
+<div id="successModal" class="modal-overlay" style="display:none; z-index: 10000; background: rgba(0,0,0,0.85); position: fixed; top:0; left:0; width:100%; height:100%; align-items:center; justify-content:center;">
+    <div class="modal-box" style="max-width:500px; width:90%; padding:30px; border-radius:20px; background:#fff; position:relative;">
+        <div style="text-align:center; margin-bottom:20px;">
+            <span style="font-size:3rem;">🎉</span>
+            <h2 style="color:#0f2266; margin-top:10px;">Payment Successful!</h2>
+            <p style="color:#666; font-size:0.95rem; margin-top:5px;">Please provide your details to finalize the booking.</p>
+        </div>
+
+        <div style="background:#f8fafc; padding:20px; border-radius:12px; border:1px solid #e2e8f0;">
+            <div style="margin-bottom:15px;">
+                <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:5px; color:#1a202c;">FULL NAME</label>
+                <input type="text" id="finalName" placeholder="Enter your full name" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px;">
+            </div>
+
+            <div style="margin-bottom:15px;">
+                <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:5px; color:#1a202c;">MOBILE NUMBER</label>
+                <input type="text" id="finalPhone" placeholder="+48 000 000 000" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px;">
+            </div>
+
+            <div style="margin-bottom:20px;">
+                <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:5px; color:#1a202c;">NUMBER OF GUESTS PAID FOR</label>
+                <select id="finalGuests" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; background: white;">
+                    </select>
+            </div>
+
+            <p style="font-size:0.85rem; color:#718096; margin-bottom:20px; line-height:1.4;">
+                * We need this info to contact you with trip updates and meeting locations.
+            </p>
+
+            <button onclick="saveFinalBooking()" id="btnSaveFinal" class="btn-solid" style="width:100%; padding:15px; background:#0f2266; color:#fff; border:none; border-radius:8px; font-weight:700; cursor:pointer;">
+                CONFIRM MY ADVENTURE
+            </button>
+        </div>
     </div>
 </div>
 </body>
