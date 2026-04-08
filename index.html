@@ -1332,18 +1332,35 @@ window.addEventListener('load', () => {
 
 // Function to save final details after payment success
 async function saveFinalBooking() {
-    // 1. Get values using the IDs from your Success Modal
-    const userName = document.getElementById('finalName').value.trim();
-    const userPhone = document.getElementById('finalPhone').value.trim();
-    const guestCount = document.getElementById('finalGuests').value;
+    // 1. Get values using the IDs exactly as they appear in your HTML
+    const userNameInput = document.getElementById('successName');
+    const userPhoneInput = document.getElementById('successPhone');
+    const guestCountInput = document.getElementById('successGuests');
 
-    // 2. Validation
+    // Check if elements exist before reading values
+    if (!userNameInput || !userPhoneInput) {
+        console.error("Could not find input elements in the modal.");
+        return;
+    }
+
+    const userName = userNameInput.value.trim();
+    const userPhone = userPhoneInput.value.trim();
+    const guestCount = guestCountInput.value;
+
+    // 2. Simple Validation
     if (!userName || !userPhone) {
         showToast("⚠️ Name and Phone are required.");
         return;
     }
 
-    // 3. Insert into Supabase (No Auth Check)
+    // 3. Disable button to prevent multiple clicks
+    const btn = document.getElementById('btnSaveFinal'); // Ensure your button has this ID or use 'this'
+    if (btn) {
+        btn.disabled = true;
+        btn.innerText = "⏳ SAVING...";
+    }
+
+    // 4. Save to Supabase (Anonymous/No-Login)
     const { error } = await _supabase
         .from('bookings')
         .insert([{
@@ -1357,9 +1374,13 @@ async function saveFinalBooking() {
     if (error) {
         console.error("Supabase Error:", error);
         showToast("❌ Error: " + error.message);
+        if (btn) {
+            btn.disabled = false;
+            btn.innerText = "🚀 CONFIRM MY ADVENTURE";
+        }
     } else {
         showToast("✅ Adventure Confirmed! See you soon 🏔️");
-        closeSuccessModal(); // Closes modal and clears the URL
+        closeSuccessModal(); 
     }
 }
 // 3. RUN THIS IMMEDIATELY when the page loads
