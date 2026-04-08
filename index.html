@@ -728,30 +728,33 @@ button{cursor:pointer;font-family:inherit}
 window.onload = function() {
     const urlParams = new URLSearchParams(window.location.search);
     
-    // Check if the URL contains ?payment=success
     if (urlParams.get('payment') === 'success') {
         const modal = document.getElementById('successModal');
-        
+        const guestSelect = document.getElementById('finalGuests');
+
         if (modal) {
-            // 1. Show the modal using flexbox for centering
             modal.style.display = 'flex';
-            
-            // 2. Fill the guests dropdown from 1 to 30
-            const guestSelect = document.getElementById('finalGuests');
-            if (guestSelect && guestSelect.options.length === 0) {
+
+            if (guestSelect) {
+                // Clear the dropdown to start fresh
+                guestSelect.innerHTML = ""; 
+                
                 for (let i = 1; i <= 30; i++) {
                     let opt = document.createElement('option');
                     opt.value = i;
-                    opt.innerHTML = i === 1 ? '1 Person' : `${i} People`;
+                    // Labels the first option as "1 Person" and others as "X People"
+                    opt.innerHTML = i === 1 ? '1 Person' : i + ' People';
+                    
+                    // Set 1 as the selected value
+                    if (i === 1) {
+                        opt.selected = true;
+                    }
+                    
                     guestSelect.appendChild(opt);
                 }
             }
-            
-            // 3. Optional: Clean the URL so the popup doesn't reappear on refresh
+            // Cleans the URL so the popup doesn't stay if the user refreshes
             window.history.replaceState({}, document.title, window.location.pathname);
-            
-        } else {
-            console.error("The 'successModal' ID was not found in your HTML.");
         }
     }
 };
