@@ -1328,24 +1328,27 @@ async function saveFinalBooking() {
     btn.innerText = "⏳ SAVING...";
 
     try {
-        // We REMOVE 'email' from this list since it's not in your popup
         const { error } = await _supabase
             .from('bookings')
             .insert([{ 
-                full_name: name, 
-                phone: phone, 
-                guests: guests,
+                full_name: name,  // Matches SQL
+                phone: phone,      // Matches SQL
+                guests: parseInt(guests), // Matches SQL (as number)
                 status: 'PAID' 
             }]);
 
         if (error) throw error;
 
-        showToast("🎉 Booking Confirmed! Redirecting...");
-        setTimeout(() => { window.location.href = "index.html"; }, 2000);
+        showToast("🎉 Booking Confirmed!");
+        
+        // Hide modal and go home after 2 seconds
+        setTimeout(() => {
+            window.location.href = "index.html";
+        }, 2000);
 
     } catch (err) {
         console.error(err);
-        showToast("❌ Error saving booking.");
+        showToast("❌ Error: " + err.message);
         btn.disabled = false;
         btn.innerText = "🚀 CONFIRM MY ADVENTURE";
     }
