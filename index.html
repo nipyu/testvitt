@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
@@ -463,9 +465,10 @@ button{cursor:pointer;font-family:inherit}
             </div>
 
             <div style="margin-bottom:15px;">
-                <label style="display:block; font-size:0.7rem; font-weight:800; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Mobile Number</label>
-                <input type="tel" id="finalPhone" placeholder="+48 000 000 000" style="width:100%; padding:12px; border:1.5px solid #cbd5e0; border-radius:10px;">
-            </div>
+    <label style="display:block; font-size:0.7rem; font-weight:800; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Mobile Number</label>
+    <input type="tel" id="finalPhone" style="width:100%; padding:12px; border:1.5px solid #cbd5e0; border-radius:10px;">
+    <span id="phoneError" style="color: red; font-size: 0.7rem; display: none; margin-top: 5px;">❌ Invalid phone number</span>
+</div>
 
             <div style="margin-bottom:20px;">
               <label style="display:block; font-size:0.75rem; font-weight:700; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Guests Paid For</label>
@@ -745,6 +748,20 @@ button{cursor:pointer;font-family:inherit}
   </div>
 </div>
 <script>
+  let iti; // Global variable to access the library later
+
+// Run this when the success modal opens
+function initPhoneInput() {
+    const input = document.querySelector("#finalPhone");
+    iti = window.intlTelInput(input, {
+        initialCountry: "auto",
+        geoIpLookup: function(success, failure) {
+            fetch("https://ipapi.co/json").then(res => res.json()).then(data => success(data.country_code)).catch(() => success("PL"));
+        },
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js", // Required for validation
+        separateDialCode: true, // Shows +xx outside the input
+    });
+}
   // --- PLACE THIS AT THE VERY TOP OF YOUR <script> TAG ---
 window.onload = function() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -1314,44 +1331,28 @@ window.addEventListener('load', () => {
 });
 
 async function saveFinalBooking() {
-    const btn = document.getElementById('btnSaveFinal');
+    const errorMsg = document.querySelector("#phoneError");
+    
+    // Check if the number is valid for the selected country
+    if (!iti.isValidNumber()) {
+        errorMsg.style.display = "block";
+        errorMsg.innerText = "❌ Please enter a valid mobile number for this country.";
+        return;
+    } else {
+        errorMsg.style.display = "none";
+    }
+
+    const fullPhoneNumber = iti.getNumber(); // This gives you the full number with prefix (e.g., +48123456789)
     const name = document.getElementById('finalName').value;
-    const phone = document.getElementById('finalPhone').value;
     const guests = document.getElementById('finalGuests').value;
 
-    if (!name || !phone) {
-        showToast("⚠️ Please fill in all details.");
+    if (!name) {
+        showToast("⚠️ Name is required.");
         return;
     }
 
-    btn.disabled = true;
-    btn.innerText = "⏳ SAVING...";
-
-    try {
-        const { error } = await _supabase
-            .from('bookings')
-            .insert([{ 
-                full_name: name,  // Matches SQL
-                phone: phone,      // Matches SQL
-                guests: parseInt(guests), // Matches SQL (as number)
-                status: 'PAID' 
-            }]);
-
-        if (error) throw error;
-
-        showToast("🎉 Booking Confirmed!");
-        
-        // Hide modal and go home after 2 seconds
-        setTimeout(() => {
-            window.location.href = "index.html";
-        }, 2000);
-
-    } catch (err) {
-        console.error(err);
-        showToast("❌ Error: " + err.message);
-        btn.disabled = false;
-        btn.innerText = "🚀 CONFIRM MY ADVENTURE";
-    }
+    // Now save 'fullPhoneNumber' instead of just 'phone'
+    // ... rest of your Supabase insert code ...
 }
 
 // Ensure timers stop when modal closes to save browser memory
