@@ -1330,35 +1330,54 @@ window.addEventListener('load', () => {
     }
 });
 
+// Function to save final details after payment success
 async function saveFinalBooking() {
-    const errorMsg = document.querySelector("#phoneError");
-    
-    // Check if the number is valid for the selected country
-    if (!iti.isValidNumber()) {
-        errorMsg.style.display = "block";
-        errorMsg.innerText = "❌ Please enter a valid mobile number for this country.";
-        return;
-    } else {
-        errorMsg.style.display = "none";
-    }
+    // 1. Get the values from the success modal inputs
+    const userName = document.getElementById('successName').value.trim();
+    const userPhone = document.getElementById('successPhone').value.trim();
+    const guestCount = document.getElementById('successGuests').value;
 
-    const fullPhoneNumber = iti.getNumber(); // This gives you the full number with prefix (e.g., +48123456789)
-    const name = document.getElementById('finalName').value;
-    const guests = document.getElementById('finalGuests').value;
-
-    if (!name) {
+    // 2. Simple Validation
+    if (!userName) {
         showToast("⚠️ Name is required.");
         return;
     }
+    if (!userPhone) {
+        showToast("⚠️ Phone number is required.");
+        return;
+    }
 
-    // Now save 'fullPhoneNumber' instead of just 'phone'
-    // ... rest of your Supabase insert code ...
-}
+    // 3. Get current user session from Supabase
+    const { data: { user } } = await _supabase.auth.getUser();
+    
+    if (!user) {
+        showToast("⚠️ Session expired. Please log in again.");
+        return;
+    }
 
-// Ensure timers stop when modal closes to save browser memory
-function closeBookingsModal() {
-    document.getElementById('bookingsModal').style.display = 'none';
-    if (timerInterval) clearInterval(timerInterval);
+    // 4. Update the booking in Supabase
+    // We update the most recent booking for this user that is 'pending'
+    const { error } = await _supabase
+        .from('bookings')
+        .insert([{
+            user_id: user.id,
+            user_email: user.email,
+            full_name: userName,
+            phone: userPhone,
+            guests: guestCount,
+            status: 'confirmed',
+            created_at: new Date()
+        }]);
+
+    if (error) {
+        console.error("Supabase Error:", error);
+        showToast("❌ Error saving details: " + error.message);
+    } else {
+        showToast("✅ Adventure Confirmed! See you soon 🏔️");
+        closeSuccessModal();
+        // Optional: Refresh bookings list if visible
+        if (typeof fetchUserBookings === "function") fetchUserBookings();
+    }
 }
 // 3. RUN THIS IMMEDIATELY when the page loads
 checkUserSession();
