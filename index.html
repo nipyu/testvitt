@@ -1314,55 +1314,40 @@ window.addEventListener('load', () => {
 });
 
 async function saveFinalBooking() {
-    const fullName = document.getElementById('finalName').value.trim();
-    const phone = document.getElementById('finalPhone').value.trim();
-    const guests = document.getElementById('finalGuests').value;
     const btn = document.getElementById('btnSaveFinal');
+    const name = document.getElementById('finalName').value;
+    const phone = document.getElementById('finalPhone').value;
+    const guests = document.getElementById('finalGuests').value;
 
-    // Basic validation
-    if (!fullName || !phone) {
-        showToast("⚠️ Name and Phone are required!");
+    if (!name || !phone) {
+        showToast("⚠️ Please fill in all details.");
         return;
     }
 
     btn.disabled = true;
-    btn.innerText = "Processing...";
+    btn.innerText = "⏳ SAVING...";
 
     try {
-        // Grab email/session from URL (Stripe sends these)
-        const urlParams = new URLSearchParams(window.location.search);
-        const customerEmail = urlParams.get('email') || "N/A";
-        const stripeSession = urlParams.get('session_id') || "N/A";
-
-        const { data: { user } } = await _supabase.auth.getUser();
-
-        // SAVE TO SUPABASE
+        // We REMOVE 'email' from this list since it's not in your popup
         const { error } = await _supabase
             .from('bookings')
-            .insert([{
-                customer_name: fullName,
-                phone_number: phone,
-                email: customerEmail,
-                guests: parseInt(guests),
-                status: 'paid',
-                booking_date: new Date().toISOString().split('T')[0],
-                notes: "Stripe Session: " + stripeSession,
-                user_id: user ? user.id : null
+            .insert([{ 
+                full_name: name, 
+                phone: phone, 
+                guests: guests,
+                status: 'PAID' 
             }]);
 
-        if (error) {
-            console.error("Supabase Error:", error);
-            showToast("❌ Error: " + error.message);
-            btn.disabled = false;
-            btn.innerText = "CONFIRM MY ADVENTURE";
-        } else {
-            showToast("🚀 Success! Your adventure is confirmed.");
-            // Close the modal
-            document.getElementById('successModal').style.display = 'none';
-        }
+        if (error) throw error;
+
+        showToast("🎉 Booking Confirmed! Redirecting...");
+        setTimeout(() => { window.location.href = "index.html"; }, 2000);
+
     } catch (err) {
-        console.error("System Error:", err);
+        console.error(err);
+        showToast("❌ Error saving booking.");
         btn.disabled = false;
+        btn.innerText = "🚀 CONFIRM MY ADVENTURE";
     }
 }
 
