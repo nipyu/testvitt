@@ -1332,36 +1332,21 @@ window.addEventListener('load', () => {
 
 // Function to save final details after payment success
 async function saveFinalBooking() {
-    // 1. Get the values from the success modal inputs
-    const userName = document.getElementById('successName').value.trim();
-    const userPhone = document.getElementById('successPhone').value.trim();
-    const guestCount = document.getElementById('successGuests').value;
+    // 1. Get values using the IDs from your Success Modal
+    const userName = document.getElementById('finalName').value.trim();
+    const userPhone = document.getElementById('finalPhone').value.trim();
+    const guestCount = document.getElementById('finalGuests').value;
 
-    // 2. Simple Validation
-    if (!userName) {
-        showToast("⚠️ Name is required.");
-        return;
-    }
-    if (!userPhone) {
-        showToast("⚠️ Phone number is required.");
+    // 2. Validation
+    if (!userName || !userPhone) {
+        showToast("⚠️ Name and Phone are required.");
         return;
     }
 
-    // 3. Get current user session from Supabase
-    const { data: { user } } = await _supabase.auth.getUser();
-    
-    if (!user) {
-        showToast("⚠️ Session expired. Please log in again.");
-        return;
-    }
-
-    // 4. Update the booking in Supabase
-    // We update the most recent booking for this user that is 'pending'
+    // 3. Insert into Supabase (No Auth Check)
     const { error } = await _supabase
         .from('bookings')
         .insert([{
-            user_id: user.id,
-            user_email: user.email,
             full_name: userName,
             phone: userPhone,
             guests: guestCount,
@@ -1371,12 +1356,10 @@ async function saveFinalBooking() {
 
     if (error) {
         console.error("Supabase Error:", error);
-        showToast("❌ Error saving details: " + error.message);
+        showToast("❌ Error: " + error.message);
     } else {
         showToast("✅ Adventure Confirmed! See you soon 🏔️");
-        closeSuccessModal();
-        // Optional: Refresh bookings list if visible
-        if (typeof fetchUserBookings === "function") fetchUserBookings();
+        closeSuccessModal(); // Closes modal and clears the URL
     }
 }
 // 3. RUN THIS IMMEDIATELY when the page loads
