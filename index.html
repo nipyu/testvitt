@@ -750,71 +750,16 @@ function initPhoneInput() {
     });
 }
   // --- PLACE THIS AT THE VERY TOP OF YOUR <script> TAG ---
-let iti; // Variable for the phone input
-
 window.onload = function() {
     const urlParams = new URLSearchParams(window.location.search);
     
     if (urlParams.get('payment') === 'success') {
         const modal = document.getElementById('successModal');
-        const phoneInput = document.querySelector("#finalPhone");
-
         if (modal) {
             modal.style.display = 'flex';
-            
-            // Initialize the Flag Dropdown
-            if (window.intlTelInput) {
-                iti = window.intlTelInput(phoneInput, {
-                    initialCountry: "pl",
-                    separateDialCode: true,
-                    utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
-                });
-            }
         }
-        // Clean URL
-        window.history.replaceState({}, document.title, window.location.pathname);
     }
 };
-
-async function saveFinalBooking() {
-    const btn = document.getElementById('btnSaveFinal');
-    const name = document.getElementById('finalName').value;
-    const guests = document.getElementById('finalGuests').value;
-    const errorMsg = document.getElementById('phoneError');
-
-    // Validation
-    if (!name || !iti.isValidNumber()) {
-        if (!iti.isValidNumber()) errorMsg.style.display = 'block';
-        showToast("⚠️ Please check your name and phone number.");
-        return;
-    }
-    errorMsg.style.display = 'none';
-
-    btn.disabled = true;
-    btn.innerText = "⏳ SAVING...";
-
-    try {
-        const { error } = await _supabase
-            .from('bookings')
-            .insert([{ 
-                full_name: name, 
-                phone: iti.getNumber(), // Gets full number with prefix
-                guests: parseInt(guests),
-                status: 'PAID' 
-            }]);
-
-        if (error) throw error;
-
-        showToast("🎉 Booking Confirmed!");
-        setTimeout(() => { window.location.href = "index.html"; }, 2000);
-
-    } catch (err) {
-        console.error(err);
-        showToast("❌ Error: " + err.message);
-        btn.disabled = false;
-        btn.innerText = "🚀 CONFIRM MY ADVENTURE";
-    }
-}
   
   // Function to generate guest options from 1 to 30
 function populateGuestDropdown() {
