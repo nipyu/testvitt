@@ -447,6 +447,37 @@ button{cursor:pointer;font-family:inherit}
       <span></span><span></span><span></span>
     </button>
   </div>
+  
+  <div id="successModal" style="display:none; position:fixed; inset:0; background:rgba(15,34,102,0.95); z-index:999999; align-items:center; justify-content:center; overflow-y:auto; padding:20px; backdrop-filter:blur(8px);">
+    <div style="background:white; max-width:500px; width:100%; border-radius:20px; padding:30px; position:relative; box-shadow:0 20px 50px rgba(0,0,0,0.3);">
+        <div style="text-align:center; margin-bottom:20px;">
+            <span style="font-size:3.5rem;">🎉</span>
+            <h2 style="color:#0f2266; margin-top:10px; font-family:'Montserrat',sans-serif; font-weight:900;">Payment Successful!</h2>
+            <p style="color:#666; font-size:0.9rem;">Please finalize your details to confirm your adventure.</p>
+        </div>
+
+        <div style="background:#f8fafc; padding:20px; border-radius:15px; border:1px solid #dde4f5;">
+            <div style="margin-bottom:15px;">
+                <label style="display:block; font-size:0.7rem; font-weight:800; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Your Full Name</label>
+                <input type="text" id="finalName" placeholder="Full name" style="width:100%; padding:12px; border:1.5px solid #cbd5e0; border-radius:10px;">
+            </div>
+
+            <div style="margin-bottom:15px;">
+                <label style="display:block; font-size:0.7rem; font-weight:800; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Mobile Number</label>
+                <input type="tel" id="finalPhone" placeholder="+48 000 000 000" style="width:100%; padding:12px; border:1.5px solid #cbd5e0; border-radius:10px;">
+            </div>
+
+            <div style="margin-bottom:20px;">
+                <label style="display:block; font-size:0.7rem; font-weight:800; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Guests Booked</label>
+                <select id="finalGuests" style="width:100%; padding:12px; border:1.5px solid #cbd5e0; border-radius:10px; background:white; font-weight:700; color:#2952c8;"></select>
+            </div>
+
+            <button onclick="saveFinalBooking()" id="btnSaveFinal" style="width:100%; padding:18px; background:#2952c8; color:white; border:none; border-radius:12px; font-weight:800; cursor:pointer; font-size:1rem; transition:0.2s;">
+                🚀 CONFIRM MY ADVENTURE
+            </button>
+        </div>
+    </div>
+</div>
 
   <div class="mobile-menu" id="mobileMenu">
     <a href="#" onclick="toggleMobileMenu()">🏠 Home</a>
@@ -693,6 +724,37 @@ button{cursor:pointer;font-family:inherit}
   </div>
 </div>
 <script>
+  // --- PLACE THIS AT THE VERY TOP OF YOUR <script> TAG ---
+window.onload = function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Check if the URL contains ?payment=success
+    if (urlParams.get('payment') === 'success') {
+        const modal = document.getElementById('successModal');
+        
+        if (modal) {
+            // 1. Show the modal using flexbox for centering
+            modal.style.display = 'flex';
+            
+            // 2. Fill the guests dropdown from 1 to 30
+            const guestSelect = document.getElementById('finalGuests');
+            if (guestSelect && guestSelect.options.length === 0) {
+                for (let i = 1; i <= 30; i++) {
+                    let opt = document.createElement('option');
+                    opt.value = i;
+                    opt.innerHTML = i === 1 ? '1 Person' : `${i} People`;
+                    guestSelect.appendChild(opt);
+                }
+            }
+            
+            // 3. Optional: Clean the URL so the popup doesn't reappear on refresh
+            window.history.replaceState({}, document.title, window.location.pathname);
+            
+        } else {
+            console.error("The 'successModal' ID was not found in your HTML.");
+        }
+    }
+};
   
   // Function to generate guest options from 1 to 30
 function populateGuestDropdown() {
@@ -1340,38 +1402,5 @@ checkPaymentStatus();
 window.addEventListener('load', checkPaymentStatus);
 
 </script>
-</body>
-<body>
-<div id="successModal" style="display:none; position:fixed; inset:0; background:rgba(15,34,102,0.95); z-index:999999; align-items:center; justify-content:center; overflow-y:auto; padding:20px; backdrop-filter:blur(8px);">
-    <div style="background:white; max-width:500px; width:100%; border-radius:20px; padding:30px; position:relative; box-shadow:0 20px 50px rgba(0,0,0,0.3);">
-        <div style="text-align:center; margin-bottom:20px;">
-            <span style="font-size:3.5rem;">🎉</span>
-            <h2 style="color:#0f2266; margin-top:10px; font-family:'Montserrat',sans-serif; font-weight:900;">Payment Successful!</h2>
-            <p style="color:#666; font-size:0.9rem;">Please finalize your details to confirm your adventure.</p>
-        </div>
-
-        <div style="background:#f8fafc; padding:20px; border-radius:15px; border:1px solid #dde4f5;">
-            <div style="margin-bottom:15px;">
-                <label style="display:block; font-size:0.7rem; font-weight:800; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Your Full Name</label>
-                <input type="text" id="finalName" placeholder="Full name" style="width:100%; padding:12px; border:1.5px solid #cbd5e0; border-radius:10px;">
-            </div>
-
-            <div style="margin-bottom:15px;">
-                <label style="display:block; font-size:0.7rem; font-weight:800; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Mobile Number</label>
-                <input type="tel" id="finalPhone" placeholder="+48 000 000 000" style="width:100%; padding:12px; border:1.5px solid #cbd5e0; border-radius:10px;">
-            </div>
-
-            <div style="margin-bottom:20px;">
-                <label style="display:block; font-size:0.7rem; font-weight:800; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Guests Booked</label>
-                <select id="finalGuests" style="width:100%; padding:12px; border:1.5px solid #cbd5e0; border-radius:10px; background:white; font-weight:700; color:#2952c8;"></select>
-            </div>
-
-            <button onclick="saveFinalBooking()" id="btnSaveFinal" style="width:100%; padding:18px; background:#2952c8; color:white; border:none; border-radius:12px; font-weight:800; cursor:pointer; font-size:1rem; transition:0.2s;">
-                🚀 CONFIRM MY ADVENTURE
-            </button>
-        </div>
-    </div>
-</div>
-
 </body>
 </html>
