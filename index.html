@@ -468,8 +468,29 @@ button{cursor:pointer;font-family:inherit}
             </div>
 
             <div style="margin-bottom:20px;">
-                <label style="display:block; font-size:0.7rem; font-weight:800; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Guests Booked</label>
-                <select id="finalGuests" style="width:100%; padding:12px; border:1.5px solid #cbd5e0; border-radius:10px; background:white; font-weight:700; color:#2952c8;"></select>
+              <label style="display:block; font-size:0.75rem; font-weight:700; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Guests Paid For</label>
+                 <select id="finalGuests" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; background:white; font-weight:bold; color:#0f2266;">
+                  <option value="1" selected>1 Person</option>
+                  <option value="2">2 People</option>
+                  <option value="3">3 People</option>
+                  <option value="4">4 People</option>
+                  <option value="5">5 People</option>
+                  <option value="6">6 People</option>
+                  <option value="7">7 People</option>
+                  <option value="8">8 People</option>
+                  <option value="9">9 People</option>
+                  <option value="10">10 People</option>
+                  <option value="11">11 People</option>
+                  <option value="12">12 People</option>
+                  <option value="13">13 People</option>
+                  <option value="14">14 People</option>
+                  <option value="15">15 People</option>
+                  <option value="16">16 People</option>
+                  <option value="17">17 People</option>
+                  <option value="18">18 People</option>
+                  <option value="19">19 People</option>
+                  <option value="20">20 People</option>
+                </select>
             </div>
 
             <button onclick="saveFinalBooking()" id="btnSaveFinal" style="width:100%; padding:18px; background:#2952c8; color:white; border:none; border-radius:12px; font-weight:800; cursor:pointer; font-size:1rem; transition:0.2s;">
@@ -730,31 +751,8 @@ window.onload = function() {
     
     if (urlParams.get('payment') === 'success') {
         const modal = document.getElementById('successModal');
-        const guestSelect = document.getElementById('finalGuests');
-
         if (modal) {
             modal.style.display = 'flex';
-
-            if (guestSelect) {
-                // Clear the dropdown to start fresh
-                guestSelect.innerHTML = ""; 
-                
-                for (let i = 1; i <= 30; i++) {
-                    let opt = document.createElement('option');
-                    opt.value = i;
-                    // Labels the first option as "1 Person" and others as "X People"
-                    opt.innerHTML = i === 1 ? '1 Person' : i + ' People';
-                    
-                    // Set 1 as the selected value
-                    if (i === 1) {
-                        opt.selected = true;
-                    }
-                    
-                    guestSelect.appendChild(opt);
-                }
-            }
-            // Cleans the URL so the popup doesn't stay if the user refreshes
-            window.history.replaceState({}, document.title, window.location.pathname);
         }
     }
 };
