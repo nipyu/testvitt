@@ -1269,29 +1269,35 @@ async function saveFinalBooking() {
     const guests = document.getElementById('finalGuests').value;
     const btn = document.getElementById('btnSaveFinal');
 
+    // Basic validation
     if (!fullName || !phone) {
-        showToast("⚠️ Name and Mobile Number are required!");
+        showToast("⚠️ Name and Phone are required!");
         return;
     }
 
     btn.disabled = true;
-    btn.innerText = "Saving Adventure...";
+    btn.innerText = "Processing...";
 
     try {
+        // Grab email/session from URL (Stripe sends these)
+        const urlParams = new URLSearchParams(window.location.search);
+        const customerEmail = urlParams.get('email') || "N/A";
+        const stripeSession = urlParams.get('session_id') || "N/A";
+
         const { data: { user } } = await _supabase.auth.getUser();
 
+        // SAVE TO SUPABASE
         const { error } = await _supabase
             .from('bookings')
             .insert([{
-                user_id: user ? user.id : null,
                 customer_name: fullName,
                 phone_number: phone,
-                email: tempBookingInfo.email,
+                email: customerEmail,
                 guests: parseInt(guests),
                 status: 'paid',
                 booking_date: new Date().toISOString().split('T')[0],
-                notes: "Stripe Session: " + tempBookingInfo.session,
-                event_name: "Website Booking" // You can change this to match your trip titles
+                notes: "Stripe Session: " + stripeSession,
+                user_id: user ? user.id : null
             }]);
 
         if (error) {
@@ -1300,11 +1306,9 @@ async function saveFinalBooking() {
             btn.disabled = false;
             btn.innerText = "CONFIRM MY ADVENTURE";
         } else {
-            showToast("🚀 All set! Welcome aboard.");
-            // Close modal after short delay
-            setTimeout(() => {
-                document.getElementById('successModal').style.display = 'none';
-            }, 2500);
+            showToast("🚀 Success! Your adventure is confirmed.");
+            // Close the modal
+            document.getElementById('successModal').style.display = 'none';
         }
     } catch (err) {
         console.error("System Error:", err);
@@ -1322,7 +1326,7 @@ checkUserSession();
 // Init
 renderTrips(TRIPS);
 
-  // --- NEW SUCCESS TRIGGER ---
+// --- NEW SUCCESS TRIGGER ---
 function checkPaymentStatus() {
     const urlParams = new URLSearchParams(window.location.search);
     
@@ -1349,36 +1353,33 @@ checkPaymentStatus();
 window.addEventListener('load', checkPaymentStatus);
 
 </script>
-<div id="successModal" class="modal-overlay" style="display:none; z-index: 10000; background: rgba(0,0,0,0.85); position: fixed; top:0; left:0; width:100%; height:100%; align-items:center; justify-content:center;">
-    <div class="modal-box" style="max-width:500px; width:90%; padding:30px; border-radius:20px; background:#fff; position:relative;">
+<div id="successModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:99999; align-items:center; justify-content:center; overflow-y:auto; padding:20px;">
+    <div style="background:white; max-width:500px; width:100%; border-radius:20px; padding:30px; position:relative; font-family: sans-serif;">
+        
         <div style="text-align:center; margin-bottom:20px;">
             <span style="font-size:3rem;">🎉</span>
             <h2 style="color:#0f2266; margin-top:10px;">Payment Successful!</h2>
-            <p style="color:#666; font-size:0.95rem; margin-top:5px;">Please provide your details to finalize the booking.</p>
+            <p style="color:#666; font-size:0.9rem;">Welcome to the adventure! Please finalize your details below.</p>
         </div>
 
         <div style="background:#f8fafc; padding:20px; border-radius:12px; border:1px solid #e2e8f0;">
             <div style="margin-bottom:15px;">
-                <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:5px; color:#1a202c;">FULL NAME</label>
-                <input type="text" id="finalName" placeholder="Enter your full name" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px;">
+                <label style="display:block; font-size:0.75rem; font-weight:700; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Full Name</label>
+                <input type="text" id="finalName" placeholder="John Doe" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px;">
             </div>
 
             <div style="margin-bottom:15px;">
-                <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:5px; color:#1a202c;">MOBILE NUMBER</label>
-                <input type="text" id="finalPhone" placeholder="+48 000 000 000" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px;">
+                <label style="display:block; font-size:0.75rem; font-weight:700; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Mobile Number</label>
+                <input type="tel" id="finalPhone" placeholder="+48 000 000 000" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px;">
             </div>
 
             <div style="margin-bottom:20px;">
-                <label style="display:block; font-size:0.8rem; font-weight:700; margin-bottom:5px; color:#1a202c;">NUMBER OF GUESTS PAID FOR</label>
-                <select id="finalGuests" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; background: white;">
+                <label style="display:block; font-size:0.75rem; font-weight:700; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Guests Paid For</label>
+                <select id="finalGuests" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; background:white;">
                     </select>
             </div>
 
-            <p style="font-size:0.85rem; color:#718096; margin-bottom:20px; line-height:1.4;">
-                * We need this info to contact you with trip updates and meeting locations.
-            </p>
-
-            <button onclick="saveFinalBooking()" id="btnSaveFinal" class="btn-solid" style="width:100%; padding:15px; background:#0f2266; color:#fff; border:none; border-radius:8px; font-weight:700; cursor:pointer;">
+            <button onclick="saveFinalBooking()" id="btnSaveFinal" style="width:100%; padding:16px; background:#0f2266; color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer; font-size:1rem;">
                 CONFIRM MY ADVENTURE
             </button>
         </div>
