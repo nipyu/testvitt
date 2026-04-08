@@ -998,17 +998,11 @@ function closeModal() {
 }
 
 async function confirmBooking() {
-    // 1. Show a toast or alert so the user knows something is happening
-    if (typeof showToast === "function") {
-        showToast("🚀 Redirecting to Secure Payment...");
-    } else {
-        console.log("Redirecting...");
-    }
-
-    // 2. Your Stripe Link
+    showToast("🚀 Redirecting to secure payment...");
+    
+    // Replace with your actual Stripe Link
     const stripeLink = "https://buy.stripe.com/test_fZu8wO32A0Aye003dX48000"; 
-
-    // 3. Force the redirect
+    
     window.location.href = stripeLink;
 }
 
@@ -1235,31 +1229,25 @@ function closeSuccessModal() {
 // Temp storage for Stripe data
 let tempBookingInfo = {};
 
-window.addEventListener('load', async () => {
-    // 1. Populate the 1-30 Dropdown automatically
-    const guestSelect = document.getElementById('finalGuests');
-    if (guestSelect) {
-        for (let i = 1; i <= 30; i++) {
-            let opt = document.createElement('option');
-            opt.value = i;
-            opt.innerHTML = i === 1 ? '1 Person' : `${i} People`;
-            guestSelect.appendChild(opt);
-        }
-    }
-
-    // 2. Check for successful payment from URL
+window.addEventListener('load', () => {
+    // 1. Check for payment success
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('payment') === 'success') {
-        tempBookingInfo = {
-            email: urlParams.get('email') || "",
-            session: urlParams.get('session_id') || ""
-        };
-
-        // Show the modal
-        document.getElementById('successModal').style.display = 'flex';
-
-        // Clean URL
-        window.history.replaceState({}, document.title, window.location.pathname);
+        const modal = document.getElementById('successModal');
+        if (modal) {
+            modal.style.display = 'flex'; // This triggers the popup
+            
+            // 2. Fill the guests dropdown (1-30) inside the success modal
+            const guestSelect = document.getElementById('finalGuests');
+            if (guestSelect && guestSelect.options.length === 0) {
+                for (let i = 1; i <= 30; i++) {
+                    let opt = document.createElement('option');
+                    opt.value = i;
+                    opt.innerHTML = i === 1 ? '1 Person' : `${i} People`;
+                    guestSelect.appendChild(opt);
+                }
+            }
+        }
     }
 });
 
@@ -1353,33 +1341,31 @@ checkPaymentStatus();
 window.addEventListener('load', checkPaymentStatus);
 
 </script>
-<div id="successModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:99999; align-items:center; justify-content:center; overflow-y:auto; padding:20px;">
-    <div style="background:white; max-width:500px; width:100%; border-radius:20px; padding:30px; position:relative; font-family: sans-serif;">
-        
+<div id="successModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:999999; align-items:center; justify-content:center; overflow-y:auto; padding:20px;">
+    <div style="background:white; max-width:500px; width:100%; border-radius:20px; padding:30px; position:relative; font-family: 'Open Sans', sans-serif;">
         <div style="text-align:center; margin-bottom:20px;">
             <span style="font-size:3rem;">🎉</span>
-            <h2 style="color:#0f2266; margin-top:10px;">Payment Successful!</h2>
-            <p style="color:#666; font-size:0.9rem;">Welcome to the adventure! Please finalize your details below.</p>
+            <h2 style="color:#0f2266; margin-top:10px; font-family: 'Montserrat';">Payment Successful!</h2>
+            <p style="color:#666; font-size:0.9rem;">Please finalize your details to confirm your spot.</p>
         </div>
 
         <div style="background:#f8fafc; padding:20px; border-radius:12px; border:1px solid #e2e8f0;">
             <div style="margin-bottom:15px;">
-                <label style="display:block; font-size:0.75rem; font-weight:700; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Full Name</label>
+                <label style="display:block; font-size:0.7rem; font-weight:700; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Full Name</label>
                 <input type="text" id="finalName" placeholder="John Doe" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px;">
             </div>
 
             <div style="margin-bottom:15px;">
-                <label style="display:block; font-size:0.75rem; font-weight:700; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Mobile Number</label>
+                <label style="display:block; font-size:0.7rem; font-weight:700; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Mobile Number</label>
                 <input type="tel" id="finalPhone" placeholder="+48 000 000 000" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px;">
             </div>
 
             <div style="margin-bottom:20px;">
-                <label style="display:block; font-size:0.75rem; font-weight:700; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Guests Paid For</label>
-                <select id="finalGuests" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; background:white;">
-                    </select>
+                <label style="display:block; font-size:0.7rem; font-weight:700; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Number of Guests</label>
+                <select id="finalGuests" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; background:white;"></select>
             </div>
 
-            <button onclick="saveFinalBooking()" id="btnSaveFinal" style="width:100%; padding:16px; background:#0f2266; color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer; font-size:1rem;">
+            <button onclick="saveFinalBooking()" id="btnSaveFinal" style="width:100%; padding:16px; background:#2952c8; color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer; font-size:1rem;">
                 CONFIRM MY ADVENTURE
             </button>
         </div>
