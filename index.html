@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Open Sans',sans-serif;background:#f5f7fc;color:#1a1f36}
+body{font-family:'Open Sans',sans-serif;background:#f5f7fc;color:#1a1f36;line-height:1.5}
 html{scroll-behavior:smooth}
 ::-webkit-scrollbar{width:6px}
 ::-webkit-scrollbar-track{background:#f5f7fc}
@@ -18,14 +18,6 @@ html{scroll-behavior:smooth}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
 button{cursor:pointer;font-family:inherit}
-/* Disabled button look for the popup */
-.btn-book-modal.btn-disabled-modal {
-  background: #cbd5e0 !important;
-  color: #718096 !important;
-  cursor: not-allowed !important;
-  transform: none !important;
-  box-shadow: none !important;
-}
 
 /* Style for disabled inputs */
 .form-input:disabled {
@@ -34,16 +26,6 @@ button{cursor:pointer;font-family:inherit}
   border-color: #e2e8f0;
 }
 
-/* Optional: small badge for the card */
-.badge-coming-soon {
-  background: #edf2f7;
-  color: #4a5568;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-}
 /* NAV */
 .nav{background:#fff;border-bottom:3px solid #2952c8;position:sticky;top:0;z-index:200;box-shadow:0 2px 16px rgba(41,82,200,.10)}
 .nav-inner{max-width:1260px;margin:0 auto;display:flex;align-items:center;padding:0 20px;height:64px}
@@ -53,84 +35,44 @@ button{cursor:pointer;font-family:inherit}
 .nav-logo-text small{display:block;font-size:.55rem;font-weight:600;color:#2952c8;letter-spacing:2px;margin-top:1px}
 .nav-links{display:flex;align-items:center;gap:2px}
 .nav-links a{font-family:'Montserrat',sans-serif;font-weight:600;font-size:.82rem;color:#1a1f36;padding:22px 12px;display:block;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-3px;letter-spacing:.3px}
-.nav-links a:first-child{color:#2952c8;border-bottom-color:#2952c8}
+.nav-links a:hover, .nav-links a.active{color:#2952c8;border-bottom-color:#2952c8}
 .nav-actions{display:flex;align-items:center;gap:10px;margin-left:24px}
-.btn-outline{font-family:'Montserrat',sans-serif;font-weight:700;font-size:.8rem;color:#2952c8;border:2px solid #2952c8;padding:8px 16px;border-radius:6px;background:none}
-.btn-solid{font-family:'Montserrat',sans-serif;font-weight:700;font-size:.8rem;background:#2952c8;color:#fff;padding:9px 18px;border-radius:6px;border:none;white-space:nowrap}
+.btn-outline{font-family:'Montserrat',sans-serif;font-weight:700;font-size:.8rem;color:#2952c8;border:2px solid #2952c8;padding:8px 16px;border-radius:6px;background:none;transition:all .2s}
+.btn-outline:hover{background:#e8eefb}
+.btn-solid{font-family:'Montserrat',sans-serif;font-weight:700;font-size:.8rem;background:#2952c8;color:#fff;padding:9px 18px;border-radius:6px;border:none;white-space:nowrap;transition:all .2s}
 .btn-solid:hover{background:#1a3a9e}
 .hamburger{display:none;background:none;border:none;padding:8px;margin-left:12px;flex-direction:column;gap:5px}
 .hamburger span{display:block;width:24px;height:2px;background:#1a1f36;transition:all .2s}
 .mobile-menu{display:none;background:#fff;border-top:1px solid #dde4f5;padding:12px 20px 20px}
 .mobile-menu a{display:block;font-family:'Montserrat',sans-serif;font-weight:700;font-size:.92rem;color:#1a1f36;padding:12px 0;border-bottom:1px solid #f0f4ff}
-.mobile-menu-btns{display:flex;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid #dde4f5}
-.mobile-menu-btns button{flex:1;font-family:'Montserrat',sans-serif;font-weight:700;font-size:.85rem;padding:10px;border-radius:6px}
+.mobile-menu-btns{display:flex;flex-direction:column;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid #dde4f5}
+.mobile-menu-btns button, .mobile-menu-btns a{width:100%;font-family:'Montserrat',sans-serif;font-weight:700;font-size:.85rem;padding:10px;border-radius:6px;text-align:center}
 
 /* TOPBAR */
-.topbar{background:#0f2266;color:rgba(255,255,255,.75);font-family:'Montserrat',sans-serif;font-weight:500;font-size:.78rem;padding:8px 32px;display:flex;justify-content:space-between;align-items:center;letter-spacing:.3px;flex-wrap:wrap;gap:8px}
-.topbar a{color:rgba(255,255,255,.75)}
+.topbar{background:#0f2266;color:rgba(255,255,255,.85);font-family:'Montserrat',sans-serif;font-weight:500;font-size:.78rem;padding:8px 32px;overflow:hidden;white-space:nowrap;display:flex;align-items:center}
+.scrolling-content{display:inline-block;padding-left:100%;animation:scroll-left 18s linear infinite}
+@keyframes scroll-left{from{transform:translateX(0)}to{transform:translateX(-100%)}}
 
 /* HERO */
-.hero {
-    background: #2952c8;
-    color: white;
-    padding: 80px 20px 0 20px; /* Changed 80px bottom to 0 */
-    text-align: center;
-    position: relative;
-    overflow:hidden}
+.hero{background:#2952c8;color:white;padding:80px 20px 0 20px;text-align:center;position:relative;overflow:hidden}
 .hero-bg{position:absolute;inset:0;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E")}
 
-/* HERO MOVING ICONS BACKGROUND */
-.hero-moving-icons {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 1;
-}
-.hero-moving-icons .icon-item {
-  position: absolute;
-  left: 0;
-  font-size: 1.8rem;
-  opacity: 0.32;
-  user-select: none;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
-  will-change: transform;
-}
+.hero-moving-icons{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:hidden;z-index:1}
+.hero-moving-icons .icon-item{position:absolute;left:0;font-size:1.8rem;opacity:0.32;user-select:none;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.15));will-change:transform}
 
-@keyframes floatAcrossRight {
-  0% { transform: translateX(-80px) translateY(0) rotate(0deg); }
-  50% { transform: translateX(50vw) translateY(-18px) rotate(8deg); }
-  100% { transform: translateX(calc(100vw + 80px)) translateY(0) rotate(0deg); }
-}
+@keyframes floatAcrossRight{0%{transform:translateX(-80px) translateY(0) rotate(0deg)}50%{transform:translateX(50vw) translateY(-18px) rotate(8deg)}100%{transform:translateX(calc(100vw + 80px)) translateY(0) rotate(0deg)}}
+@keyframes floatAcrossLeft{0%{transform:translateX(calc(100vw + 80px)) translateY(0) rotate(0deg)}50%{transform:translateX(50vw) translateY(18px) rotate(-8deg)}100%{transform:translateX(-80px) translateY(0) rotate(0deg)}}
 
-@keyframes floatAcrossLeft {
-  0% { transform: translateX(calc(100vw + 80px)) translateY(0) rotate(0deg); }
-  50% { transform: translateX(50vw) translateY(18px) rotate(-8deg); }
-  100% { transform: translateX(-80px) translateY(0) rotate(0deg); }
-}
-
-.icon-1  { top: 6%;  animation: floatAcrossRight 20s linear infinite 0s; font-size: 2.1rem; }
-.icon-2  { top: 6%;  animation: floatAcrossRight 20s linear infinite -10s; font-size: 1.9rem; }
-.icon-3  { top: 15%; animation: floatAcrossLeft  24s linear infinite 0s; font-size: 2.2rem; }
-.icon-4  { top: 15%; animation: floatAcrossLeft  24s linear infinite -12s; font-size: 1.8rem; }
-.icon-5  { top: 25%; animation: floatAcrossRight 22s linear infinite -5.5s; font-size: 2.0rem; }
-.icon-6  { top: 25%; animation: floatAcrossRight 22s linear infinite -16.5s; font-size: 1.8rem; }
-.icon-7  { top: 35%; animation: floatAcrossLeft  26s linear infinite -6.5s; font-size: 2.1rem; }
-.icon-8  { top: 35%; animation: floatAcrossLeft  26s linear infinite -19.5s; font-size: 1.7rem; }
-.icon-9  { top: 45%; animation: floatAcrossRight 20s linear infinite -3s; font-size: 2.0rem; }
-.icon-10 { top: 45%; animation: floatAcrossRight 20s linear infinite -13s; font-size: 1.8rem; }
-.icon-11 { top: 55%; animation: floatAcrossLeft  22s linear infinite -4s; font-size: 2.2rem; }
-.icon-12 { top: 55%; animation: floatAcrossLeft  22s linear infinite -15s; font-size: 1.9rem; }
-.icon-13 { top: 65%; animation: floatAcrossRight 25s linear infinite -7s; font-size: 1.8rem; }
-.icon-14 { top: 65%; animation: floatAcrossRight 25s linear infinite -19.5s; font-size: 2.1rem; }
-.icon-15 { top: 75%; animation: floatAcrossLeft  21s linear infinite -5s; font-size: 2.0rem; }
-.icon-16 { top: 75%; animation: floatAcrossLeft  21s linear infinite -15.5s; font-size: 1.8rem; }
-.icon-17 { top: 85%; animation: floatAcrossRight 23s linear infinite -2s; font-size: 1.9rem; }
-.icon-18 { top: 85%; animation: floatAcrossRight 23s linear infinite -13.5s; font-size: 2.1rem; }
-.icon-19 { top: 92%; animation: floatAcrossLeft  25s linear infinite -8s; font-size: 1.8rem; }
-.icon-20 { top: 92%; animation: floatAcrossLeft  25s linear infinite -20.5s; font-size: 2.0rem; }
+.icon-1{top:6%;animation:floatAcrossRight 20s linear infinite 0s;font-size:2.1rem}
+.icon-2{top:6%;animation:floatAcrossRight 20s linear infinite -10s;font-size:1.9rem}
+.icon-3{top:15%;animation:floatAcrossLeft 24s linear infinite 0s;font-size:2.2rem}
+.icon-4{top:15%;animation:floatAcrossLeft 24s linear infinite -12s;font-size:1.8rem}
+.icon-5{top:25%;animation:floatAcrossRight 22s linear infinite -5.5s;font-size:2.0rem}
+.icon-6{top:25%;animation:floatAcrossRight 22s linear infinite -16.5s;font-size:1.8rem}
+.icon-7{top:35%;animation:floatAcrossLeft 26s linear infinite -6.5s;font-size:2.1rem}
+.icon-8{top:35%;animation:floatAcrossLeft 26s linear infinite -19.5s;font-size:1.7rem}
+.icon-9{top:45%;animation:floatAcrossRight 20s linear infinite -3s;font-size:2.0rem}
+.icon-10{top:45%;animation:floatAcrossRight 20s linear infinite -13s;font-size:1.8rem}
 
 .hero-inner{position:relative;z-index:2;max-width:720px;margin:0 auto}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;font-family:'Montserrat',sans-serif;font-weight:600;font-size:.78rem;padding:6px 16px;border-radius:50px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:20px}
@@ -162,13 +104,13 @@ button{cursor:pointer;font-family:inherit}
 .diff-btns{display:flex;flex-wrap:wrap;gap:7px}
 .diff-btn{font-family:'Montserrat',sans-serif;font-size:.72rem;font-weight:600;padding:5px 12px;border-radius:50px;border:1.5px solid #dde4f5;cursor:pointer;background:#fff;color:#4a5568}
 .diff-btn.active{background:#2952c8;color:#fff;border-color:#2952c8}
-.filters-apply{display:block;width:calc(100% - 44px);margin:18px 22px;background:#2952c8;color:#fff;border:none;padding:12px;border-radius:8px;font-family:'Montserrat',sans-serif;font-weight:700;font-size:.85rem}
+.filters-apply{display:block;width:calc(100% - 44px);margin:18px 22px;background:#2952c8;color:#fff;border:none;padding:12px;border-radius:8px;font-family:'Montserrat',sans-serif;font-weight:700;font-size:.85rem;cursor:pointer}
 .filters-apply:hover{background:#1a3a9e}
 
 /* TRIPS LIST */
 .trips-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:12px}
 .sort-btns{display:flex;gap:4px}
-.sort-btn{font-family:'Montserrat',sans-serif;font-size:.75rem;font-weight:600;padding:6px 14px;border-radius:6px;border:1.5px solid #dde4f5;background:#fff;color:#4a5568}
+.sort-btn{font-family:'Montserrat',sans-serif;font-size:.75rem;font-weight:600;padding:6px 14px;border-radius:6px;border:1.5px solid #dde4f5;background:#fff;color:#4a5568;cursor:pointer}
 .sort-btn.active{background:#2952c8;color:#fff;border-color:#2952c8}
 
 /* TRIP CARD */
@@ -182,9 +124,7 @@ button{cursor:pointer;font-family:inherit}
 .badge-white{background:#fff;color:#2952c8}
 .badge-accent{background:#ff6b35;color:#fff}
 .badge-green{background:#22c55e;color:#fff}
-.badge-soon{background:#fff;color:#ff6b35}
 .badge-dark{background:#0f2266;color:#fff}
-.trip-date-badge{position:absolute;bottom:12px;right:12px;color:#fff;font-family:'Montserrat',sans-serif;font-weight:700;font-size:.68rem;padding:4px 10px;border-radius:4px;letter-spacing:.5px;text-transform:uppercase;z-index:2}
 .trip-body{padding:24px 28px;display:flex;flex-direction:column}
 .trip-tags{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
 .tag{font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px}
@@ -198,23 +138,47 @@ button{cursor:pointer;font-family:inherit}
 .tag-hiking{background:#e8eefb;color:#2952c8}
 .trip-title{font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.15rem;color:#1a1f36;margin-bottom:6px;line-height:1.3}
 .trip-loc{font-size:.83rem;color:#7a8599;font-weight:500;margin-bottom:4px}
-.trip-date-text{font-size:.78rem;font-weight:600;margin-bottom:14px}
+.trip-date-text{font-size:.78rem;font-weight:600;margin-bottom:14px;color:#2952c8}
 .trip-features{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .feature-tag{font-size:.75rem;font-weight:600;color:#4a5568;background:#f5f7fc;border:1px solid #dde4f5;padding:4px 10px;border-radius:50px}
 .trip-footer{margin-top:auto;display:flex;align-items:flex-end;justify-content:space-between;padding-top:16px;border-top:1px solid #dde4f5;flex-wrap:wrap;gap:12px}
 .trip-price-label{font-size:.72rem;font-weight:600;color:#7a8599;text-transform:uppercase;letter-spacing:.5px}
-.trip-price{font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.7rem;color:#2952c8;line-height:1}
-.trip-price span{font-size:.9rem;font-weight:700}
-.trip-price small{font-size:.85rem;font-weight:700;color:#4a5568;margin-left:6px}
-.trip-price-na{font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.7rem;color:#b0b8cc;line-height:1}
-.trip-price-na span{font-size:.9rem;font-weight:700}
-.trip-price-na small{font-size:.85rem;font-weight:700;color:#b0b8cc;margin-left:6px}
+.trip-price{font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.5rem;color:#2952c8;line-height:1}
+.trip-price span{font-size:.85rem;font-weight:700}
+.trip-price small{font-size:.85rem;font-weight:700;color:#7a8599;margin-left:6px}
 .trip-included{font-size:.72rem;font-weight:700;color:#22c55e;display:flex;align-items:center;gap:4px;margin-top:4px}
-.trip-btns{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
-.btn-book{font-family:'Montserrat',sans-serif;font-weight:700;font-size:.82rem;background:#2952c8;color:#fff;padding:10px 22px;border-radius:8px;border:none;letter-spacing:.3px;white-space:nowrap}
+.trip-btns{display:flex;gap:8px}
+.btn-book{font-family:'Montserrat',sans-serif;font-weight:700;font-size:.82rem;background:#2952c8;color:#fff;padding:10px 20px;border-radius:8px;border:none;letter-spacing:.3px;white-space:nowrap;transition:background .2s}
 .btn-book:hover{background:#1a3a9e}
-.btn-details{font-family:'Montserrat',sans-serif;font-weight:600;font-size:.78rem;color:#2952c8;background:#e8eefb;padding:8px 22px;border-radius:8px;border:none;letter-spacing:.3px;white-space:nowrap}
+.btn-details{font-family:'Montserrat',sans-serif;font-weight:600;font-size:.78rem;color:#2952c8;background:#e8eefb;padding:8px 18px;border-radius:8px;border:none;letter-spacing:.3px;white-space:nowrap;transition:background .2s}
 .btn-details:hover{background:#d0dcf8}
+
+/* DYNAMIC PACKAGE PAGE VIEW */
+.pkg-page-wrap{max-width:1100px;margin:0 auto;padding:32px 20px 80px}
+.pkg-breadcrumb{display:flex;align-items:center;gap:8px;font-family:'Montserrat',sans-serif;font-size:.82rem;font-weight:600;color:#2952c8;margin-bottom:20px;cursor:pointer}
+.pkg-hero-banner{position:relative;border-radius:16px;overflow:hidden;height:380px;background:#0f2266;margin-bottom:32px;box-shadow:0 8px 30px rgba(15,34,102,.15)}
+.pkg-hero-banner img{width:100%;height:100%;object-fit:cover}
+.pkg-hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,34,102,.2) 0%,rgba(15,34,102,.85) 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:32px}
+.pkg-hero-badges{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.pkg-hero-title{font-family:'Montserrat',sans-serif;font-weight:900;font-size:clamp(1.8rem,4vw,2.8rem);color:#fff;margin-bottom:8px}
+.pkg-hero-loc{color:rgba(255,255,255,.9);font-size:1rem;font-weight:600;display:flex;align-items:center;gap:6px}
+
+.pkg-layout{display:grid;grid-template-columns:1fr 360px;gap:36px;align-items:start}
+.pkg-main-card{background:#fff;border-radius:16px;padding:32px;border:1px solid #dde4f5;box-shadow:0 2px 16px rgba(41,82,200,.08)}
+.pkg-section-title{font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.15rem;color:#0f2266;margin-bottom:14px;letter-spacing:-.2px}
+.pkg-desc{font-size:.95rem;color:#4a5568;line-height:1.8;margin-bottom:28px}
+.pkg-amenities-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px}
+.pkg-amenity-card{background:#f0f4ff;border-radius:10px;padding:12px 16px;font-size:.88rem;color:#1a1f36;font-weight:600;display:flex;align-items:center;gap:10px}
+
+.pkg-booking-card{background:#fff;border-radius:16px;padding:28px;border:2px solid #2952c8;box-shadow:0 8px 30px rgba(41,82,200,.12);position:sticky;top:84px}
+.pkg-price-calc-box{background:#f8fafc;border-radius:12px;padding:18px;margin-bottom:20px;border:1px solid #e2e8f0}
+.pkg-price-head{font-size:.75rem;font-weight:700;color:#7a8599;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.pkg-price-amount{font-family:'Montserrat',sans-serif;font-weight:900;font-size:2.2rem;color:#2952c8;line-height:1}
+.pkg-price-eur{font-size:.9rem;font-weight:700;color:#4a5568;margin-left:6px}
+.pkg-field-group{margin-bottom:16px}
+.pkg-field-label{font-family:'Montserrat',sans-serif;font-size:.72rem;font-weight:700;color:#4a5568;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:6px}
+.pkg-select{width:100%;padding:12px;border:1.5px solid #cbd5e0;border-radius:10px;font-size:.9rem;font-family:'Open Sans',sans-serif;font-weight:600;color:#1a1f36;background:#fff;outline:none}
+.pkg-select:focus{border-color:#2952c8}
 
 /* INFO SECTIONS */
 .info-grid{max-width:1260px;margin:0 auto;padding:0 32px 80px;display:grid;grid-template-columns:1fr 1fr;gap:32px}
@@ -248,216 +212,48 @@ button{cursor:pointer;font-family:inherit}
 .footer-col a:hover{color:#fff}
 .footer-bottom{max-width:1260px;margin:0 auto;border-top:1px solid rgba(255,255,255,.1);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font-size:.78rem}
 
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(15,34,102,.75);z-index:1000;display:flex;align-items:flex-start;justify-content:center;overflow-y:auto;backdrop-filter:blur(4px);padding:24px 16px}
-.modal-box{background:#f5f7fc;border-radius:16px;max-width:1000px;width:100%;box-shadow:0 24px 80px rgba(15,34,102,.35);animation:slideUp .3s ease-out;position:relative;margin-bottom:24px}
-.modal-header{background:#0f2266;border-radius:16px 16px 0 0;padding:20px 28px;display:flex;align-items:center;justify-content:space-between}
-.modal-close{background:rgba(255,255,255,.15);border:none;color:#fff;width:36px;height:36px;border-radius:50%;font-size:1.1rem;display:flex;align-items:center;justify-content:center}
-.modal-body{display:grid;grid-template-columns:1fr 300px}
-.modal-main{padding:28px;border-right:1px solid #dde4f5}
-.modal-gallery{margin-bottom:24px;border-radius:10px;overflow:hidden}
-.gallery-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:200px 100px;gap:6px}
-.gallery-grid > img{grid-row:1/3;width:100%;height:100%;object-fit:cover}
-.gallery-sub{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.gallery-sub img{width:100%;height:100%;object-fit:cover}
-.amenities-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.amenity-item{font-size:.85rem;color:#1a1f36;background:#e8eefb;padding:8px 12px;border-radius:8px}
-.modal-sidebar{padding:28px 20px}
-.booking-panel{background:#fff;border:1.5px solid #dde4f5;border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 2px 16px rgba(41,82,200,.10)}
-.booking-price{font-family:'Montserrat',sans-serif;font-weight:900;font-size:2rem;color:#2952c8;line-height:1}
-.booking-label{font-size:.72rem;font-weight:600;color:#7a8599;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
-.form-label{font-family:'Montserrat',sans-serif;font-size:.7rem;font-weight:700;color:#4a5568;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px}
-.form-input{width:100%;padding:9px 12px;border:1.5px solid #dde4f5;border-radius:8px;font-size:.85rem;margin-bottom:10px;box-sizing:border-box;font-family:'Open Sans',sans-serif;outline:none}
-.btn-book-modal{width:100%;background:#2952c8;color:#fff;border:none;padding:13px;border-radius:10px;font-family:'Montserrat',sans-serif;font-weight:700;font-size:.88rem}
-.btn-book-modal:hover{background:#1a3a9e}
-.trust-box{background:#e8eefb;border-radius:10px;padding:14px;font-size:.8rem;color:#2952c8;font-weight:600;text-align:center}
+/* MODAL OVERLAY & BOX */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,34,102,.8);z-index:1000;display:flex;align-items:center;justify-content:center;overflow-y:auto;backdrop-filter:blur(4px);padding:24px 16px}
+.modal-box{background:#fff;border-radius:18px;max-width:650px;width:100%;box-shadow:0 24px 80px rgba(15,34,102,.35);animation:slideUp .3s ease-out;position:relative;overflow:hidden;max-height:90vh;display:flex;flex-direction:column}
+.modal-header{background:#0f2266;color:#fff;padding:20px 28px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-header h3{font-family:'Montserrat',sans-serif;font-weight:800;font-size:1.2rem}
+.modal-close{background:rgba(255,255,255,.15);border:none;color:#fff;width:34px;height:34px;border-radius:50%;font-size:1.1rem;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.modal-body{padding:28px;overflow-y:auto}
+
+.form-label{font-family:'Montserrat',sans-serif;font-size:.72rem;font-weight:700;color:#4a5568;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:6px}
+.form-input{width:100%;padding:11px 14px;border:1.5px solid #cbd5e0;border-radius:8px;font-size:.88rem;margin-bottom:14px;box-sizing:border-box;font-family:'Open Sans',sans-serif;outline:none}
+.form-input:focus{border-color:#2952c8}
+.btn-submit-modal{width:100%;background:#2952c8;color:#fff;border:none;padding:14px;border-radius:10px;font-family:'Montserrat',sans-serif;font-weight:800;font-size:.95rem;cursor:pointer;transition:background .2s;margin-top:10px}
+.btn-submit-modal:hover{background:#1a3a9e}
+
+.guest-card-box{background:#f8fafc;border:1px solid #dde4f5;border-radius:10px;padding:14px;margin-bottom:12px}
+.guest-card-header{font-family:'Montserrat',sans-serif;font-size:.78rem;font-weight:700;color:#2952c8;margin-bottom:8px;text-transform:uppercase}
 
 /* TOAST */
-.toast {
-  position: fixed;
-  bottom: 40px; /* Moved up slightly for better visibility */
-  left: 50%;
-  transform: translateX(-50%) translateY(80px);
-  
-  /* --- SQUARE BLOCK STYLE --- */
-  background: rgba(15, 34, 102, 0.85); /* Lightly transparent (0.85) */
-  backdrop-filter: blur(8px);          /* Adds a modern frosted-glass effect */
-  color: #fff;
-  padding: 20px 30px;                  /* More padding for a block look */
-  border-radius: 12px;                 /* Rounded corners instead of oval */
-  width: auto;
-  min-width: 200px;                    /* Ensures it looks like a block */
-  text-align: center;
-  
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-  font-size: 0.9rem;
-  border: 1px solid rgba(74, 114, 232, 0.5); /* Subtle border */
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-  z-index: 9999;
-  
-  /* Transitions and visibility */
-  opacity: 0;
-  visibility: hidden;
-  transition: transform .4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity .3s ease;
-  pointer-events: none;
-}
-
-.toast.show {
-  transform: translateX(-50%) translateY(0);
-  opacity: 1;
-  visibility: visible;
-}
+.toast{position:fixed;bottom:40px;left:50%;transform:translateX(-50%) translateY(80px);background:rgba(15,34,102,0.92);backdrop-filter:blur(8px);color:#fff;padding:16px 28px;border-radius:12px;font-family:'Montserrat',sans-serif;font-weight:600;font-size:0.9rem;border:1px solid rgba(74,114,232,0.5);box-shadow:0 12px 40px rgba(0,0,0,0.25);z-index:9999;opacity:0;visibility:hidden;transition:transform .4s cubic-bezier(0.175,0.885,0.32,1.275),opacity .3s ease;pointer-events:none;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible}
 
 @keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 
 /* RESPONSIVE */
 @media(max-width:980px){
   .main-wrap{grid-template-columns:1fr}
+  .pkg-layout{grid-template-columns:1fr}
+  .pkg-booking-card{position:static;margin-top:24px}
   .info-grid{grid-template-columns:1fr}
   .footer-grid{grid-template-columns:1fr 1fr}
 }
 @media(max-width:768px){
-  .nav-links, .nav-actions { display: none !important; } /* Hide desktop buttons */
-  .hamburger { display: flex !important; }              /* Show hamburger icon */
-}
-
-/* This makes the menu actually open when the 'open' class is added */
-.mobile-menu.open {
-  display: block !important;
-}
-@media(max-width:768px){
-  .nav-links, .nav-actions { display: none !important; }
-  .hamburger { display: flex !important; }
-}
-
-.mobile-menu.open {
-  display: block !important;
+  .nav-links, .nav-actions{display:none !important}
+  .hamburger{display:flex !important}
+  .mobile-menu.open{display:block !important}
 }
 @media(max-width:640px){
   .trip-card{grid-template-columns:1fr}
   .trip-img{min-height:200px}
-  .trip-body{padding:16px}
+  .trip-body{padding:18px}
   .topbar{padding:8px 16px;font-size:.72rem}
-  .modal-body{grid-template-columns:1fr}
-  .gallery-sub{display:none}
-  .gallery-grid{grid-template-columns:1fr;grid-template-rows:200px}
-  .gallery-grid > img{grid-row:auto;height:200px}
-  .modal-main{padding:16px;border-right:none}
-  .modal-sidebar{padding:16px}
-  .amenities-grid{grid-template-columns:1fr}
-}
-/* Rollling Bar */
-.topbar {
-    overflow: hidden;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    /* This ensures it keeps your height and background colors */
-  }
-
-  .scrolling-content {
-    display: inline-block;
-    padding-left: 100%;
-    animation: scroll-left 15s linear infinite;
-  }
-
-  @keyframes scroll-left {
-    from { transform: translateX(0); }
-    to { transform: translateX(-100%); }
-  }
-  
-  /* Style for disabled buttons on the home page */
-.btn-disabled-home {
-    background-color: #cbd5e0 !important;
-    color: #718096 !important;
-    cursor: not-allowed !important;
-    transform: none !important;
-    box-shadow: none !important;
-}
-.mountain-container {
-    background-color: #2952c8;
-    line-height: 0;
-    margin-top: -20px; /* Adjust this number to move it higher or lower */
-    position: relative;
-    z-index: 5;
-}
-
-.mountain-divider {
-    overflow: hidden;
-    line-height: 0;
-    margin: 0;
-}
-
-.mountain-divider svg {
-    display: block;
-    width: 100%;
-    height: 80px; /* Adjust this to make peaks taller or shorter */
-    margin: 0;
-}
-
-/* Ensure the section BELOW the mountains doesn't have a huge top margin */
-.always-included-bar {
-    margin-top: 0 !important; 
-}
-.hero > div:last-of-type { margin-bottom: 0 !important; padding-bottom: 0 !important; }
-/* Container for the side-by-side Guest Selector */
-.guest-selector-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: #f8fafc;
-    padding: 12px 15px;
-    border: 1px solid #dde4f5;
-    border-radius: 10px;
-    margin-bottom: 20px;
-}
-
-.guest-label-text {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: #4a5568;
-}
-
-.guest-select-box {
-    width: 70px;
-    padding: 6px;
-    border: 1px solid #cbd5e0;
-    border-radius: 6px;
-    background: #fff;
-    font-weight: 700;
-    color: #2952c8;
-    cursor: pointer;
-    text-align: center;
-}
-
-/* Style for when the trip is Coming Soon */
-.guest-select-box:disabled {
-    background: #edf2f7;
-    color: #a0aec0;
-    cursor: not-allowed;
-}
-
-/* Modal Booking Button Disabled State */
-.btn-book-modal:disabled {
-    background: #cbd5e0 !important;
-    cursor: not-allowed !important;
-    transform: none !important;
-}
-.btn-book-modal:disabled {
-  background-color: #cbd5e0 !important;
-  color: #718096 !important;
-  cursor: not-allowed !important;
-  transform: none !important;
-  box-shadow: none !important;
-}
-.nav-links-mobile a[href^="https://wa.me"] {
-    background: #25D366;
-    color: white !important;
-    padding: 10px;
-    border-radius: 8px;
-    text-align: center;
-    margin-top: 10px;
+  .pkg-amenities-list{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -466,264 +262,254 @@ button{cursor:pointer;font-family:inherit}
 <!-- TOPBAR Scrolling -->
 <div class="topbar">
   <div class="scrolling-content">
-    <span>🏔️ All Passes are included in the price!</span>
+    <span>🏔️ All Passes, Equipment & Expert Guides Included in Every Package Price! &nbsp;&nbsp;&nbsp; 🚀 Direct Booking Powered by Supabase</span>
   </div>
 </div>
-<!--<div class="topbar">
- <!-- <span>🏔️ All Passes are icluded in the price!</span>
- <!-- <div style="display:flex;gap:20px;flex-wrap:wrap">
- <!--   <a href="mailto:info@nnavittalo.com">📧 info@nnavittalo.com</a>
- <!--   <a href="https://wa.me/48729648977" target="_blank">📞 Call / WhatsApp: +48729648977</a>
- <!-- </div>
-<!--</div>
 
 <!-- NAV -->
 <nav class="nav">
   <div class="nav-inner">
-    <a href="#" class="nav-logo">
-      <img src="https://image2url.com/r2/default/images/1775205068668-9ce153cf-7aa5-4e66-8e5e-013745d94b55.jpg" alt="Logo" style="height: 40px; width: auto; display: block;">
+    <a href="#" onclick="showHomeView(); return false;" class="nav-logo">
+      <img src="https://image2url.com/r2/default/images/1775205068668-9ce153cf-7aa5-4e66-8e5e-013745d94b55.jpg" alt="Logo" style="height:40px; width:auto; display:block;">
       <div class="nav-logo-text">NNA VITTALO<small>Adventure Travel</small></div>
     </a>
 
     <div class="nav-links">
-      <a href="#">Home</a>
-      <a href="#about">About Us</a>
-      <a href="#packages">Camps</a>
-      <a href="#contact">Contact</a>
+      <a href="#" onclick="showHomeView(); return false;" class="active" id="nav-link-home">Home</a>
+      <a href="#about" onclick="showHomeView('#about'); return false;">About Us</a>
+      <a href="#packages" onclick="showHomeView('#packages'); return false;">Camps</a>
+      <a href="#contact" onclick="showHomeView('#contact'); return false;">Contact</a>
     </div>
 
     <div class="nav-actions">
-      <a href="https://wa.me/48729648997" target="_blank" class="btn-outline" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="20" height="20" alt="WhatsApp"> Chat
+      <button class="btn-outline" onclick="openManageBookingModal()">📋 Manage Booking</button>
+      <a href="https://wa.me/48729648997" target="_blank" class="btn-outline" style="display:flex;align-items:center;gap:6px;text-decoration:none;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="18" height="18" alt="WhatsApp"> Chat
       </a>
-      <button class="btn-solid" onclick="document.querySelector('#packages').scrollIntoView({ behavior: 'smooth' })">Book a Trip</button>
+      <button class="btn-solid" onclick="showHomeView('#packages')">Book a Trip</button>
     </div>
 
     <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
       <span></span><span></span><span></span>
     </button>
   </div>
-  
- <div id="successModal" style="display:none; position:fixed; inset:0; background:rgba(15,34,102,0.95); z-index:999999; align-items:center; justify-content:center; overflow-y:auto; padding:20px; backdrop-filter:blur(8px);">
-    <div style="background:white; max-width:500px; width:100%; border-radius:20px; padding:30px; position:relative; box-shadow:0 20px 50px rgba(0,0,0,0.3);">
-        <div style="text-align:center; margin-bottom:20px;">
-            <span style="font-size:3.5rem;">🎉</span>
-            <h2 style="color:#0f2266; margin-top:10px; font-family:'Montserrat',sans-serif; font-weight:900;">Payment Successful!</h2>
-            <p style="color:#666; font-size:0.9rem;">Please finalize your details to confirm your adventure.</p>
-        </div>
-
-        <div style="background:#f8fafc; padding:20px; border-radius:15px; border:1px solid #dde4f5;">
-            <div style="margin-bottom:15px;">
-                <label style="display:block; font-size:0.7rem; font-weight:800; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Your Full Name</label>
-                <input type="text" id="successName" placeholder="Full name" style="width:100%; padding:12px; border:1.5px solid #cbd5e0; border-radius:10px;">
-            </div>
-
-            <div style="margin-bottom:15px;">
-                <label style="display:block; font-size:0.7rem; font-weight:800; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Mobile Number</label>
-                <input type="tel" id="successPhone" style="width:100%; padding:12px; border:1.5px solid #cbd5e0; border-radius:10px;">
-                <span id="phoneError" style="color: red; font-size: 0.7rem; display: none; margin-top: 5px;">❌ Invalid phone number</span>
-            </div>
-
-            <div style="margin-bottom:20px;">
-              <label style="display:block; font-size:0.75rem; font-weight:700; color:#4a5568; margin-bottom:5px; text-transform:uppercase;">Guests Paid For</label>
-                <select id="successGuests" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; background:white; font-weight:bold; color:#0f2266;">
-                  <option value="1" selected>1 Person</option>
-                  <option value="2">2 People</option>
-                  <option value="3">3 People</option>
-                  <option value="4">4 People</option>
-                  <option value="5">5 People</option>
-                  <option value="6">6 People</option>
-                  <option value="7">7 People</option>
-                  <option value="8">8 People</option>
-                  <option value="9">9 People</option>
-                  <option value="10">10 People</option>
-                  <option value="11">11 People</option>
-                  <option value="12">12 People</option>
-                  <option value="13">13 People</option>
-                  <option value="14">14 People</option>
-                  <option value="15">15 People</option>
-                  <option value="16">16 People</option>
-                  <option value="17">17 People</option>
-                  <option value="18">18 People</option>
-                  <option value="19">19 People</option>
-                  <option value="20">20 People</option>
-                </select>
-            </div>
-
-            <button onclick="saveFinalBooking()" id="btnSaveFinal" style="width:100%; padding:18px; background:#2952c8; color:white; border:none; border-radius:12px; font-weight:800; cursor:pointer; font-size:1rem; transition:0.2s;">
-                🚀 CONFIRM MY ADVENTURE
-            </button>
-        </div>
-    </div>
-</div>
 
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#" onclick="toggleMobileMenu()">🏠 Home</a>
-    <a href="#about" onclick="toggleMobileMenu()">ℹ️ About Us</a>
-    <a href="#packages" onclick="toggleMobileMenu()">🏄 Camps</a>
-    <a href="#contact" onclick="toggleMobileMenu()">📞 Contact</a>
+    <a href="#" onclick="closeMobileMenu(); showHomeView(); return false;">🏠 Home</a>
+    <a href="#about" onclick="closeMobileMenu(); showHomeView('#about'); return false;">ℹ️ About Us</a>
+    <a href="#packages" onclick="closeMobileMenu(); showHomeView('#packages'); return false;">🏄 Camps</a>
+    <a href="#contact" onclick="closeMobileMenu(); showHomeView('#contact'); return false;">📞 Contact</a>
     <div class="mobile-menu-btns">
-      <a href="https://wa.me/48729648997" class="btn-outline" style="background:#25D366; color:white; border:none; text-align:center; text-decoration:none; width:100%; display:block; padding: 12px; border-radius: 8px;">
+      <button class="btn-outline" onclick="closeMobileMenu(); openManageBookingModal();">📋 Manage Booking</button>
+      <a href="https://wa.me/48729648997" class="btn-outline" style="background:#25D366; color:white; border:none; text-decoration:none;">
         Chat on WhatsApp
       </a>
-      <button class="btn-solid" style="width: 100%; margin-top: 10px;" onclick="toggleMobileMenu(); document.querySelector('#packages').scrollIntoView({behavior:'smooth'})">
+      <button class="btn-solid" onclick="closeMobileMenu(); showHomeView('#packages');">
         Book a Trip
       </button>
     </div>
   </div>
 </nav>
-<!-- HERO -->
-<section class="hero" id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-moving-icons">
-    <span class="icon-item icon-1">🚐</span>
-    <span class="icon-item icon-2">✈️</span>
-    <span class="icon-item icon-3">⛷️</span>
-    <span class="icon-item icon-4">🏄</span>
-    <span class="icon-item icon-5">🛶</span>
-    <span class="icon-item icon-6">🥾</span>
-    <span class="icon-item icon-7">🚌</span>
-    <span class="icon-item icon-8">⛺</span>
-    <span class="icon-item icon-9">🪂</span>
-    <span class="icon-item icon-10">🚴</span>
-    <span class="icon-item icon-11">🚐</span>
-    <span class="icon-item icon-12">✈️</span>
-    <span class="icon-item icon-13">🛶</span>
-    <span class="icon-item icon-14">🏄</span>
-    <span class="icon-item icon-15">🥾</span>
-    <span class="icon-item icon-16">🚌</span>
-    <span class="icon-item icon-17">⛺</span>
-    <span class="icon-item icon-18">⛷️</span>
-    <span class="icon-item icon-19">🚴</span>
-    <span class="icon-item icon-20">🪂</span>
+
+<!-- MAIN VIEWS CONTAINER -->
+<div id="views-container">
+
+  <!-- HOME VIEW -->
+  <div id="home-view">
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-moving-icons">
+        <span class="icon-item icon-1">🚐</span>
+        <span class="icon-item icon-2">✈️</span>
+        <span class="icon-item icon-3">⛷️</span>
+        <span class="icon-item icon-4">🏄</span>
+        <span class="icon-item icon-5">🛶</span>
+        <span class="icon-item icon-6">🥾</span>
+        <span class="icon-item icon-7">🚌</span>
+        <span class="icon-item icon-8">⛺</span>
+        <span class="icon-item icon-9">🪂</span>
+        <span class="icon-item icon-10">🚴</span>
+      </div>
+      <div class="hero-inner">
+        <div class="hero-badge">🏆 Europe's Premier Adventure Operator</div>
+        <h1>Your Next<br><span>Epic Adventure</span><br>Starts with<br>NNA VITTALO</h1>
+        <p>From mountain peaks to ocean waves — we craft unforgettable travel and adventure packages. Skipass, equipment, guides and accommodation always included.</p>
+        <div class="hero-stats">
+          <div><strong>150+</strong><small>Happy Adventurers</small></div>
+          <div><strong>3+</strong><small>Destinations</small></div>
+          <div><strong>1 yr</strong><small>Experience</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BANNER -->
+    <div class="banner">
+      <span class="banner-pill">Always Included</span>
+      Skipass, equipment &amp; guide are included in every package price — no hidden extras!
+    </div>
+
+    <!-- MAIN TRIP CATALOG CONTENT -->
+    <div class="main-wrap" id="packages">
+      <!-- Filters -->
+      <aside class="filters-sidebar">
+        <div class="filters-header" onclick="toggleFilters()">
+          <h3>🔍 Filters</h3>
+          <div style="display:flex;align-items:center;gap:12px">
+            <span id="filtersClear" style="font-family:Montserrat,sans-serif;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.75);text-decoration:underline;cursor:pointer;display:none" onclick="event.stopPropagation();clearFilters()">Clear</span>
+            <span class="arr" id="filtersArrow" style="transform:rotate(0deg)">▼</span>
+          </div>
+        </div>
+        <div id="filtersBody" style="display:none">
+          <div class="fgroup">
+            <div class="fgroup-title">Activity Type</div>
+            <div id="activityFilters">
+              <label class="chk-opt"><input type="checkbox" value="Kayaking" onchange="applyFilters()"> Kayaking</label>
+              <label class="chk-opt"><input type="checkbox" value="Skiing" onchange="applyFilters()"> Skiing</label>
+              <label class="chk-opt"><input type="checkbox" value="Surfing" onchange="applyFilters()"> Surfing</label>
+              <label class="chk-opt"><input type="checkbox" value="Hiking" onchange="applyFilters()"> Hiking</label>
+              <label class="chk-opt"><input type="checkbox" value="Camping" onchange="applyFilters()"> Camping</label>
+              <label class="chk-opt"><input type="checkbox" value="City Tours" onchange="applyFilters()"> City Tours</label>
+            </div>
+          </div>
+          <div class="fgroup">
+            <div class="fgroup-title">Difficulty</div>
+            <div class="diff-btns">
+              <button class="diff-btn active" data-diff="All" onclick="setDiff(this)">All</button>
+              <button class="diff-btn" data-diff="Beginner" onclick="setDiff(this)">Beginner</button>
+              <button class="diff-btn" data-diff="Intermediate" onclick="setDiff(this)">Intermediate</button>
+              <button class="diff-btn" data-diff="Advanced" onclick="setDiff(this)">Advanced</button>
+            </div>
+          </div>
+          <button class="filters-apply" onclick="showToast('✅ Filters applied!')">Show Results</button>
+        </div>
+      </aside>
+
+      <!-- Trips Grid -->
+      <div>
+        <div class="trips-header">
+          <div id="tripCount" style="font-family:Montserrat,sans-serif;font-weight:700;font-size:.88rem;color:#4a5568">Loading trips...</div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <span style="font-size:.82rem;font-weight:600;color:#4a5568">Sort:</span>
+            <div class="sort-btns">
+              <button class="sort-btn active" onclick="setSort('Upcoming',this)">Upcoming</button>
+              <button class="sort-btn" onclick="setSort('Price',this)">Price ↑</button>
+            </div>
+          </div>
+        </div>
+        <div id="tripsList"></div>
+      </div>
+    </div>
+
+    <!-- INFO -->
+    <div class="info-grid" id="about">
+      <div class="info-card">
+        <div class="info-icon">🏔️</div>
+        <h2>Adventure Trips — Mountains & Trails</h2>
+        <p>NNA VITTALO has been organising adventure travel packages for <strong style="color:#2952c8">over 1 year</strong>. From the iconic Tatra Mountains to the Alpine slopes, every trip is built around your passion for the outdoors.</p>
+        <p>Our mountain trips include an experienced guide, all necessary equipment, accommodation and full board. Expert local guides ensure your safety and help you get the most from every destination.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-icon">🌊</div>
+        <h2>Water Sports — Surf, Kayak & Sail</h2>
+        <p>From the calm lakes of Warsaw to the powerful Atlantic swells, NNA VITTALO offers <strong style="color:#2952c8">water sports experiences</strong> for every level.</p>
+        <p>Each package includes professional instruction, certified safety equipment and accommodation near the water.</p>
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <section class="contact" id="contact">
+      <div class="contact-inner">
+        <h2>Questions? Get in Touch! 🗺️</h2>
+        <p>Looking for a custom trip, group booking or just want to know more? Our team is here to help plan your perfect adventure.</p>
+        <div class="contact-cards">
+          <a href="mailto:info@nnavittalo.com" class="contact-card">
+            <span class="contact-card-icon">📧</span>
+            <div><div class="contact-card-label">Email Us</div><div class="contact-card-val">info@nnavittalo.com</div></div>
+          </a>
+          <a href="https://wa.me/48729648997" target="_blank" class="contact-card">
+            <span class="contact-card-icon">📞</span>
+            <div><div class="contact-card-label">Call / WhatsApp Us</div><div class="contact-card-val">+48 729 648 997</div></div>
+          </a>
+        </div>
+        <p style="font-size:.82rem;margin-bottom:10px;color:rgba(255,255,255,.6)">Join our newsletter — be the first to hear about new trips and discounts!</p>
+        <div class="nl-form">
+          <input type="email" id="nlEmail" placeholder="Your email address..." />
+          <button onclick="subscribeNewsletter()">Subscribe</button>
+        </div>
+      </div>
+    </section>
   </div>
-  <div class="hero-inner">
-    <div class="hero-badge">🏆 Europe's Premier Adventure Operator</div>
-    <h1>Your Next<br><span>Epic Adventure</span><br>Starts with<br>NNA VITTALO</h1>
-    <p>From mountain peaks to ocean waves — we craft unforgettable travel and adventure packages. Skipass, equipment, guides and accommodation always included.</p>
-    <div class="hero-stats">
-      <div><strong>150+</strong><small>Happy Adventurers</small></div>
-      <div><strong>3+</strong><small>Destinations</small></div>
-      <div><strong>1 yr</strong><small>Experience</small></div>
+
+  <!-- DYNAMIC DEDICATED PACKAGE PAGE VIEW (/packages/[slug]) -->
+  <div id="package-view" style="display:none">
+    <div class="pkg-page-wrap">
+      <div class="pkg-breadcrumb" onclick="showHomeView('#packages')">
+        <span>← Back to All Packages</span>
+      </div>
+
+      <div class="pkg-hero-banner">
+        <img id="pkg-view-img" src="" alt="Hero Image">
+        <div class="pkg-hero-overlay">
+          <div class="pkg-hero-badges" id="pkg-view-badges"></div>
+          <h1 class="pkg-hero-title" id="pkg-view-title">Package Title</h1>
+          <div class="pkg-hero-loc">
+            <span>📍 <span id="pkg-view-location">Location</span></span>
+            <span style="opacity:.6">|</span>
+            <span>🏷️ <span id="pkg-view-activity">Activity</span></span>
+            <span style="opacity:.6">|</span>
+            <span>⏱️ <span id="pkg-view-duration">1 Day</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pkg-layout">
+        <!-- Main Info -->
+        <div class="pkg-main-card">
+          <h2 class="pkg-section-title">About This Adventure 🌿</h2>
+          <p class="pkg-desc" id="pkg-view-desc"></p>
+
+          <h2 class="pkg-section-title">Included Amenities & Services ✨</h2>
+          <div class="pkg-amenities-list" id="pkg-view-amenities"></div>
+        </div>
+
+        <!-- Sticky Price Calculator & Booking Card -->
+        <div class="pkg-booking-card">
+          <div class="pkg-price-calc-box">
+            <div class="pkg-price-head">Total Price Calculator</div>
+            <div style="display:flex;align-items:baseline">
+              <div class="pkg-price-amount" id="pkg-view-calc-total">0</div>
+              <span style="font-size:1.1rem;font-weight:800;color:#2952c8;margin-left:4px">PLN</span>
+              <span class="pkg-price-eur" id="pkg-view-calc-eur">(~0 EUR)</span>
+            </div>
+            <div style="font-size:.72rem;color:#7a8599;margin-top:4px">
+              Base Price: <strong id="pkg-view-base-price">0</strong> PLN / person
+            </div>
+          </div>
+
+          <div class="pkg-field-group">
+            <label class="pkg-field-label">Select Departure Date</label>
+            <select class="pkg-select" id="pkg-view-dates-select"></select>
+          </div>
+
+          <div class="pkg-field-group">
+            <label class="pkg-field-label">Number of People (1–20)</label>
+            <select class="pkg-select" id="pkg-view-guests-select" onchange="updatePkgPriceCalculator()"></select>
+          </div>
+
+          <button class="btn-submit-modal" onclick="openBookingModalForCurrentPkg()" style="font-size:1rem;padding:16px">
+            🚀 Book Now
+          </button>
+
+          <div style="text-align:center;font-size:.75rem;color:#7a8599;margin-top:12px">
+            Instant confirmation &amp; secure checkout
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</section>
-<!-- BANNER -->
-<div class="banner">
-  <span class="banner-pill">Always Included</span>
-  Skipass, equipment &amp; guide are included in every package price — no hidden extras!
+
 </div>
-
-<!-- MAIN CONTENT -->
-<div class="main-wrap" id="packages">
-  <!-- Filters -->
-  <aside class="filters-sidebar">
-    <div class="filters-header" onclick="toggleFilters()">
-      <h3>🔍 Filters</h3>
-      <div style="display:flex;align-items:center;gap:12px">
-        <span id="filtersClear" style="font-family:Montserrat,sans-serif;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.75);text-decoration:underline;cursor:pointer;display:none" onclick="event.stopPropagation();clearFilters()">Clear</span>
-        <span class="arr" id="filtersArrow" style="transform:rotate(0deg)">▼</span>
-      </div>
-    </div>
-    <div id="filtersBody" style="display:none">
-      <div class="fgroup">
-        <div class="fgroup-title">Activity Type</div>
-        <div id="activityFilters">
-          <label class="chk-opt"><input type="checkbox" value="Kayaking" onchange="applyFilters()"> Kayaking</label>
-          <label class="chk-opt"><input type="checkbox" value="Skiing" onchange="applyFilters()"> Skiing</label>
-          <label class="chk-opt"><input type="checkbox" value="Surfing" onchange="applyFilters()"> Surfing</label>
-          <label class="chk-opt"><input type="checkbox" value="Hiking" onchange="applyFilters()"> Hiking</label>
-          <label class="chk-opt"><input type="checkbox" value="Camping" onchange="applyFilters()"> Camping</label>
-          <label class="chk-opt"><input type="checkbox" value="City Tours" onchange="applyFilters()"> City Tours</label>
-        </div>
-      </div>
-      <div class="fgroup">
-        <div class="fgroup-title">Duration</div>
-        <div id="durationFilters">
-          <label class="chk-opt"><input type="checkbox" value="Weekend (2–3 days)" onchange="applyFilters()"> Weekend (2–3 days)</label>
-          <label class="chk-opt"><input type="checkbox" value="Short (4–5 days)" onchange="applyFilters()"> Short (4–5 days)</label>
-          <label class="chk-opt"><input type="checkbox" value="Week (6–7 days)" onchange="applyFilters()"> Week (6–7 days)</label>
-        </div>
-      </div>
-      <div class="fgroup">
-        <div class="fgroup-title">Price Range (PLN / person)</div>
-        <div id="priceFilters">
-          <label class="chk-opt"><input type="checkbox" value="Under 400" onchange="applyFilters()"> Under 400</label>
-          <label class="chk-opt"><input type="checkbox" value="400–700 PLN" onchange="applyFilters()"> 400–700 PLN</label>
-          <label class="chk-opt"><input type="checkbox" value="700–1000 PLN" onchange="applyFilters()"> 700–1000 PLN</label>
-          <label class="chk-opt"><input type="checkbox" value="1000+ PLN" onchange="applyFilters()"> 1000+ PLN</label>
-        </div>
-      </div>
-      <div class="fgroup">
-        <div class="fgroup-title">Difficulty</div>
-        <div class="diff-btns">
-          <button class="diff-btn active" data-diff="All" onclick="setDiff(this)">All</button>
-          <button class="diff-btn" data-diff="Beginner" onclick="setDiff(this)">Beginner</button>
-          <button class="diff-btn" data-diff="Intermediate" onclick="setDiff(this)">Intermediate</button>
-          <button class="diff-btn" data-diff="Advanced" onclick="setDiff(this)">Advanced</button>
-        </div>
-      </div>
-      <button class="filters-apply" onclick="showToast('✅ Filters applied!')">Show Results</button>
-    </div>
-  </aside>
-
-  <!-- Trips -->
-  <div>
-    <div class="trips-header">
-      <div id="tripCount" style="font-family:Montserrat,sans-serif;font-weight:700;font-size:.88rem;color:#4a5568">Showing <span style="color:#2952c8">6 trips</span> available</div>
-      <div style="display:flex;align-items:center;gap:8px">
-        <span style="font-size:.82rem;font-weight:600;color:#4a5568">Sort:</span>
-        <div class="sort-btns">
-          <button class="sort-btn active" onclick="setSort('Upcoming',this)">Upcoming</button>
-          <button class="sort-btn" onclick="setSort('Price',this)">Price ↑</button>
-          <button class="sort-btn" onclick="setSort('Popular',this)">Most Popular</button>
-        </div>
-      </div>
-    </div>
-    <div id="tripsList"></div>
-  </div>
-</div>
-
-<!-- INFO -->
-<div class="info-grid" id="about">
-  <div class="info-card">
-    <div class="info-icon">🏔️</div>
-    <h2>Adventure Trips — Mountains & Trails</h2>
-    <p>NNA VITTALO has been organising adventure travel packages for <strong style="color:#2952c8">over 1 year</strong>. From the iconic Tatra Mountains to the Alpine slopes of Austria and Switzerland, every trip is built around your passion for the outdoors.</p>
-    <p>Our mountain trips include an experienced guide, all necessary equipment, accommodation and full board. Whether you're a first-time hiker or a seasoned mountaineer, we have the perfect package for you.</p>
-    <p>Expert local guides ensure your safety and help you get the most from every destination. <strong style="color:#2952c8">All essential gear and permits are always included.</strong></p>
-  </div>
-  <div class="info-card">
-    <div class="info-icon">🌊</div>
-    <h2>Water Sports — Surf, Kayak & Sail</h2>
-    <p>From the calm lakes of Masuria to the powerful Atlantic swells of Portugal, NNA VITTALO offers <strong style="color:#2952c8">water sports experiences</strong> for every level. Kayaking, surfing, sailing and more.</p>
-    <p>Each water sports package includes professional instruction, certified safety equipment and accommodation near the water. Our instructors are accredited and experienced with first-time participants.</p>
-    <p>Starting your water sports adventure? Don't worry — our beginner-friendly programmes are designed to have you paddling or surfing with confidence on day one.</p>
-  </div>
-</div>
-
-<!-- CONTACT -->
-<section class="contact" id="contact">
-  <div class="contact-inner">
-    <h2>Questions? Get in Touch! 🗺️</h2>
-    <p>Looking for a custom trip, group booking or just want to know more? Our team is here to help plan your perfect adventure.</p>
-    <div class="contact-cards">
-      <a href="mailto:info@nnavittalo.com" class="contact-card">
-        <span class="contact-card-icon">📧</span>
-        <div><div class="contact-card-label">Email Us</div><div class="contact-card-val">info@nnavittalo.com</div></div>
-      </a>
-      <a href="https://wa.me/487294877" target="_blank" class="contact-card">
-        <span class="contact-card-icon">📞</span>
-        <div><div class="contact-card-label">Call / WhatsApp Us</div><div class="contact-card-val">+48729648977</div></div>
-      </a>
-    </div>
-    <p style="font-size:.82rem;margin-bottom:10px;color:rgba(255,255,255,.6)">Join our newsletter — be the first to hear about new trips, discounts and adventures!</p>
-    <div class="nl-form">
-      <input type="email" id="nlEmail" placeholder="Your email address..." />
-      <button onclick="subscribeNewsletter()">Subscribe</button>
-    </div>
-  </div>
-</section>
 
 <!-- FOOTER -->
 <footer class="footer">
@@ -731,191 +517,359 @@ button{cursor:pointer;font-family:inherit}
     <div>
       <div class="footer-brand">⛰️ NNA VITTALO</div>
       <p class="footer-tagline">Europe's premier adventure travel operator. Mountains, oceans, forests — unforgettable journeys crafted for the bold.</p>
-      <div style="font-size:.82rem">📧 info@nnavittalo.com<br>📞 +48729648977</div>
+      <div style="font-size:.82rem">📧 info@nnavittalo.com<br>📞 +48 729 648 997</div>
     </div>
-    <div class="footer-col"><h4>Our Trips</h4><a href="#packages">Kayaking Getaway</a><a href="#packages">Ski Trip</a><a href="#packages">Surfing Camp</a><a href="#packages">Hiking in Tatra</a><a href="#packages">Camping Weekend</a></div>
-    <div class="footer-col"><h4>Company</h4><a href="#about">About Us</a><a href="#contact">Contact</a><a href="#packages">All Trips</a></div>
-    <div class="footer-col"><h4>Contact</h4><a href="mailto:info@nnavittalo.com">info@nnavittalo.com</a><a href="https://wa.me/487294877">+48729648977</a><a href="#">Warsaw, Poland</a><a href="#">Mon–Fri 9:00–18:00</a></div>
+    <div class="footer-col"><h4>Our Trips</h4><a href="#" onclick="showHomeView('#packages'); return false;">Kayaking Getaway</a><a href="#" onclick="showHomeView('#packages'); return false;">Ski Trip</a><a href="#" onclick="showHomeView('#packages'); return false;">Surfing Camp</a><a href="#" onclick="showHomeView('#packages'); return false;">Hiking in Tatra</a></div>
+    <div class="footer-col"><h4>Company</h4><a href="#about" onclick="showHomeView('#about'); return false;">About Us</a><a href="#contact" onclick="showHomeView('#contact'); return false;">Contact</a><a href="#" onclick="openManageBookingModal(); return false;">Manage Booking</a></div>
+    <div class="footer-col"><h4>Contact</h4><a href="mailto:info@nnavittalo.com">info@nnavittalo.com</a><a href="https://wa.me/48729648997">+48 729 648 997</a><a href="#">Warsaw, Poland</a></div>
   </div>
   <div class="footer-bottom">
     <span>© 2026 NNA VITTALO. All rights reserved.</span>
     <div style="display:flex;gap:20px"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
   </div>
 </footer>
-<!-- My booking -->
-<div id="bookingsModal" class="modal-overlay" style="display:none" onclick="if(event.target===this) this.style.display='none'">
-  <div class="modal-box" style="max-width:500px; padding:30px; position:relative;">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-      <h2 style="font-family:Montserrat,sans-serif; color:#0f2266; font-size:1.5rem;">My Adventures</h2>
-      <button class="btn-outline" style="font-size:.7rem; padding:6px 12px; border-color:#ff4d4d; color:#ff4d4d;" onclick="_supabase.auth.signOut().then(()=>location.reload())">Log Out</button>
-    </div>
-    
-    <div id="bookingsList" style="max-height:350px; overflow-y:auto; padding-right:10px;">
-      <p style="text-align:center; color:#7a8599;">Loading your history...</p>
-    </div>
 
-    <button class="btn-solid" style="width:100%; margin-top:20px;"onclick="closeBookingsModal()">Close</button>
-  </div>
-</div>
-
-<!-- TOAST -->
+<!-- TOAST NOTIFICATION -->
 <div class="toast" id="toast"></div>
 
-<!-- BOOKING MODAL -->
-<div class="modal-overlay" id="modal" style="display:none" onclick="if(event.target===this)closeModal()">
+<!-- BOOKING FORM MODAL -->
+<div class="modal-overlay" id="bookingModal" style="display:none" onclick="if(event.target===this) closeBookingModal()">
   <div class="modal-box">
     <div class="modal-header">
-      <div style="display:flex;align-items:center;gap:14px">
-        <div id="modalEmoji" style="font-size:2.2rem"></div>
-        <div>
-          <div id="modalTitle" style="font-family:Montserrat,sans-serif;font-weight:900;font-size:1.3rem;color:#fff"></div>
-          <div id="modalMeta" style="font-size:.82rem;color:rgba(255,255,255,.7);margin-top:2px"></div>
-        </div>
+      <div>
+        <h3 id="bm-title">Book Your Adventure</h3>
+        <div style="font-size:.78rem;opacity:.8" id="bm-subtitle">Complete your details to secure your spot</div>
       </div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
+      <button class="modal-close" onclick="closeBookingModal()">✕</button>
     </div>
     <div class="modal-body">
-      <div class="modal-main">
-        <div class="modal-gallery">
-          <div class="gallery-grid">
-            <img id="galleryMain" src="" alt="" />
-            <div class="gallery-sub" id="gallerySub"></div>
-          </div>
-        </div>
-        <h3 style="font-family:Montserrat,sans-serif;font-weight:800;font-size:1.1rem;color:#0f2266;margin-bottom:10px">Feel the thrill of the wild 🌿</h3>
-        <p id="modalDesc" style="font-size:.9rem;color:#4a5568;line-height:1.75;margin-bottom:16px"></p>
-        <h4 style="font-family:Montserrat,sans-serif;font-weight:700;font-size:.85rem;color:#1a1f36;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px">Most Popular Amenities</h4>
-        <div class="amenities-grid" id="amenitiesGrid"></div>
-        <div style="margin-top:24px">
-          <h4 style="font-family:Montserrat,sans-serif;font-weight:700;font-size:.85rem;color:#1a1f36;margin-bottom:12px;text-transform:uppercase;letter-spacing:1px">Trip Date</h4>
-          <div style="background:#e8eefb;border:1px solid #d0dcf8;border-radius:10px;padding:14px 20px;display:flex;align-items:center;gap:12px">
-            <span style="font-size:1.4rem">📅</span>
+      <form id="bookingForm" onsubmit="handleBookingSubmit(event)">
+
+        <!-- Step 1: Package Summary & Dates -->
+        <div style="background:#f0f4ff;border-radius:12px;padding:16px;margin-bottom:20px;border:1px solid #dde4f5">
+          <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:1rem;color:#0f2266;margin-bottom:4px" id="bm-pkg-name"></div>
+          <div style="font-size:.82rem;color:#4a5568;margin-bottom:12px" id="bm-pkg-loc"></div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
             <div>
-              <div id="modalDate" style="font-family:Montserrat,sans-serif;font-weight:800;font-size:1rem;color:#0f2266"></div>
-              <div style="font-size:.78rem;color:#4a5568;margin-top:2px">Departure date</div>
+              <label class="form-label">Departure Date</label>
+              <select class="form-input" id="bm-date-select" style="margin-bottom:0" required></select>
+            </div>
+            <div>
+              <label class="form-label">Guests Count</label>
+              <select class="form-input" id="bm-guests-select" style="margin-bottom:0" onchange="renderGuestDetailsInputs(); updateBookingModalPriceSummary();" required></select>
             </div>
           </div>
         </div>
-      </div>
-<div class="modal-sidebar">
-  <div class="booking-panel">
-    <div class="booking-label">Total price</div>
-    <div id="modalPrice" class="booking-price"></div>
-    <div id="modalIncluded" style="font-size:.78rem;color:#7a8599;margin-bottom:16px"></div>
-    
-    <div style="background: #f0f7ff; border: 1px dashed #2952c8; padding: 15px; border-radius: 12px; margin-bottom: 20px;">
-        <p style="font-size: 0.82rem; color: #2952c8; line-height: 1.4; margin: 0;">
-            <strong>Secure Booking:</strong> Click below to pay via Stripe. You will provide your contact details and guest count on the next page.
-        </p>
-    </div>
-    
-    <button class="btn-book-modal" onclick="confirmBooking()" style="width: 100%; padding: 18px; font-weight: 800;">
-        🎉 Book Your Spot
-    </button>
-    
-    <p style="font-size:.72rem;color:#7a8599;text-align:center;margin-top:10px">
-        Your fellow trip mates are waiting for you 🥰 !!
-    </p>
-  </div>
 
-  <div class="trust-box">
-    🏆 Trusted by 150+ adventurers<br>
-    <span style="font-weight:400;color:#4a5568">4.9 ⭐ average rating</span>
+        <!-- Step 2: Primary Contact Info -->
+        <div style="font-family:'Montserrat',sans-serif;font-weight:800;font-size:.9rem;color:#0f2266;margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px">
+          Primary Contact Details
+        </div>
+
+        <label class="form-label">Primary Contact Full Name *</label>
+        <input type="text" class="form-input" id="bm-primary-name" placeholder="e.g. John Doe" required>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div>
+            <label class="form-label">Email Address *</label>
+            <input type="email" class="form-input" id="bm-primary-email" placeholder="john@example.com" required>
+          </div>
+          <div>
+            <label class="form-label">Phone Number *</label>
+            <input type="tel" class="form-input" id="bm-primary-phone" placeholder="+48 123 456 789" required>
+          </div>
+        </div>
+
+        <label class="form-label">City / Location *</label>
+        <input type="text" class="form-input" id="bm-primary-location" placeholder="e.g. Warsaw, Poland" required>
+
+        <!-- Step 3: Additional Guests Info -->
+        <div id="bm-additional-guests-wrapper" style="margin-top:10px">
+          <!-- Dynamic Guest fields generated by JS -->
+        </div>
+
+        <!-- Step 4: Summary & Submit -->
+        <div style="background:#e8eefb;border-radius:12px;padding:16px;margin-top:20px;display:flex;align-items:center;justify-content:space-between">
+          <div>
+            <div style="font-size:.75rem;font-weight:700;color:#7a8599;text-transform:uppercase">Total Amount</div>
+            <div style="font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.6rem;color:#2952c8" id="bm-total-price">0 PLN</div>
+          </div>
+          <button type="submit" class="btn-submit-modal" style="margin-top:0;width:auto;padding:12px 24px">
+            💳 Proceed to Payment
+          </button>
+        </div>
+
+      </form>
+    </div>
   </div>
 </div>
+
+<!-- MANAGE BOOKING MODAL -->
+<div class="modal-overlay" id="manageBookingModal" style="display:none" onclick="if(event.target===this) closeManageBookingModal()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <h3>Manage Your Booking</h3>
+        <div style="font-size:.78rem;opacity:.8">Find your trip details and booking status</div>
+      </div>
+      <button class="modal-close" onclick="closeManageBookingModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <form onsubmit="handleManageBookingSearch(event)">
+        <label class="form-label">Booking Reference (e.g. NNA-XXXXX) OR Mobile Number *</label>
+        <input type="text" class="form-input" id="mb-ref-phone" placeholder="NNA-XXXXX or +48123456789" required>
+
+        <label class="form-label">Primary Contact Last Name *</label>
+        <input type="text" class="form-input" id="mb-lastname" placeholder="Enter last name" required>
+
+        <button type="submit" class="btn-submit-modal">🔍 Search Booking</button>
+      </form>
+
+      <div id="mb-result-container" style="margin-top:24px;display:none"></div>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPTS -->
 <script>
-  let iti; // Global variable to access the library later
-
-// Run this when the success modal opens
-function initPhoneInput() {
-    const input = document.querySelector("#finalPhone");
-    iti = window.intlTelInput(input, {
-        initialCountry: "auto",
-        geoIpLookup: function(success, failure) {
-            fetch("https://ipapi.co/json").then(res => res.json()).then(data => success(data.country_code)).catch(() => success("PL"));
-        },
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js", // Required for validation
-        separateDialCode: true, // Shows +xx outside the input
-    });
-}
-  // --- PLACE THIS AT THE VERY TOP OF YOUR <script> TAG ---
-window.onload = function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    
-    if (urlParams.get('payment') === 'success') {
-        const modal = document.getElementById('successModal');
-        if (modal) {
-            modal.style.display = 'flex';
-        }
-    }
-};
-  
-  // Function to generate guest options from 1 to 30
-function populateGuestDropdown() {
-    const select = document.getElementById('bookGuests');
-    if (!select) return;
-    
-    select.innerHTML = ''; // Clear old options
-    for (let i = 1; i <= 30; i++) {
-        let opt = document.createElement('option');
-        opt.value = i;
-        opt.innerHTML = i;
-        select.appendChild(opt);
-    }
-}
-
-// Function to calculate the price based on guest count
-function updateLivePrice() {
-    if (!currentTrip || currentTrip.comingSoon) return;
-
-    // 1. Get number of guests from the dropdown
-    const guestCount = parseInt(document.getElementById('bookGuests').value) || 1;
-    
-    // 2. Use the FIXED prices from your TRIPS array multiplied by guests
-    const totalPln = currentTrip.price * guestCount;
-    const totalEur = currentTrip.priceEur * guestCount; // This uses your manual input
-
-    // 3. Update the sidebar text
-    const priceDisplay = document.getElementById('modalPrice');
-    if (priceDisplay) {
-        priceDisplay.innerHTML = `
-            ${totalPln} <span style="font-size:1rem">PLN</span> 
-            <span style="font-size:.9rem;font-weight:700;color:#4a5568;margin-left:8px">
-                (~${totalEur} EUR)
-            </span>
-        `;
-    }
-}
-// --- REPLACE THE START OF YOUR SCRIPT WITH THIS ---
-const supabaseUrl = 'https://ghwmmkiynmnunotwnenj.supabase.co'; // 👈 Your URL
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdod21ta2l5bm1udW5vdHduZW5qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NzkxMjEsImV4cCI6MjA5MDU1NTEyMX0.gC5tdWEciwZbF_1FzmD16V7JX66N7nHJ-G00C4gyG_0'; // 👈 Your Anon Key
+// Supabase Setup
+const supabaseUrl = 'https://ghwmmkiynmnunotwnenj.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdod21ta2l5bm1udW5vdHduZW5qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NzkxMjEsImV4cCI6MjA5MDU1NTEyMX0.gC5tdWEciwZbF_1FzmD16V7JX66N7nHJ-G00C4gyG_0';
 const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-const PLN_EUR = 0.23;
-// ... (rest of your TRIPS array remains the same)
+const PLN_TO_EUR = 0.23;
 
-const TRIPS = [
-  {id:'Kayaking',title:'Kayaking Getaway — Rivers & Lakes',location:'Wolka Kozodawska, Warsaw, Poland',photo:'https://images.unsplash.com/photo-1554913968-6ba85b94df1f?w=800&auto=format&fit=crop',emoji:'🛶',badges:[{l:'Beginner',t:'white'},{l:'Available',t:'green'}],tags:[{l:'Kayaking',t:'water'},{l:'Sport',t:'sport'}],features:['📅 1 Day','🛶 Kayak Included','🏕️ Riverside Pitstop','🎯 Guided Tour'],price:259, priceEur: 63, included:'Equipment included',duration:'1 Day',desc:'Paddle through scenic rivers and lakes. Suitable for everyone — beginners to experienced paddlers. Kayak, safety gear and a riverbank campsite all included.',activity:'Kayaking',priceRange:'Under 400',durationTag:'Weekend (2–3 days)',difficulty:'Beginner',showPrice:true,tripDate:'26 April 2026'},
-  {id:'Surfing',title:'Surfing Camp — Catch Your First Wave',location:'Baltic Coast, Gdansk / Poland',photo:'https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=800&auto=format&fit=crop',emoji:'🏄',badges:[{l:'Popular',t:'blue'},{l:'Coming Soon',t:'soon'}],tags:[{l:'Surfing',t:'water'},{l:'Sport',t:'sport'}],features:['📅 5 Days / 4 Nights','🏄 Board & Wetsuit','🏖️ Beach Accommodation','👨‍🏫 Pro Instructor'],price:899,included:'Equipment included',duration:'5 Days / 4 Nights',desc:'Feel the power of the ocean! A 5-day surf camp with pro instructors. Board, wetsuit and beachside accommodation all included.',activity:'Surfing',priceRange:'700–1000 PLN',durationTag:'Short (4–5 days)',difficulty:'Beginner',showPrice:true,comingSoon:true},
-  {id:'Hiking',title:'Hiking in Tatra — Mountain Trails',location:'Tatra National Park, Zakopane, Poland',photo:'https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&auto=format&fit=crop',emoji:'🥾',badges:[{l:'Intermediate',t:'white'},{l:'Coming Soon',t:'soon'}],tags:[{l:'Tatra Mts.',t:'tatra'},{l:'Hiking',t:'hiking'}],features:['📅 3 Days / 2 Nights','🏔️ Mountain Guide','🏠 Hut Accommodation','🎒 Backpack & Map'],price:399,included:'Guide always included',duration:'3 Days / 2 Nights',desc:'Discover the magic of the Polish mountains. Morskie Oko, Rysy peak, Kościeliska Valley. Experienced Tatra mountain guide included.',activity:'Hiking',priceRange:'Under 400',durationTag:'Weekend (2–3 days)',difficulty:'Intermediate',comingSoon:true},
-  {id:'Skiing',title:'Ski Trip — Alpine Slopes Adventure',location:'Tatra Mountains / Alps, Poland / Austria',photo:'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&auto=format&fit=crop',emoji:'⛷️',badges:[{l:'Best Seller',t:'accent'},{l:'Coming Soon',t:'soon'}],tags:[{l:'Skiing',t:'winter'},{l:'Sport',t:'sport'}],features:['📅 4 Days / 3 Nights','🎿 Lift Pass Included','🏨 Mountain Lodge','👨‍🏫 Ski Instructor','🍽️ Après-ski'],price:999,included:'Skipass always included',duration:'4 Days / 3 Nights',desc:'White slopes, adrenaline and après-ski. Ski school, equipment rental, lift pass and a cosy mountain lodge all in the price.',activity:'Skiing',priceRange:'1000+ PLN',durationTag:'Short (4–5 days)',difficulty:'Intermediate',comingSoon:true},
-  {id:'Camping',title:'Camping Weekend — Stars & Campfire',location:'Polish Countryside / Forests, Poland',photo:'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800&auto=format&fit=crop',emoji:'🏕️',badges:[{l:'Beginner',t:'white'},{l:'Coming Soon',t:'soon'}],tags:[{l:'Camping',t:'chill'},{l:'Family',t:'family'}],features:['📅 3 Days / 2 Nights','⛺ Tent & Sleeping Bag','🔥 Campfire Meals','🎮 Outdoor Games'],price:259,included:'Gear included',duration:'3 Days / 2 Nights',desc:'Escape the city for 3 days of wild adventures, bonfires and sleeping under a sky full of stars. Tent, sleeping bag and all meals included.',activity:'Camping',priceRange:'Under 400',durationTag:'Weekend (2–3 days)',difficulty:'Beginner',comingSoon:true},
-  {id:'Auschwitz',title:'Auschwitz-Birkenau — Memorial & Museum Tour',location:'Oświęcim, Poland',photo:'https://images.unsplash.com/photo-1574715826360-7c02d0153097?w=800&auto=format&fit=crop',emoji:'🕯️',badges:[{l:'Historical',t:'dark'},{l:'Coming Soon',t:'soon'}],tags:[{l:'History',t:'culture'},{l:'Memorial',t:'family'}],features:['📅 1 Day Tour','🎟️ Entry Tickets Included','🎤 Expert Historian Guide','🚌 Transport Included'],price:299,included:'Guide & tickets included',duration:'1 Day Tour',desc:'A deeply moving guided tour of the Auschwitz-Birkenau Memorial and Museum. Expert historians guide you through this UNESCO World Heritage site.',activity:'City Tours',priceRange:'Under 400',durationTag:'Weekend (2–3 days)',difficulty:'Beginner',comingSoon:true},
-];
-
-const GALLERY = {
-  Kayaking:['https://images.unsplash.com/photo-1554913968-6ba85b94df1f?w=800','https://images.unsplash.com/photo-1523287281576-5b596107a6ae?w=400','https://images.unsplash.com/photo-1578940695359-2dd6aff3eb84?w=400','https://images.unsplash.com/photo-1601899986654-9d92838359e4?w=400','https://images.unsplash.com/photo-1699190866577-100e090dfe1d?w=400'],
-  Skiing:['https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800','https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=400','https://images.unsplash.com/photo-1605540436563-5bca919ae766?w=400','https://images.unsplash.com/photo-1452626038306-9aae5e071dd3?w=400','https://images.unsplash.com/photo-1586967882046-8dc6b9b3c3ef?w=400'],
-  Surfing:['https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=800','https://images.unsplash.com/photo-1455264745730-cb3b76250de8?w=400','https://images.unsplash.com/photo-1531722569936-825d4ebd0de9?w=400','https://images.unsplash.com/photo-1509914398892-963f53e6e2f1?w=400','https://images.unsplash.com/photo-1520045892732-304bc3ac5d8e?w=400'],
-  Hiking:['https://images.unsplash.com/photo-1551632811-561732d1e306?w=800','https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=400','https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?w=400','https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400','https://images.unsplash.com/photo-1455156218388-5e61b526818b?w=400'],
-  Camping:['https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800','https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?w=400','https://images.unsplash.com/photo-1537905569824-f89f14cceb68?w=400','https://images.unsplash.com/photo-1533575770077-052fa2c609fc?w=400','https://images.unsplash.com/photo-1487730116645-74489c55bc79?w=400'],
-  'City Tours':['https://images.unsplash.com/photo-1574715826360-7c02d0153097?w=800','https://images.unsplash.com/photo-1574716625799-161d7bd9056d?w=400','https://images.unsplash.com/photo-1560969184-10fe8719e047?w=400','https://images.unsplash.com/photo-1548013146-72479768bada?w=400','https://images.unsplash.com/photo-1592853598064-f9e2c5b8a769?w=400'],
-};
-
+// Global State
+let packagesData = [];
+let currentPkg = null;
 let activeSort = 'Upcoming';
 let activeDiff = 'All';
-let currentTrip = null;
+let filtersOpen = window.innerWidth >= 768;
 
+// Fallback Local Packages Data
+const FALLBACK_PACKAGES = [
+  {
+    id: 'b92f192b-8e16-4b56-b8aa-8fd47b21add0',
+    slug: 'kayaking-getaway',
+    title: 'Kayaking Getaway — Rivers & Lakes',
+    activity_type: 'Kayaking',
+    location: 'Wolka Kozodawska, Warsaw, Poland',
+    duration_days: 1,
+    price_pln: 259.00,
+    difficulty: 'Beginner',
+    description: 'Paddle through scenic rivers and lakes. Suitable for everyone — beginners to experienced paddlers. Kayak, safety gear and a riverbank campsite all included.',
+    amenities: ['Kayak & Paddle Equipment', 'Professional Guide / Instructor', 'Meals & Snacks Included', 'Safety Gear & Life Jacket', 'Transport from Meeting Point'],
+    hero_image_url: 'https://images.unsplash.com/photo-1554913968-6ba85b94df1f?w=800&auto=format&fit=crop',
+    departure_dates: ['2026-04-26', '2026-05-10', '2026-06-01']
+  },
+  {
+    id: 'c83a283c-9f27-5c67-c9bb-9fe58c32bee1',
+    slug: 'surfing-camp',
+    title: 'Surfing Camp — Catch Your First Wave',
+    activity_type: 'Surfing',
+    location: 'Baltic Coast, Gdansk, Poland',
+    duration_days: 5,
+    price_pln: 899.00,
+    difficulty: 'Beginner',
+    description: 'Feel the power of the ocean! A 5-day surf camp with pro instructors. Board, wetsuit and beachside accommodation all included.',
+    amenities: ['Surfboard & Wetsuit Rental', 'Pro Surf Instructor', 'Beachside Lodging Included', 'Daily Breakfast & Lunch', 'Safety Briefings'],
+    hero_image_url: 'https://images.unsplash.com/photo-1502680390469-be75c86b636f?w=800&auto=format&fit=crop',
+    departure_dates: ['2026-05-15', '2026-06-12', '2026-07-10']
+  },
+  {
+    id: 'd94b394d-0a38-6d78-dacc-0af69d43cff2',
+    slug: 'hiking-in-tatra',
+    title: 'Hiking in Tatra — Mountain Trails',
+    activity_type: 'Hiking',
+    location: 'Tatra National Park, Zakopane, Poland',
+    duration_days: 3,
+    price_pln: 399.00,
+    difficulty: 'Intermediate',
+    description: 'Discover the magic of the Polish mountains. Morskie Oko, Rysy peak, Kościeliska Valley. Experienced Tatra mountain guide included.',
+    amenities: ['Certified Mountain Guide', 'Hut Accommodation', 'Topographic Map & Compass', 'Trail Meals & Hydration', 'National Park Entry Passes'],
+    hero_image_url: 'https://images.unsplash.com/photo-1551632811-561732d1e306?w=800&auto=format&fit=crop',
+    departure_dates: ['2026-05-20', '2026-06-18', '2026-07-15']
+  },
+  {
+    id: 'e05c405e-1b49-7e89-ebdd-1bg70e54d003',
+    slug: 'ski-trip-alps',
+    title: 'Ski Trip — Alpine Slopes Adventure',
+    activity_type: 'Skiing',
+    location: 'Tatra Mountains / Alps, Poland',
+    duration_days: 4,
+    price_pln: 999.00,
+    difficulty: 'Intermediate',
+    description: 'White slopes, adrenaline and après-ski. Ski school, equipment rental, lift pass and a cosy mountain lodge all in the price.',
+    amenities: ['Skipass Included', 'Ski & Boot Equipment', 'Mountain Lodge Stay', 'Professional Ski Instructor', 'Après-ski Evening Pass'],
+    hero_image_url: 'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&auto=format&fit=crop',
+    departure_dates: ['2026-11-15', '2026-12-05', '2027-01-10']
+  },
+  {
+    id: 'f16d516f-2c50-8f90-fcee-2ch81f65e114',
+    slug: 'camping-weekend',
+    title: 'Camping Weekend — Stars & Campfire',
+    activity_type: 'Camping',
+    location: 'Polish Countryside / Forests, Poland',
+    duration_days: 3,
+    price_pln: 259.00,
+    difficulty: 'Beginner',
+    description: 'Escape the city for 3 days of wild adventures, bonfires and sleeping under a sky full of stars. Tent, sleeping bag and all campfire meals included.',
+    amenities: ['Tent & Thermal Sleeping Bag', 'Campfire Meals & BBQ', 'Outdoor Games & Gear', 'Experienced Outdoor Leader'],
+    hero_image_url: 'https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=800&auto=format&fit=crop',
+    departure_dates: ['2026-05-01', '2026-06-05', '2026-07-03']
+  },
+  {
+    id: 'g27e627g-3d61-9g01-gdff-3di92g76f225',
+    slug: 'auschwitz-memorial-tour',
+    title: 'Auschwitz-Birkenau — Memorial & Museum Tour',
+    activity_type: 'City Tours',
+    location: 'Oświęcim, Poland',
+    duration_days: 1,
+    price_pln: 299.00,
+    difficulty: 'Beginner',
+    description: 'A deeply moving guided tour of the Auschwitz-Birkenau Memorial and Museum. Expert historians guide you through this UNESCO World Heritage site.',
+    amenities: ['Official Museum Entry Ticket', 'Expert Historian Guide', 'Round-trip Air-conditioned Transport', 'Headset Audio System'],
+    hero_image_url: 'https://images.unsplash.com/photo-1574715826360-7c02d0153097?w=800&auto=format&fit=crop',
+    departure_dates: ['2026-05-05', '2026-05-19', '2026-06-09']
+  }
+];
+
+// Fetch packages from Supabase
+async function fetchPackages() {
+  try {
+    const { data, error } = await _supabase.from('packages').select('*').order('price_pln', { ascending: true });
+    if (error || !data || data.length === 0) {
+      console.warn('Using fallback packages data due to Supabase fetch error:', error);
+      packagesData = FALLBACK_PACKAGES;
+    } else {
+      packagesData = data;
+    }
+  } catch (e) {
+    console.error('Fetch exception, using fallback:', e);
+    packagesData = FALLBACK_PACKAGES;
+  }
+  
+  handleRouting();
+}
+
+// ROUTING LOGIC
+function handleRouting() {
+  const hash = window.location.hash;
+  const path = window.location.pathname;
+
+  let slug = null;
+  if (hash.startsWith('#/packages/')) {
+    slug = hash.replace('#/packages/', '');
+  } else if (path.startsWith('/packages/')) {
+    slug = path.replace('/packages/', '');
+  }
+
+  if (slug) {
+    const pkg = packagesData.find(p => p.slug === slug);
+    if (pkg) {
+      renderPackageView(pkg);
+      return;
+    }
+  }
+
+  showHomeView();
+}
+
+window.addEventListener('hashchange', handleRouting);
+window.addEventListener('popstate', handleRouting);
+
+function showHomeView(targetSection = null) {
+  document.getElementById('home-view').style.display = 'block';
+  document.getElementById('package-view').style.display = 'none';
+  document.getElementById('nav-link-home').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  if (targetSection) {
+    setTimeout(() => {
+      const el = document.querySelector(targetSection);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
+  }
+
+  renderTrips(getFilteredTrips());
+}
+
+function navigateToPackage(slug) {
+  window.location.hash = `#/packages/${slug}`;
+}
+
+// RENDER DYNAMIC PACKAGE PAGE
+function renderPackageView(pkg) {
+  currentPkg = pkg;
+  document.getElementById('home-view').style.display = 'none';
+  document.getElementById('package-view').style.display = 'block';
+  document.getElementById('nav-link-home').classList.remove('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Bind values
+  document.getElementById('pkg-view-img').src = pkg.hero_image_url || 'https://images.unsplash.com/photo-1554913968-6ba85b94df1f?w=800';
+  document.getElementById('pkg-view-title').textContent = pkg.title;
+  document.getElementById('pkg-view-location').textContent = pkg.location;
+  document.getElementById('pkg-view-activity').textContent = pkg.activity_type;
+  document.getElementById('pkg-view-duration').textContent = `${pkg.duration_days} Day${pkg.duration_days > 1 ? 's' : ''}`;
+  document.getElementById('pkg-view-desc').textContent = pkg.description;
+
+  // Badges
+  const badgesContainer = document.getElementById('pkg-view-badges');
+  badgesContainer.innerHTML = `
+    <span class="badge badge-blue">${pkg.activity_type}</span>
+    <span class="badge badge-accent">${pkg.difficulty}</span>
+    <span class="badge badge-white">Passes Included</span>
+  `;
+
+  // Amenities
+  const amenitiesContainer = document.getElementById('pkg-view-amenities');
+  const amenitiesList = pkg.amenities && pkg.amenities.length > 0 ? pkg.amenities : ['All Gear Included', 'Expert Guide', 'Passes Included'];
+  amenitiesContainer.innerHTML = amenitiesList.map(a => `
+    <div class="pkg-amenity-card">
+      <span>✅</span> <span>${a}</span>
+    </div>
+  `).join('');
+
+  // Dates Dropdown
+  const datesSelect = document.getElementById('pkg-view-dates-select');
+  datesSelect.innerHTML = '';
+  const dates = pkg.departure_dates && pkg.departure_dates.length > 0 ? pkg.departure_dates : ['2026-05-01', '2026-06-01'];
+  dates.forEach(d => {
+    const opt = document.createElement('option');
+    opt.value = d;
+    opt.textContent = `📅 ${d}`;
+    datesSelect.appendChild(opt);
+  });
+
+  // Guests Dropdown (1 - 20)
+  const guestsSelect = document.getElementById('pkg-view-guests-select');
+  guestsSelect.innerHTML = '';
+  for (let i = 1; i <= 20; i++) {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = `${i} ${i === 1 ? 'Guest' : 'Guests'}`;
+    guestsSelect.appendChild(opt);
+  }
+
+  // Base price
+  document.getElementById('pkg-view-base-price').textContent = Number(pkg.price_pln).toFixed(0);
+
+  updatePkgPriceCalculator();
+}
+
+function updatePkgPriceCalculator() {
+  if (!currentPkg) return;
+  const guests = parseInt(document.getElementById('pkg-view-guests-select').value) || 1;
+  const totalPln = Number(currentPkg.price_pln) * guests;
+  const totalEur = (totalPln * PLN_TO_EUR).toFixed(0);
+
+  document.getElementById('pkg-view-calc-total').textContent = totalPln.toFixed(0);
+  document.getElementById('pkg-view-calc-eur').textContent = `(~${totalEur} EUR)`;
+}
+
+// HOME CATALOG RENDER
 function renderTrips(data) {
   const list = document.getElementById('tripsList');
   const count = document.getElementById('tripCount');
@@ -927,59 +881,49 @@ function renderTrips(data) {
   data.forEach(trip => {
     const card = document.createElement('div');
     card.className = 'trip-card';
-    
-    // 1. Logic for the WHOLE CARD click (only if not coming soon)
-    if (!trip.comingSoon) {
-        card.onclick = (e) => {
-            // Check if a button was clicked to prevent opening twice
-            if (e.target.tagName !== 'BUTTON') {
-                openModal(trip.id);
-            }
-        };
-    } else {
-        card.style.cursor = 'default';
-    }
+    card.onclick = (e) => {
+      if (e.target.tagName !== 'BUTTON') {
+        navigateToPackage(trip.slug);
+      }
+    };
 
-    // 2. Prepare button styles and actions
-    const buttonClass = trip.comingSoon ? 'btn-disabled-home' : '';
-    const clickAction = !trip.comingSoon ? `onclick="openModal('${trip.id}')"` : '';
+    const eurPrice = (trip.price_pln * PLN_TO_EUR).toFixed(0);
 
     card.innerHTML = `
       <div class="trip-img">
-        <img src="${trip.photo}" alt="${trip.title}">
+        <img src="${trip.hero_image_url}" alt="${trip.title}" loading="lazy">
         <div class="trip-badges">
-          ${trip.badges.map(b => `<span class="badge badge-${b.t}">${b.l}</span>`).join('')}
+          <span class="badge badge-blue">${trip.activity_type}</span>
+          <span class="badge badge-white">${trip.difficulty}</span>
         </div>
       </div>
       <div class="trip-body">
         <div class="trip-tags">
-          ${trip.tags.map(t => `<span class="tag tag-${t.t}">${t.l}</span>`).join('')}
+          <span class="tag tag-sport">${trip.activity_type}</span>
+          <span class="tag tag-water">${trip.duration_days} Day${trip.duration_days > 1 ? 's' : ''}</span>
         </div>
         <h3 class="trip-title">${trip.title}</h3>
         <div class="trip-loc">📍 ${trip.location}</div>
-        <div class="trip-date-text">📅 ${trip.tripDate || 'Dates Coming Soon'}</div>
+        <div class="trip-date-text">📅 Next: ${trip.departure_dates ? trip.departure_dates[0] : 'Upcoming'}</div>
         
         <div class="trip-features">
-          ${trip.features.slice(0, 3).map(f => `<span class="feature-tag">${f}</span>`).join('')}
+          <span class="feature-tag">⏱️ ${trip.duration_days} Day(s)</span>
+          <span class="feature-tag">🎒 Equipment Included</span>
+          <span class="feature-tag">🎯 Guided Tour</span>
         </div>
 
         <div class="trip-footer">
           <div>
             <div class="trip-price-label">Starting from</div>
-            <div class="trip-price" style="display: flex; align-items: baseline; font-weight: 800; color: #2952c8;">
-    ${trip.comingSoon ? '---' : trip.price + ' <span style="font-size: 0.75rem; color: #2952c8; margin-left: 2px;">PLN</span>'} 
-    
-    <span style="font-size: 1.1rem; color: #A0AEC0; font-weight: 800; margin-left: 6px;">
-        ${trip.comingSoon ? '' : '/ ~' + trip.priceEur + ' <span style="font-size: 0.75rem; color: #A0AEC0; margin-left: 2px;">EUR</span>'}
-    </span>
-</div>
-            <div class="trip-included">
-               ${trip.comingSoon ? '' : '<span>✓</span> ' + (trip.included || 'Equipment included')}
+            <div class="trip-price">
+              ${Number(trip.price_pln).toFixed(0)} <span>PLN</span>
+              <small>(~${eurPrice} EUR)</small>
             </div>
+            <div class="trip-included"><span>✓</span> All passes & equipment included</div>
           </div>
           <div class="trip-btns">
-            <button class="btn-book ${buttonClass}" ${trip.comingSoon ? 'disabled' : ''} ${clickAction}>Book Now</button>
-            <button class="btn-details ${buttonClass}" ${trip.comingSoon ? 'disabled' : ''} ${clickAction}>View Details</button>
+            <button class="btn-details" onclick="event.stopPropagation(); navigateToPackage('${trip.slug}')">View Package</button>
+            <button class="btn-book" onclick="event.stopPropagation(); openBookingModalDirect('${trip.slug}')">Book Now</button>
           </div>
         </div>
       </div>
@@ -988,512 +932,368 @@ function renderTrips(data) {
   });
 }
 
-function tripCardHTML(t) {
-  const eur = t.priceEur || 0;
-  const priceHTML = t.showPrice && !t.comingSoon
-    ? `<div class="trip-price" style="color: #2952c8; font-weight: 800; font-size: 1.1rem; display: flex; align-items: baseline; gap: 4px;">
-        ${t.price} <span style="font-size:0.85rem">PLN</span> 
-        <span style="margin: 0 2px">/</span> 
-        ${eurValue} <span style="font-size:0.85rem">EUR</span>
-       </div>`
-    : `<div class="trip-price-na" style="color: #add8e6; font-weight: 800; font-size: 1.1rem;">— <span>PLN</span> / — EUR</div>`;
-
-  const dateHTML = t.showPrice && t.tripDate
-    ? `<div class="trip-date-text" style="color:#2952c8">📅 ${t.tripDate}</div>`
-    : `<div class="trip-date-text" style="color:#b0b8cc">📅 Coming soon</div>`;
-
-  const badges = (t.badges||[]).map(b=>`<span class="badge badge-${b.t}">${b.l}</span>`).join('');
-  const tags = (t.tags||[]).map(t2=>`<span class="tag tag-${t2.t}">${t2.l}</span>`).join('');
-  const features = (t.features||[]).map(f=>`<span class="feature-tag">${f}</span>`).join('');
-
-  return `
-  <div class="trip-card" onclick="if(!${t.comingSoon}) openModal('${t.id}')" style="${t.comingSoon ? 'cursor: default;' : ''}">
-    <div class="trip-img">
-      ${t.photo?`<img src="${t.photo}" alt="${t.title}" loading="lazy" />`:''}
-      <div class="trip-badges">${badges}</div>
-    </div>
-    <div class="trip-body">
-      <div class="trip-tags">${tags}</div>
-      <div class="trip-title">${t.title}</div>
-      <div class="trip-loc">📍 ${t.location}</div>
-      ${dateHTML}
-      <div class="trip-features">${features}</div>
-      <div class="trip-footer">
-        <div>
-          <div class="trip-price-label">Starting from</div>
-          ${priceHTML}
-          <div style="font-size:.72rem;color:#4a5568;margin-top:4px">all inclusive</div>
-          <div class="trip-included" style="color: #22c55e; font-weight: 700; font-size: .72rem; margin-top: 4px; display: flex; align-items: center; gap: 4px;">
-            ${t.comingSoon ? '' : `<span>✓</span> ${t.included || 'Equipment included'}`}
-          </div>
-        </div>
-        <div class="trip-btns">
-          <button class="btn-book ${t.comingSoon ? 'btn-disabled-home' : ''}" 
-                  ${t.comingSoon ? 'disabled' : ''} 
-                  onclick="event.stopPropagation(); openModal('${t.id}')">
-            Book Now
-          </button>
-          <button class="btn-details ${t.comingSoon ? 'btn-disabled-home' : ''}" 
-                  ${t.comingSoon ? 'disabled' : ''} 
-                  onclick="event.stopPropagation(); openModal('${t.id}')">
-            View Details
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>`;
-}
-
 function getFilteredTrips() {
-  const activities = [...document.querySelectorAll('#activityFilters input:checked')].map(i=>i.value);
-  const durations = [...document.querySelectorAll('#durationFilters input:checked')].map(i=>i.value);
-  const prices = [...document.querySelectorAll('#priceFilters input:checked')].map(i=>i.value);
-  let trips = TRIPS.filter(t => {
-    if(activities.length && !activities.includes(t.activity)) return false;
-    if(durations.length && !durations.includes(t.durationTag)) return false;
-    if(prices.length && !prices.includes(t.priceRange)) return false;
-    if(activeDiff !== 'All' && t.difficulty !== activeDiff) return false;
+  const activities = [...document.querySelectorAll('#activityFilters input:checked')].map(i => i.value);
+  let trips = packagesData.filter(t => {
+    if (activities.length && !activities.includes(t.activity_type)) return false;
+    if (activeDiff !== 'All' && t.difficulty !== activeDiff) return false;
     return true;
   });
-  if(activeSort === 'Price') trips = [...trips].sort((a,b)=>a.price-b.price);
+  if (activeSort === 'Price') trips = [...trips].sort((a, b) => a.price_pln - b.price_pln);
   return trips;
 }
 
 function applyFilters() {
   renderTrips(getFilteredTrips());
-  const anyActive = document.querySelectorAll('#activityFilters input:checked, #durationFilters input:checked, #priceFilters input:checked').length > 0 || activeDiff !== 'All';
+  const anyActive = document.querySelectorAll('#activityFilters input:checked').length > 0 || activeDiff !== 'All';
   document.getElementById('filtersClear').style.display = anyActive ? 'inline' : 'none';
 }
 
 function clearFilters() {
-  document.querySelectorAll('.filters-sidebar input[type=checkbox]').forEach(i=>i.checked=false);
-  activeDiff='All';
-  document.querySelectorAll('.diff-btn').forEach(b=>b.classList.toggle('active',b.dataset.diff==='All'));
+  document.querySelectorAll('.filters-sidebar input[type=checkbox]').forEach(i => i.checked = false);
+  activeDiff = 'All';
+  document.querySelectorAll('.diff-btn').forEach(b => b.classList.toggle('active', b.dataset.diff === 'All'));
   applyFilters();
 }
 
 function setDiff(btn) {
   activeDiff = btn.dataset.diff;
-  document.querySelectorAll('.diff-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   applyFilters();
 }
 
 function setSort(s, btn) {
   activeSort = s;
-  document.querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   applyFilters();
 }
 
-let filtersOpen = window.innerWidth >= 768;
 function toggleFilters() {
   filtersOpen = !filtersOpen;
   document.getElementById('filtersBody').style.display = filtersOpen ? 'block' : 'none';
   document.getElementById('filtersArrow').style.transform = filtersOpen ? 'rotate(180deg)' : 'rotate(0deg)';
 }
-// init
-document.getElementById('filtersBody').style.display = filtersOpen ? 'block' : 'none';
-document.getElementById('filtersArrow').style.transform = filtersOpen ? 'rotate(180deg)' : 'rotate(0deg)';
 
-function openModal(id) {
-    // 1. Find the trip data (Using TRIPS as per your snippet)
-    currentTrip = TRIPS.find(t => t.id === id);
-    if (!currentTrip) return;
-    const t = currentTrip;
-    
-    // Check if trip is Coming Soon
-    const isComingSoon = t.comingSoon === true;
-
-    // 2. Populate basic content
-    const gallery = GALLERY[t.activity] || GALLERY.Kayaking;
-    document.getElementById('modalEmoji').textContent = t.emoji;
-    document.getElementById('modalTitle').textContent = t.title;
-    document.getElementById('modalMeta').innerHTML = `📍 ${t.location} &nbsp;·&nbsp; 🏷️ ${t.activity} &nbsp;·&nbsp; 📅 ${t.duration}`;
-    document.getElementById('galleryMain').src = gallery[0];
-    document.getElementById('gallerySub').innerHTML = gallery.slice(1, 5).map(img => `<img src="${img}" alt="" loading="lazy" />`).join('');
-    document.getElementById('modalDesc').textContent = t.desc + ' Whether you\'re a first-timer or a seasoned adventurer, this package is carefully designed to deliver an unforgettable experience from start to finish.';
-    
-    // 3. Populate Amenities
-    const amenities = ['✅ ' + (t.included || 'Equipment included'), ' ✅ Professional guide / instructor',  '✅ Meals & snacks Included', '✅ Safety gear', '✅ Transport from meeting point'];
-    document.getElementById('amenitiesGrid').innerHTML = amenities.map(a => `<div class="amenity-item">${a}</div>`).join('');
-    
-    document.getElementById('modalDate').textContent = t.showPrice ? (t.tripDate || '17 April 2026') : 'Date TBA';
-    document.getElementById('modalIncluded').textContent = '✓ ' + (t.included || 'Equipment & guide included');
-
-    // 4. CLEANED PRICE LOGIC (No live calculation needed anymore)
-    if (t.showPrice) {
-        const priceText = isComingSoon 
-            ? "Price Coming Soon" 
-            : `${t.price} <span style="font-size:1rem">PLN</span> <span style="font-size:.9rem;font-weight:700;color:#4a5568;margin-left:8px">(~${t.priceEur} EUR)</span>`;
-        
-        document.getElementById('modalPrice').innerHTML = priceText;
-    }
-
-    // 5. BUTTON LOGIC (Remove all form/guest code references)
-    const bookBtn = document.querySelector('.btn-book-modal');
-    if (bookBtn) {
-        bookBtn.disabled = isComingSoon;
-        bookBtn.innerText = isComingSoon ? 'Coming Soon' : '🎉 Book Your Spot';
-        bookBtn.style.background = isComingSoon ? '#cbd5e0' : ''; // Grey if locked
-        bookBtn.style.cursor = isComingSoon ? 'not-allowed' : '';
-    }
-
-    // 6. Show the modal
-    document.getElementById('modal').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-
-    // NOTE: We remove populateGuestDropdown() and updateLivePrice() 
-    // because the form and guest selector no longer exist in this modal.
+// BOOKING MODAL LOGIC
+function openBookingModalForCurrentPkg() {
+  if (!currentPkg) return;
+  const date = document.getElementById('pkg-view-dates-select').value;
+  const guests = parseInt(document.getElementById('pkg-view-guests-select').value) || 1;
+  openBookingModal(currentPkg, date, guests);
 }
 
-function closeModal() {
-  document.getElementById('modal').style.display = 'none';
+function openBookingModalDirect(slug) {
+  const pkg = packagesData.find(p => p.slug === slug);
+  if (!pkg) return;
+  openBookingModal(pkg, pkg.departure_dates ? pkg.departure_dates[0] : '2026-05-01', 1);
+}
+
+function openBookingModal(pkg, defaultDate, defaultGuests = 1) {
+  currentPkg = pkg;
+  document.getElementById('bm-pkg-name').textContent = pkg.title;
+  document.getElementById('bm-pkg-loc').textContent = `📍 ${pkg.location}`;
+
+  // Populate dates dropdown
+  const dateSelect = document.getElementById('bm-date-select');
+  dateSelect.innerHTML = '';
+  const dates = pkg.departure_dates && pkg.departure_dates.length > 0 ? pkg.departure_dates : ['2026-05-01'];
+  dates.forEach(d => {
+    const opt = document.createElement('option');
+    opt.value = d;
+    opt.textContent = d;
+    if (d === defaultDate) opt.selected = true;
+    dateSelect.appendChild(opt);
+  });
+
+  // Populate guests dropdown (1-20)
+  const guestsSelect = document.getElementById('bm-guests-select');
+  guestsSelect.innerHTML = '';
+  for (let i = 1; i <= 20; i++) {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = `${i} ${i === 1 ? 'Person' : 'People'}`;
+    if (i === defaultGuests) opt.selected = true;
+    guestsSelect.appendChild(opt);
+  }
+
+  renderGuestDetailsInputs();
+  updateBookingModalPriceSummary();
+
+  document.getElementById('bookingModal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeBookingModal() {
+  document.getElementById('bookingModal').style.display = 'none';
   document.body.style.overflow = '';
 }
 
-async function confirmBooking() {
-    showToast("🚀 Redirecting to secure payment...");
-    
-    // Replace with your actual Stripe Link
-    const stripeLink = "https://buy.stripe.com/7sY6oG5aI3MKcVW4i148001"; 
-    
-    window.location.href = stripeLink;
+function renderGuestDetailsInputs() {
+  const guestsCount = parseInt(document.getElementById('bm-guests-select').value) || 1;
+  const container = document.getElementById('bm-additional-guests-wrapper');
+  container.innerHTML = '';
+
+  if (guestsCount > 1) {
+    const header = document.createElement('div');
+    header.style.fontFamily = 'Montserrat, sans-serif';
+    header.style.fontWeight = '800';
+    header.style.fontSize = '.85rem';
+    header.style.color = '#0f2266';
+    header.style.margin = '16px 0 10px';
+    header.style.textTransform = 'uppercase';
+    header.textContent = `Additional Guest Details (${guestsCount - 1} More Guest${guestsCount > 2 ? 's' : ''})`;
+    container.appendChild(header);
+
+    for (let i = 2; i <= guestsCount; i++) {
+      const box = document.createElement('div');
+      box.className = 'guest-card-box';
+      box.innerHTML = `
+        <div class="guest-card-header">Guest #${i} Full Name *</div>
+        <input type="text" class="form-input bm-guest-name-input" data-guest-index="${i}" placeholder="Enter full name for guest #${i}" style="margin-bottom:0" required>
+      `;
+      container.appendChild(box);
+    }
+  }
 }
 
-let toastTimer = null; // Ensure this is declared at the top of your script
+function updateBookingModalPriceSummary() {
+  if (!currentPkg) return;
+  const guests = parseInt(document.getElementById('bm-guests-select').value) || 1;
+  const totalPrice = Number(currentPkg.price_pln) * guests;
+  const eurPrice = (totalPrice * PLN_TO_EUR).toFixed(0);
 
+  document.getElementById('bm-total-price').innerHTML = `${totalPrice.toFixed(0)} PLN <span style="font-size:0.9rem;font-weight:600;color:#7a8599">(~${eurPrice} EUR)</span>`;
+}
+
+// HANDLE BOOKING FORM SUBMIT
+async function handleBookingSubmit(event) {
+  event.preventDefault();
+  if (!currentPkg) return;
+
+  const departureDate = document.getElementById('bm-date-select').value;
+  const numberOfGuests = parseInt(document.getElementById('bm-guests-select').value) || 1;
+
+  const primaryName = document.getElementById('bm-primary-name').value.trim();
+  const primaryEmail = document.getElementById('bm-primary-email').value.trim();
+  const primaryPhone = document.getElementById('bm-primary-phone').value.trim();
+  const primaryLocation = document.getElementById('bm-primary-location').value.trim();
+
+  // Collect guest details array
+  const guestDetails = [
+    { guest_number: 1, name: primaryName, type: 'Primary Contact' }
+  ];
+
+  const additionalInputs = document.querySelectorAll('.bm-guest-name-input');
+  additionalInputs.forEach((input, index) => {
+    const guestNum = index + 2;
+    guestDetails.push({
+      guest_number: guestNum,
+      name: input.value.trim() || `Guest #${guestNum}`,
+      type: 'Additional Guest'
+    });
+  });
+
+  const totalPricePln = Number(currentPkg.price_pln) * numberOfGuests;
+
+  // Generate reference: NNA-XXXXX
+  const randomCode = Math.random().toString(36).substring(2, 7).toUpperCase();
+  const bookingReference = `NNA-${randomCode}`;
+
+  showToast('🚀 Saving booking and preparing checkout...');
+
+  try {
+    const bookingPayload = {
+      booking_reference: bookingReference,
+      package_id: currentPkg.id,
+      primary_contact_name: primaryName,
+      primary_contact_phone: primaryPhone,
+      primary_contact_email: primaryEmail,
+      primary_contact_location: primaryLocation,
+      number_of_guests: numberOfGuests,
+      guest_details: guestDetails,
+      departure_date: departureDate,
+      total_price_pln: totalPricePln,
+      payment_status: 'pending'
+    };
+
+    const { data, error } = await _supabase.from('bookings').insert([bookingPayload]);
+
+    if (error) {
+      console.error('Supabase booking insert error:', error);
+    } else {
+      console.log('Successfully created booking in Supabase:', data);
+    }
+
+    closeBookingModal();
+
+    // Redirect to Stripe checkout
+    const stripeBaseUrl = "https://buy.stripe.com/7sY6oG5aI3MKcVW4i148001";
+    const checkoutUrl = `${stripeBaseUrl}?booking_reference=${encodeURIComponent(bookingReference)}&total_price=${totalPricePln}`;
+
+    showToast(`✅ Booking Reference: ${bookingReference}. Redirecting to Stripe...`);
+    setTimeout(() => {
+      window.location.href = checkoutUrl;
+    }, 1200);
+
+  } catch (err) {
+    console.error('Submission error:', err);
+    showToast('⚠️ Proceeding to Stripe payment...');
+    window.location.href = `https://buy.stripe.com/7sY6oG5aI3MKcVW4i148001?booking_reference=${bookingReference}&total_price=${totalPricePln}`;
+  }
+}
+
+// MANAGE BOOKING MODAL & SEARCH LOGIC
+function openManageBookingModal() {
+  document.getElementById('mb-result-container').style.display = 'none';
+  document.getElementById('mb-result-container').innerHTML = '';
+  document.getElementById('manageBookingModal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeManageBookingModal() {
+  document.getElementById('manageBookingModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+async function handleManageBookingSearch(event) {
+  event.preventDefault();
+  const refOrPhone = document.getElementById('mb-ref-phone').value.trim();
+  const lastName = document.getElementById('mb-lastname').value.trim().toLowerCase();
+
+  const container = document.getElementById('mb-result-container');
+  container.style.display = 'block';
+  container.innerHTML = '<div style="text-align:center;color:#7a8599">Searching Supabase records... 🔍</div>';
+
+  try {
+    const { data, error } = await _supabase
+      .from('bookings')
+      .select('*, packages(*)')
+      .or(`booking_reference.eq.${refOrPhone},primary_contact_phone.eq.${refOrPhone}`);
+
+    if (error) {
+      console.error('Search error:', error);
+      container.innerHTML = `<div style="color:#e53e3e;text-align:center">Error querying bookings: ${error.message}</div>`;
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      container.innerHTML = `<div style="background:#fff5f5;border:1px solid #feb2b2;color:#c53030;padding:16px;border-radius:10px;text-align:center">
+        ❌ No booking found matching Reference/Phone: <strong>${refOrPhone}</strong>. Please verify your credentials and try again.
+      </div>`;
+      return;
+    }
+
+    // Filter by last name
+    const matches = data.filter(b => {
+      const pName = (b.primary_contact_name || '').toLowerCase();
+      return pName.includes(lastName);
+    });
+
+    if (matches.length === 0) {
+      container.innerHTML = `<div style="background:#fff5f5;border:1px solid #feb2b2;color:#c53030;padding:16px;border-radius:10px;text-align:center">
+        ❌ Booking reference or phone was found, but the Last Name <strong>"${lastName}"</strong> did not match the primary contact.
+      </div>`;
+      return;
+    }
+
+    // Render matches
+    container.innerHTML = matches.map(b => {
+      const pkgTitle = b.packages ? b.packages.title : (packagesData.find(p => p.id === b.package_id)?.title || 'Adventure Package');
+      const guestsArr = Array.isArray(b.guest_details) ? b.guest_details : [];
+
+      return `
+        <div style="background:#f8fafc;border:2px solid #2952c8;border-radius:14px;padding:20px;margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid #dde4f5;padding-bottom:10px">
+            <div>
+              <span style="background:#0f2266;color:#fff;font-family:Montserrat;font-weight:800;padding:4px 10px;border-radius:6px;font-size:.8rem">
+                ${b.booking_reference}
+              </span>
+            </div>
+            <span style="background:${b.payment_status === 'paid' ? '#22c55e' : '#ff6b35'};color:#fff;font-family:Montserrat;font-weight:700;padding:3px 10px;border-radius:50px;font-size:.72rem;text-transform:uppercase">
+              Payment: ${b.payment_status || 'Pending'}
+            </span>
+          </div>
+
+          <h3 style="font-family:Montserrat;font-weight:800;color:#0f2266;font-size:1.1rem;margin-bottom:6px">${pkgTitle}</h3>
+          <div style="font-size:.85rem;color:#4a5568;margin-bottom:12px">📅 Departure Date: <strong>${b.departure_date}</strong></div>
+
+          <div style="background:#fff;border:1px solid #dde4f5;border-radius:10px;padding:12px;margin-bottom:12px;font-size:.83rem;color:#1a1f36">
+            <div style="font-weight:700;color:#2952c8;margin-bottom:6px">👤 Primary Contact Info</div>
+            <div>Name: <strong>${b.primary_contact_name}</strong></div>
+            <div>Email: ${b.primary_contact_email}</div>
+            <div>Phone: ${b.primary_contact_phone}</div>
+            <div>Location: ${b.primary_contact_location}</div>
+          </div>
+
+          <div style="background:#fff;border:1px solid #dde4f5;border-radius:10px;padding:12px;margin-bottom:12px;font-size:.83rem;color:#1a1f36">
+            <div style="font-weight:700;color:#2952c8;margin-bottom:6px">👥 Guests Registered (${b.number_of_guests})</div>
+            ${guestsArr.map(g => `<div>• ${g.name} <small style="color:#7a8599">(${g.type || 'Guest'})</small></div>`).join('')}
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;font-family:Montserrat;font-weight:800;font-size:1.1rem;color:#2952c8">
+            <span>Total Price:</span>
+            <span>${Number(b.total_price_pln).toFixed(0)} PLN</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+  } catch (err) {
+    console.error('Search exception:', err);
+    container.innerHTML = `<div style="color:#e53e3e;text-align:center">Error querying bookings: ${err.message}</div>`;
+  }
+}
+
+// UTILS
+let toastTimer = null;
 function showToast(msg) {
   const el = document.getElementById('toast');
   if (!el) return;
-
-  // 1. Force stop any current animations/timers
   clearTimeout(toastTimer);
   el.classList.remove('show');
-  
-  // 2. Small delay to allow the browser to register the "reset" 
-  // before showing it again
   setTimeout(() => {
     el.textContent = msg;
     el.classList.add('show');
-
-    // 3. Set the timer to hide it after 3 seconds
     toastTimer = setTimeout(() => {
       el.classList.remove('show');
-    }, 3000);
-  }, 50); 
+    }, 3500);
+  }, 50);
 }
 
 function subscribeNewsletter() {
   const val = document.getElementById('nlEmail').value;
-  if(!val || !val.includes('@')) { showToast('⚠️ Please enter a valid email address.'); return; }
+  if (!val || !val.includes('@')) {
+    showToast('⚠️ Please enter a valid email address.');
+    return;
+  }
   document.getElementById('nlEmail').value = '';
   showToast('✅ Subscribed! Welcome to the NNA VITTALO community 🏔️');
 }
 
-// Function to Open/Close Menu
 function toggleMobileMenu() {
-    const menu = document.getElementById('mobileMenu');
-    const hamburger = document.getElementById('hamburger');
-    if (menu && hamburger) {
-        menu.classList.toggle('open');
-        hamburger.classList.toggle('active');
-    }
+  const menu = document.getElementById('mobileMenu');
+  const hamburger = document.getElementById('hamburger');
+  if (menu && hamburger) {
+    menu.classList.toggle('open');
+    hamburger.classList.toggle('active');
+  }
 }
-
-// AUTO-CLOSE: Closes menu as soon as the user starts scrolling
-window.addEventListener('scroll', () => {
-    const menu = document.getElementById('mobileMenu');
-    const hamburger = document.getElementById('hamburger');
-    
-    if (menu && menu.classList.contains('open')) {
-        menu.classList.remove('open');
-        if (hamburger) hamburger.classList.remove('active');
-    }
-}, { passive: true });
 
 function closeMobileMenu() {
-  document.getElementById('mobileMenu').classList.remove('open');
-}
-// STEP 2: USER AUTHENTICATION LOGIC
-// Function for both logging in and creating a new account (Sign Up)
-
-
-// Function to switch to Forgot Password view
-function showForgotPassword() {
-    document.getElementById('authContent').style.display = 'none';
-    document.getElementById('resetContent').style.display = 'block';
+  const menu = document.getElementById('mobileMenu');
+  const hamburger = document.getElementById('hamburger');
+  if (menu) menu.classList.remove('open');
+  if (hamburger) hamburger.classList.remove('active');
 }
 
-// Function to switch back to Login view
-function showLoginView() {
-    document.getElementById('authContent').style.display = 'block';
-    document.getElementById('resetContent').style.display = 'none';
-}
-
-
-// 1. Function to refresh the UI if a user is logged in
-async function checkUserSession() {
-    // Check with Supabase if a user is currently logged in
-    const { data: { user } } = await _supabase.auth.getUser();
-    
-    if (user) {
-        // Find the "Log In" buttons in your header (Desktop and Mobile)
-        const allButtons = document.querySelectorAll('button');
-allButtons.forEach(btn => {
-    // We look for buttons that say "Log In"
-    if (btn.textContent.trim() === 'Log In') {
-        
-        // Change the text to a Profile icon + "Bookings" instead of the email
-        btn.innerHTML = `👤 Bookings`;
-        
-        // Change the click action to open the "My Bookings" modal
-        btn.onclick = (e) => {
-            e.preventDefault();
-            openMyBookings();
-        }
-    }
+// INITIALIZE
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('filtersBody').style.display = filtersOpen ? 'block' : 'none';
+  document.getElementById('filtersArrow').style.transform = filtersOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+  fetchPackages();
 });
-    }
-}
-
-// 2. Function to fetch data from Supabase and show it in the modal
-async function openMyBookings() {
-    const modal = document.getElementById('bookingsModal');
-    const list = document.getElementById('bookingsList');
-    modal.style.display = 'flex';
-    list.innerHTML = '<p style="text-align:center;">Fetching your adventures...</p>';
-
-    const { data: { user } } = await _supabase.auth.getUser();
-
-    const { data, error } = await _supabase
-        .from('bookings')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
-
-    if (error) {
-        list.innerHTML = `<p style="color:red; text-align:center;">Error: ${error.message}</p>`;
-    } else if (data.length === 0) {
-        list.innerHTML = '<p style="text-align:center; padding:20px;">No adventures found.</p>';
-    } else {
-        list.innerHTML = data.map(b => {
-            const createdDate = new Date(b.created_at).getTime();
-            const expiryDate = createdDate + (24 * 60 * 60 * 1000); // +24 Hours
-            const now = new Date().getTime();
-            const canCancel = now < expiryDate;
-
-            return `
-                <div style="background:#fff; border:1px solid #e2e8f0; padding:15px; border-radius:12px; margin-bottom:12px;">
-                    <div style="display:flex; justify-content:space-between; align-items:start;">
-                        <span style="font-weight:700; color:#0f2266;">${b.event_name}</span>
-                        <span style="font-size:0.7rem; background:#ecfdf5; color:#065f46; padding:2px 8px; border-radius:99px; font-weight:700;">
-                            ${b.status.toUpperCase()}
-                        </span>
-                    </div>
-                    
-                    <div style="margin-top:10px; padding-top:10px; border-top:1px dashed #eee; display:flex; justify-content:space-between; align-items:center;">
-                        <div style="font-size:0.7rem; color:#7a8599;">
-                            ${canCancel ? 
-                                `⏳ Time left to cancel: <span id="timer-${b.id}" class="booking-timer" data-expiry="${expiryDate}">--:--:--</span>` : 
-                                `🔒 Cancellation period ended`}
-                        </div>
-                        
-                        ${canCancel ? 
-                            `<button onclick="cancelBooking('${b.id}')" style="background:#fff1f1; border:1px solid #ffcccc; color:#ff4d4d; padding:4px 10px; border-radius:6px; font-weight:700; cursor:pointer; font-size:0.7rem;">Cancel</button>` 
-                            : ''}
-                    </div>
-                </div>
-            `;
-        }).join('');
-
-        // Start the countdown interval
-        startBookingTimers();
-    }
-}
-
-async function cancelBooking(bookingId) {
-    if (!confirm("Are you sure you want to cancel this booking? This cannot be undone.")) return;
-
-    const { error } = await _supabase
-        .from('bookings')
-        .delete()
-        .eq('id', bookingId);
-
-    if (error) {
-        showToast("❌ Error: " + error.message);
-    } else {
-        showToast("✅ Booking removed successfully.");
-        openMyBookings(); // Refresh the list
-    }
-}
-
-let timerInterval;
-
-async function handleLogout() {
-    const { error } = await _supabase.auth.signOut();
-    if (error) {
-        showToast("Error logging out");
-    } else {
-        // Refresh the page to clear all UI states
-        window.location.reload();
-    }
-}
-
-// 3. CAncel booking
-function startBookingTimers() {
-    // Clear any old interval if it exists
-    if (timerInterval) clearInterval(timerInterval);
-
-    timerInterval = setInterval(() => {
-        const timerElements = document.querySelectorAll('.booking-timer');
-        
-        if (timerElements.length === 0) {
-            clearInterval(timerInterval);
-            return;
-        }
-
-        timerElements.forEach(el => {
-            const expiry = parseInt(el.getAttribute('data-expiry'));
-            const now = new Date().getTime();
-            const distance = expiry - now;
-
-            if (distance < 0) {
-                el.innerHTML = "EXPIRED";
-                // Optionally refresh the list once to hide the cancel button
-                return;
-            }
-
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            el.innerHTML = `${hours}h ${minutes}m ${seconds}s`;
-        });
-    }, 1000);
-}
-
-// Function to close the success popup
-function closeSuccessModal() {
-    document.getElementById('successModal').style.display = 'none';
-    // Clean the URL so the popup doesn't keep appearing if they refresh
-    window.history.replaceState({}, document.title, window.location.pathname);
-}
-
-// Check if user just paid when the page loads
-// Temp storage for Stripe data
-let tempBookingInfo = {};
-
-window.addEventListener('load', () => {
-    // 1. Check for payment success
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('payment') === 'success') {
-        const modal = document.getElementById('successModal');
-        if (modal) {
-            modal.style.display = 'flex'; // This triggers the popup
-            
-            // 2. Fill the guests dropdown (1-30) inside the success modal
-            const guestSelect = document.getElementById('finalGuests');
-            if (guestSelect && guestSelect.options.length === 0) {
-                for (let i = 1; i <= 30; i++) {
-                    let opt = document.createElement('option');
-                    opt.value = i;
-                    opt.innerHTML = i === 1 ? '1 Person' : `${i} People`;
-                    guestSelect.appendChild(opt);
-                }
-            }
-        }
-    }
-});
-
-// Function to save final details after payment success
-async function saveFinalBooking() {
-    // 1. Get elements using the IDs from your SUCCESS MODAL
-    const nameEl = document.getElementById('successName');
-    const phoneEl = document.getElementById('successPhone');
-    const guestsEl = document.getElementById('successGuests');
-    const btn = document.getElementById('btnSaveFinal');
-
-    // 2. Validate that inputs exist and are filled
-    const userName = nameEl ? nameEl.value.trim() : "";
-    const userPhone = phoneEl ? phoneEl.value.trim() : "";
-    const guestCount = guestsEl ? guestsEl.value : "1";
-
-    if (!userName || !userPhone) {
-        showToast("⚠️ Please enter your name and phone number.");
-        return;
-    }
-
-    // 3. Prevent double-clicking
-    if (btn) {
-        btn.disabled = true;
-        btn.innerText = "⏳ SAVING...";
-    }
-
-    try {
-        // 4. Save to Supabase (Anonymous/No Login)
-        const { error } = await _supabase
-            .from('bookings')
-            .insert([{
-                full_name: userName,
-                phone: userPhone,
-                guests: guestCount,
-                status: 'confirmed',
-                created_at: new Date()
-            }]);
-
-        if (error) throw error;
-
-        // 5. Success!
-        showToast("✅ Adventure Confirmed! See you soon 🏔️");
-        
-        // Hide modal and clear the ?payment=success from the URL
-        document.getElementById('successModal').style.display = 'none';
-        window.history.replaceState({}, document.title, window.location.pathname);
-
-    } catch (err) {
-        console.error("Booking Error:", err);
-        showToast("❌ Error saving details: " + err.message);
-        
-        // Re-enable button if there was an error
-        if (btn) {
-            btn.disabled = false;
-            btn.innerText = "🚀 CONFIRM MY ADVENTURE";
-        }
-    }
-}
-
-// 3. RUN THIS IMMEDIATELY when the page loads
-checkUserSession();
-// Init
-renderTrips(TRIPS);
-
-// --- NEW SUCCESS TRIGGER ---
-function checkPaymentStatus() {
-    const urlParams = new URLSearchParams(window.location.search);
-    
-    if (urlParams.get('payment') === 'success') {
-        console.log("✅ Payment success detected!");
-        
-        const successModal = document.getElementById('successModal');
-        if (successModal) {
-            // Force display
-            successModal.style.display = 'flex';
-            successModal.style.visibility = 'visible';
-            successModal.style.opacity = '1';
-            
-            // Clean the URL so it doesn't pop up again on refresh
-            window.history.replaceState({}, document.title, window.location.pathname);
-        } else {
-            alert("Payment Successful! (But I couldn't find the successModal in your HTML)");
-        }
-    }
-}
-
-// Run it immediately AND on load for safety
-checkPaymentStatus();
-window.addEventListener('load', checkPaymentStatus);
-
 </script>
 </body>
 </html>
