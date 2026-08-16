@@ -1,0 +1,218 @@
+/* REFACTORED ITINERARY DROPDOWN BOX */
+.itinerary-dropdown-card { background: #f8fafc; border: 1.5px solid #dde4f5; border-radius: 12px; padding: 20px; margin-top: 16px; }
+.itinerary-select { width: 100%; padding: 12px; border: 1.5px solid #cbd5e0; border-radius: 8px; font-family: 'Open Sans', sans-serif; font-size: 0.9rem; font-weight: 600; color: #0f2266; background: #fff; margin-bottom: 16px; outline: none; cursor: pointer; }
+.itinerary-content-box { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px; font-size: 0.92rem; color: #334155; line-height: 1.7; whitespace: pre-line; }
+
+/* IMAGE CAROUSEL / ROLLING GALLERY BAR */
+.pkg-carousel-container {
+  margin-bottom: 24px;
+  overflow-x: auto;
+  display: flex;
+  gap: 12px;
+  padding-bottom: 8px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+.pkg-carousel-container::-webkit-scrollbar {
+  height: 6px;
+}
+.pkg-carousel-container::-webkit-scrollbar-track {
+  background: #f5f7fc;
+}
+.pkg-carousel-container::-webkit-scrollbar-thumb {
+  background: #2952c8;
+  border-radius: 3px;
+}
+.pkg-carousel-item {
+  flex: 0 0 220px;
+  height: 140px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(41,82,200,.1);
+  background: #0f2266;
+}
+.pkg-carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .3s ease;
+}
+.pkg-carousel-item img:hover {
+  transform: scale(1.05);
+}
+
+/* SIDEBAR DATES & WHATSAPP CTA */
+.pkg-dates-list-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+.pkg-dates-list-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: .75rem;
+  font-weight: 700;
+  color: #0f2266;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pkg-dates-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pkg-date-badge {
+  background: #e8eefb;
+  color: #2952c8;
+  font-family: 'Montserrat', sans-serif;
+  font-size: .78rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid #c0ccee;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.pkg-doubts-text {
+  text-align: center;
+  font-size: .82rem;
+  font-weight: 600;
+  color: #7a8599;
+  margin-top: 14px;
+  margin-bottom: 8px;
+}
+.btn-whatsapp-chat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #25D366;
+  color: #ffffff;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: .92rem;
+  padding: 12px 18px;
+  border-radius: 10px;
+  border: none;
+  width: 100%;
+  text-decoration: none;
+  transition: background-color .2s ease, transform .1s ease;
+  box-shadow: 0 4px 12px rgba(37,211,102,.25);
+}
+.btn-whatsapp-chat:hover {
+  background-color: #20bd5a;
+  color: #ffffff;
+}
+
+/* DAY-BY-DAY ITINERARY SECTION */
+.pkg-itinerary-section {
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid #dde4f5;
+}
+.pkg-itinerary-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: #0f2266;
+  letter-spacing: 0.5px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+}
+.itinerary-timeline {
+  position: relative;
+  padding-left: 44px;
+}
+.itinerary-timeline::before {
+  content: '';
+  position: absolute;
+  top: 18px;
+  bottom: 18px;
+  left: 17px;
+  width: 2px;
+  border-left: 2px dashed #2952c8;
+}
+.itinerary-item {
+  position: relative;
+  margin-bottom: 18px;
+}
+.itinerary-item:last-child {
+  margin-bottom: 0;
+}
+.itinerary-number {
+  position: absolute;
+  left: -44px;
+  top: 10px;
+  width: 36px;
+  height: 36px;
+  background: #2952c8;
+  color: #ffffff;
+  border-radius: 50%;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: .9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(41,82,200,.3);
+  z-index: 2;
+}
+.itinerary-accordion {
+  background: #ffffff;
+  border: 1px solid #dde4f5;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(41,82,200,.04);
+  transition: border-color .2s ease;
+}
+.itinerary-accordion.open {
+  border-color: #2952c8;
+}
+.itinerary-header {
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  background: #ffffff;
+  transition: background-color .2s ease;
+}
+.itinerary-header:hover {
+  background: #f8fafc;
+}
+.itinerary-day-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: .95rem;
+  color: #1a1f36;
+}
+.itinerary-icon {
+  font-size: .8rem;
+  color: #2952c8;
+  transition: transform .2s ease;
+}
+.itinerary-accordion.open .itinerary-icon {
+  transform: rotate(180deg);
+}
+.itinerary-content {
+  padding: 0 20px 18px 20px;
+  display: none;
+  font-size: .9rem;
+  color: #4a5568;
+  line-height: 1.7;
+  border-top: 1px solid #f0f4ff;
+  background: #ffffff;
+}
+.itinerary-accordion.open .itinerary-content {
+  display: block;
+}
