@@ -1,6 +1,6 @@
 // pages/package.js
 
-let currentPackage = null;
+window.currentPkg = null;
 
 async function initPackagePage() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -12,14 +12,14 @@ async function initPackagePage() {
   }
 
   await fetchPackages();
-  currentPackage = globalPackages.find(p => p.slug === slug);
+  currentPkg = globalPackages.find(p => p.slug === slug);
 
-  if (!currentPackage) {
+  if (!currentPkg) {
     document.getElementById('package-view').innerHTML = '<div style="padding:100px;text-align:center;"><h2>Package not found.</h2><a href="index.html">Return Home</a></div>';
     return;
   }
 
-  renderPackageView(currentPackage);
+  renderPackageView(currentPkg);
 }
 
 function renderPackageView(pkg) {
@@ -73,7 +73,7 @@ function renderPackageView(pkg) {
   const itinSelect = document.getElementById('itinerary-dropdown-select');
   const itinContent = document.getElementById('itinerary-content-display');
 
-  if (pkg.itinerary && pkg.itinerary.trim() !== '') {
+  if (typeof pkg.itinerary === 'string' && pkg.itinerary.trim() !== '') {
     const lines = pkg.itinerary.split('\n');
     window._itinLines = lines;
 

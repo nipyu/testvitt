@@ -69,8 +69,8 @@ function updateBookingModalPriceSummary() {
   const totalPln = currentBookingPkg.price_pln * numGuests;
   const totalEur = currentBookingPkg.price_eur * numGuests;
 
-  document.getElementById('bm-total-price').innerText = `${totalPln.toFixed(2)} PLN`;
-  document.getElementById('bm-total-price-eur').innerText = `~${totalEur.toFixed(2)} EUR`;
+  document.getElementById('bm-total-price').innerHTML = `${totalPln.toFixed(2)} PLN <span style="font-size:0.9rem;font-weight:600;color:#7a8599">(~${totalEur.toFixed(2)} EUR)</span>`;
+
 }
 
 function openManageBookingModal() {

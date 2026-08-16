@@ -84,7 +84,7 @@ function renderTrips(data) {
     if(trip.difficulty === 'Hard') diffColor = '#ef4444';
 
     const disabledClass = trip.is_enabled ? '' : 'disabled';
-    const disabledText = trip.is_enabled ? '' : '<div style="position:absolute;top:10px;right:10px;background:rgba(239, 68, 68, 0.9);color:#fff;font-family:'Montserrat',sans-serif;font-weight:800;font-size:0.75rem;padding:4px 10px;border-radius:6px;z-index:2;text-transform:uppercase;">Coming Soon</div>';
+    const disabledText = trip.is_enabled ? '' : '<div style="position:absolute;top:10px;right:10px;background:rgba(239, 68, 68, 0.9);color:#fff;font-family:\'Montserrat\',sans-serif;font-weight:800;font-size:0.75rem;padding:4px 10px;border-radius:6px;z-index:2;text-transform:uppercase;">Coming Soon</div>';
 
     // Instead of navigateToPackage(slug), we use traditional link
     const ctaBtn = trip.is_enabled
