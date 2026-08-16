@@ -255,6 +255,221 @@ button{cursor:pointer;font-family:inherit}
   .topbar{padding:8px 16px;font-size:.72rem}
   .pkg-amenities-list{grid-template-columns:1fr}
 }
+
+/* IMAGE CAROUSEL / ROLLING GALLERY BAR */
+.pkg-carousel-container {
+  margin-bottom: 24px;
+  overflow-x: auto;
+  display: flex;
+  gap: 12px;
+  padding-bottom: 8px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+.pkg-carousel-container::-webkit-scrollbar {
+  height: 6px;
+}
+.pkg-carousel-container::-webkit-scrollbar-track {
+  background: #f5f7fc;
+}
+.pkg-carousel-container::-webkit-scrollbar-thumb {
+  background: #2952c8;
+  border-radius: 3px;
+}
+.pkg-carousel-item {
+  flex: 0 0 220px;
+  height: 140px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(41,82,200,.1);
+  background: #0f2266;
+}
+.pkg-carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .3s ease;
+}
+.pkg-carousel-item img:hover {
+  transform: scale(1.05);
+}
+
+/* SIDEBAR DATES & WHATSAPP CTA */
+.pkg-dates-list-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+.pkg-dates-list-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: .75rem;
+  font-weight: 700;
+  color: #0f2266;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pkg-dates-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.pkg-date-badge {
+  background: #e8eefb;
+  color: #2952c8;
+  font-family: 'Montserrat', sans-serif;
+  font-size: .78rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid #c0ccee;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.pkg-doubts-text {
+  text-align: center;
+  font-size: .82rem;
+  font-weight: 600;
+  color: #7a8599;
+  margin-top: 14px;
+  margin-bottom: 8px;
+}
+.btn-whatsapp-chat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #25D366;
+  color: #ffffff;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: .92rem;
+  padding: 12px 18px;
+  border-radius: 10px;
+  border: none;
+  width: 100%;
+  text-decoration: none;
+  transition: background-color .2s ease, transform .1s ease;
+  box-shadow: 0 4px 12px rgba(37,211,102,.25);
+}
+.btn-whatsapp-chat:hover {
+  background-color: #20bd5a;
+  color: #ffffff;
+}
+
+/* DAY-BY-DAY ITINERARY SECTION */
+.pkg-itinerary-section {
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid #dde4f5;
+}
+.pkg-itinerary-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: #0f2266;
+  letter-spacing: 0.5px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+}
+.itinerary-timeline {
+  position: relative;
+  padding-left: 44px;
+}
+.itinerary-timeline::before {
+  content: '';
+  position: absolute;
+  top: 18px;
+  bottom: 18px;
+  left: 17px;
+  width: 2px;
+  border-left: 2px dashed #2952c8;
+}
+.itinerary-item {
+  position: relative;
+  margin-bottom: 18px;
+}
+.itinerary-item:last-child {
+  margin-bottom: 0;
+}
+.itinerary-number {
+  position: absolute;
+  left: -44px;
+  top: 10px;
+  width: 36px;
+  height: 36px;
+  background: #2952c8;
+  color: #ffffff;
+  border-radius: 50%;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: .9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(41,82,200,.3);
+  z-index: 2;
+}
+.itinerary-accordion {
+  background: #ffffff;
+  border: 1px solid #dde4f5;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(41,82,200,.04);
+  transition: border-color .2s ease;
+}
+.itinerary-accordion.open {
+  border-color: #2952c8;
+}
+.itinerary-header {
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  background: #ffffff;
+  transition: background-color .2s ease;
+}
+.itinerary-header:hover {
+  background: #f8fafc;
+}
+.itinerary-day-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: .95rem;
+  color: #1a1f36;
+}
+.itinerary-icon {
+  font-size: .8rem;
+  color: #2952c8;
+  transition: transform .2s ease;
+}
+.itinerary-accordion.open .itinerary-icon {
+  transform: rotate(180deg);
+}
+.itinerary-content {
+  padding: 0 20px 18px 20px;
+  display: none;
+  font-size: .9rem;
+  color: #4a5568;
+  line-height: 1.7;
+  border-top: 1px solid #f0f4ff;
+  background: #ffffff;
+}
+.itinerary-accordion.open .itinerary-content {
+  display: block;
+}
+
 </style>
 </head>
 <body>
@@ -466,44 +681,50 @@ button{cursor:pointer;font-family:inherit}
       <div class="pkg-layout">
         <!-- Main Info -->
         <div class="pkg-main-card">
+          <!-- Image Carousel / Rolling Gallery Bar -->
+          <div class="pkg-carousel-container" id="pkg-view-carousel"></div>
+
           <h2 class="pkg-section-title">About This Adventure 🌿</h2>
           <p class="pkg-desc" id="pkg-view-desc"></p>
 
           <h2 class="pkg-section-title">Included Amenities & Services ✨</h2>
           <div class="pkg-amenities-list" id="pkg-view-amenities"></div>
+
+          <!-- Day-by-Day Itinerary Section -->
+          <div class="pkg-itinerary-section" id="pkg-view-itinerary-wrapper">
+            <h2 class="pkg-itinerary-title">DAY-BY-DAY ITINERARY</h2>
+            <div class="itinerary-timeline" id="pkg-view-itinerary-list"></div>
+          </div>
         </div>
 
-        <!-- Sticky Price Calculator & Booking Card -->
+        <!-- Sticky Booking Sidebar / Container -->
         <div class="pkg-booking-card">
-          <div class="pkg-price-calc-box">
-            <div class="pkg-price-head">Total Price Calculator</div>
+          <div class="pkg-price-calc-box" style="margin-bottom:18px">
+            <div class="pkg-price-head">PRICE PER PERSON</div>
             <div style="display:flex;align-items:baseline">
-              <div class="pkg-price-amount" id="pkg-view-calc-total">0</div>
+              <div class="pkg-price-amount" id="pkg-view-price-pln">0</div>
               <span style="font-size:1.1rem;font-weight:800;color:#2952c8;margin-left:4px">PLN</span>
-              <span class="pkg-price-eur" id="pkg-view-calc-eur">(~0 EUR)</span>
-            </div>
-            <div style="font-size:.72rem;color:#7a8599;margin-top:4px">
-              Base Price: <strong id="pkg-view-base-price">0</strong> PLN / person
+              <span class="pkg-price-eur" id="pkg-view-price-eur">(~0 EUR)</span>
             </div>
           </div>
 
-          <div class="pkg-field-group">
-            <label class="pkg-field-label">Select Departure Date</label>
-            <select class="pkg-select" id="pkg-view-dates-select"></select>
+          <!-- Static Available Camp Dates Display -->
+          <div class="pkg-dates-list-box">
+            <div class="pkg-dates-list-title">📅 Available Camp Dates</div>
+            <div class="pkg-dates-badges" id="pkg-view-dates-badges"></div>
           </div>
 
-          <div class="pkg-field-group">
-            <label class="pkg-field-label">Number of People (1–20)</label>
-            <select class="pkg-select" id="pkg-view-guests-select" onchange="updatePkgPriceCalculator()"></select>
-          </div>
-
-          <button class="btn-submit-modal" onclick="openBookingModalForCurrentPkg()" style="font-size:1rem;padding:16px">
-            🚀 Book Now
+          <!-- Primary CTA Button -->
+          <button class="btn-submit-modal" onclick="openBookingModalForCurrentPkg()" style="font-size:1.05rem;padding:16px;background:#2952c8;border-radius:12px;box-shadow:0 4px 14px rgba(41,82,200,.3)">
+            🚀 Book Your Spot
           </button>
 
-          <div style="text-align:center;font-size:.75rem;color:#7a8599;margin-top:12px">
-            Instant confirmation &amp; secure checkout
-          </div>
+          <!-- Chat with Us CTA Section -->
+          <div class="pkg-doubts-text">Have doubts?</div>
+          <a href="https://wa.me/48729648997" target="_blank" class="btn-whatsapp-chat">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="20" height="20" alt="WhatsApp">
+            Chat with Us
+          </a>
         </div>
       </div>
     </div>
@@ -823,6 +1044,27 @@ function renderPackageView(pkg) {
     <span class="badge badge-white">Passes Included</span>
   `;
 
+  // Image Carousel / Rolling Gallery Bar
+  const carouselContainer = document.getElementById('pkg-view-carousel');
+  let gallery = (pkg.gallery_images && Array.isArray(pkg.gallery_images) && pkg.gallery_images.length > 0)
+    ? pkg.gallery_images
+    : [pkg.hero_image_url];
+
+  if (gallery.length === 1) {
+    gallery = [
+      gallery[0],
+      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&auto=format&fit=crop'
+    ];
+  }
+
+  carouselContainer.innerHTML = gallery.map(url => `
+    <div class="pkg-carousel-item">
+      <img src="${url}" alt="Trip Gallery Image" loading="lazy">
+    </div>
+  `).join('');
+
   // Amenities
   const amenitiesContainer = document.getElementById('pkg-view-amenities');
   const amenitiesList = pkg.amenities && pkg.amenities.length > 0 ? pkg.amenities : ['All Gear Included', 'Expert Guide', 'Passes Included'];
@@ -832,41 +1074,51 @@ function renderPackageView(pkg) {
     </div>
   `).join('');
 
-  // Dates Dropdown
-  const datesSelect = document.getElementById('pkg-view-dates-select');
-  datesSelect.innerHTML = '';
-  const dates = pkg.departure_dates && pkg.departure_dates.length > 0 ? pkg.departure_dates : ['2026-05-01', '2026-06-01'];
-  dates.forEach(d => {
-    const opt = document.createElement('option');
-    opt.value = d;
-    opt.textContent = `📅 ${d}`;
-    datesSelect.appendChild(opt);
-  });
-
-  // Guests Dropdown (1 - 20)
-  const guestsSelect = document.getElementById('pkg-view-guests-select');
-  guestsSelect.innerHTML = '';
-  for (let i = 1; i <= 20; i++) {
-    const opt = document.createElement('option');
-    opt.value = i;
-    opt.textContent = `${i} ${i === 1 ? 'Guest' : 'Guests'}`;
-    guestsSelect.appendChild(opt);
+  // Day-by-Day Itinerary Section
+  const itineraryContainer = document.getElementById('pkg-view-itinerary-list');
+  let itineraryList = pkg.itinerary;
+  if (!itineraryList || !Array.isArray(itineraryList) || itineraryList.length === 0) {
+    itineraryList = [
+      { day: 1, title: 'Arrival & Welcome Briefing', description: 'Meet the team, receive your safety equipment and gear, and enjoy a warm group welcome dinner.' },
+      { day: 2, title: 'Main Adventure Day', description: 'Full day guided tour and outdoor activity with expert certified instructors.' },
+      { day: 3, title: 'Wrap-up & Departure', description: 'Morning session, photo exchange, certificate presentation and farewell.' }
+    ];
   }
 
-  // Base price
-  document.getElementById('pkg-view-base-price').textContent = Number(pkg.price_pln).toFixed(0);
+  itineraryContainer.innerHTML = itineraryList.map((item, idx) => `
+    <div class="itinerary-item">
+      <div class="itinerary-number">${item.day || (idx + 1)}</div>
+      <div class="itinerary-accordion ${idx === 0 ? 'open' : ''}" id="itinerary-accordion-${idx}">
+        <div class="itinerary-header" onclick="toggleItineraryAccordion(${idx})">
+          <div class="itinerary-day-title">Day ${item.day || (idx + 1)}: ${item.title}</div>
+          <div class="itinerary-icon">▼</div>
+        </div>
+        <div class="itinerary-content">
+          ${item.description}
+        </div>
+      </div>
+    </div>
+  `).join('');
 
-  updatePkgPriceCalculator();
+  // Price Display (PLN and EUR)
+  const pricePln = Number(pkg.price_pln).toFixed(0);
+  const priceEur = (pricePln * PLN_TO_EUR).toFixed(0);
+  document.getElementById('pkg-view-price-pln').textContent = pricePln;
+  document.getElementById('pkg-view-price-eur').textContent = `(~${priceEur} EUR)`;
+
+  // Static Available Camp Dates
+  const datesBadgesContainer = document.getElementById('pkg-view-dates-badges');
+  const dates = (pkg.departure_dates && pkg.departure_dates.length > 0) ? pkg.departure_dates : ['2026-05-01', '2026-06-01'];
+  datesBadgesContainer.innerHTML = dates.map(d => `
+    <span class="pkg-date-badge">🗓️ ${d}</span>
+  `).join('');
 }
 
-function updatePkgPriceCalculator() {
-  if (!currentPkg) return;
-  const guests = parseInt(document.getElementById('pkg-view-guests-select').value) || 1;
-  const totalPln = Number(currentPkg.price_pln) * guests;
-  const totalEur = (totalPln * PLN_TO_EUR).toFixed(0);
-
-  document.getElementById('pkg-view-calc-total').textContent = totalPln.toFixed(0);
-  document.getElementById('pkg-view-calc-eur').textContent = `(~${totalEur} EUR)`;
+function toggleItineraryAccordion(index) {
+  const el = document.getElementById(`itinerary-accordion-${index}`);
+  if (el) {
+    el.classList.toggle('open');
+  }
 }
 
 // HOME CATALOG RENDER
