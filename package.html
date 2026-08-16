@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<title>NNA VITTALO — Package Details</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+
+
+<link rel="stylesheet" href="public/css/main.css">
+<link rel="stylesheet" href="public/css/components.css">
+
+<link rel="stylesheet" href="public/css/package.css">
+</head>
+<body>
+
+
+<div id="views-container">
+<div id="package-view">
+
+    <div class="pkg-page-wrap">
+      <div class="pkg-breadcrumb" onclick="showHomeView('#packages')">
+        <span>← Back to All Packages</span>
+      </div>
+
+      <div class="pkg-hero-banner">
+        <img id="pkg-view-img" src="" alt="Hero Image">
+        <div class="pkg-hero-overlay">
+          <div class="pkg-hero-badges" id="pkg-view-badges"></div>
+          <h1 class="pkg-hero-title" id="pkg-view-title">Package Title</h1>
+          <div class="pkg-hero-loc">
+            <span class="pkg-hero-loc-item">📍 <span id="pkg-view-location">Location</span></span>
+            <span class="pkg-hero-loc-sep">|</span>
+            <span class="pkg-hero-loc-item">🏷️ <span id="pkg-view-activity">Activity</span></span>
+            <span class="pkg-hero-loc-sep">|</span>
+            <span class="pkg-hero-loc-item">⏱️ <span id="pkg-view-duration">1 Day</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pkg-layout">
+        <!-- Main Info -->
+        <div class="pkg-main-card">
+          <!-- Image Carousel / Rolling Gallery Bar -->
+          <div class="pkg-carousel-container" id="pkg-view-carousel"></div>
+
+          <h2 class="pkg-section-title">About This Adventure 🌿</h2>
+          <p class="pkg-desc" id="pkg-view-desc"></p>
+
+          <h2 class="pkg-section-title">Included Amenities & Services ✨</h2>
+          <div class="pkg-amenities-list" id="pkg-view-amenities"></div>
+
+          <!-- Day-by-Day Itinerary Section (Refactored) -->
+          <div class="pkg-itinerary-section" id="pkg-view-itinerary-wrapper">
+            <h2 class="pkg-itinerary-title">DAY-BY-DAY ITINERARY 🗺️</h2>
+            <div class="itinerary-dropdown-card">
+              <label class="form-label">Select Day / Section</label>
+              <select id="itinerary-dropdown-select" class="itinerary-select" onchange="handleItinerarySelectChange()"></select>
+              <div id="itinerary-content-display" class="itinerary-content-box">Select an option above to view details.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sticky Booking Sidebar / Container -->
+        <div class="pkg-booking-card">
+          <div class="pkg-price-calc-box" style="margin-bottom:18px">
+            <div class="pkg-price-head">PRICE PER PERSON</div>
+            <div style="display:flex;align-items:baseline">
+              <div class="pkg-price-amount" id="pkg-view-price-pln">0</div>
+              <span style="font-size:1.1rem;font-weight:800;color:#2952c8;margin-left:4px">PLN</span>
+              <span class="pkg-price-eur" id="pkg-view-price-eur">(~0 EUR)</span>
+            </div>
+          </div>
+
+          <!-- Static Available Camp Dates Display -->
+          <div class="pkg-dates-list-box">
+            <div class="pkg-dates-list-title">📅 Available Camp Dates</div>
+            <div class="pkg-dates-badges" id="pkg-view-dates-badges"></div>
+          </div>
+
+          <!-- Primary CTA Button -->
+          <button class="btn-submit-modal" onclick="openBookingModalForCurrentPkg()" style="font-size:1.05rem;padding:16px;background:#2952c8;border-radius:12px;box-shadow:0 4px 14px rgba(41,82,200,.3)">
+            🚀 Book Your Spot
+          </button>
+
+          <!-- Chat with Us CTA Section -->
+          <div class="pkg-doubts-text">Have doubts?</div>
+          <a href="https://wa.me/48729648997" target="_blank" class="btn-whatsapp-chat">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="20" height="20" alt="WhatsApp">
+            Chat with Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">⛰️ NNA VITTALO</div>
+      <p class="footer-tagline">Europe's premier adventure travel operator. Mountains, oceans, forests — unforgettable journeys crafted for the bold.</p>
+      <div style="font-size:.82rem">📧 info@nnavittalo.com<br>📞 +48 729 648 997</div>
+    </div>
+    <div class="footer-col"><h4>Our Trips</h4><a href="index.html#packages">Kayaking Getaway</a><a href="index.html#packages">Ski Trip</a><a href="index.html#packages">Surfing Camp</a><a href="index.html#packages">Hiking in Tatra</a></div>
+    <div class="footer-col"><h4>Company</h4><a href="index.html#about">About Us</a><a href="index.html#contact">Contact</a><a href="manage-booking.html">Manage Booking</a></div>
+    <div class="footer-col"><h4>Contact</h4><a href="mailto:info@nnavittalo.com">info@nnavittalo.com</a><a href="https://wa.me/48729648997">+48 729 648 997</a><a href="#">Warsaw, Poland</a></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 NNA VITTALO. All rights reserved.</span>
+    <div style="display:flex;gap:20px"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a></div>
+  </div>
+</footer>
+
+
+<script src="public/js/supabaseClient.js"></script>
+<script src="public/js/utils/utils.js"></script>
+<script src="public/js/api/packages.js"></script>
+<script src="public/js/api/bookings.js"></script>
+<script src="public/js/components/modals.js"></script>
+<script src="public/js/pages/package.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+/* ADMIN DASHBOARD UI */
+.admin-wrap { max-width: 1200px; margin: 0 auto; padding: 32px 20px 80px; }
+.admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; border-bottom: 2px solid #e2e8f0; padding-bottom: 16px; }
+.admin-title { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.8rem; color: #0f2266; }
+.admin-nav { display: flex; gap: 12px; margin-bottom: 24px; }
+.admin-tab-btn { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.88rem; padding: 10px 20px; border-radius: 8px; border: 1.5px solid #2952c8; background: #fff; color: #2952c8; cursor: pointer; transition: all 0.2s; }
+.admin-tab-btn.active { background: #2952c8; color: #fff; }
+.admin-card { background: #fff; border-radius: 16px; padding: 28px; border: 1px solid #dde4f5; box-shadow: 0 4px 20px rgba(41,82,200,0.08); margin-bottom: 32px; }
+.admin-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.admin-form-full { grid-column: 1 / -1; }
+.admin-table-wrap { overflow-x: auto; }
+.admin-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; }
+.admin-table th { background: #f1f5f9; color: #0f2266; font-family: 'Montserrat', sans-serif; font-weight: 700; padding: 12px 14px; border-bottom: 2px solid #cbd5e0; }
+.admin-table td { padding: 12px 14px; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }
+.status-pill { font-weight: 700; font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; display: inline-block; }
+.status-pending { background: #fef3c7; color: #92400e; }
+.status-paid { background: #dcfce7; color: #166534; }
+.status-failed { background: #fee2e2; color: #991b1b; }
+.btn-sm-edit { background: #2952c8; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; }
+.btn-sm-logout { background: #e53e3e; color: #fff; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 0.82rem; cursor: pointer; }
+.toggle-switch-wrap { display: flex; align-items: center; gap: 10px; margin-top: 6px; }

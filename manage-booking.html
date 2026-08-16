@@ -6,7 +6,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-<title>NNA VITTALO — Adventure Travel</title>
+<title>NNA VITTALO — Manage Booking</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
 
 
@@ -18,6 +18,31 @@
 
 
 <div id="views-container">
+
+<div id="manage-booking-view" class="main-wrap" style="padding: 60px 20px; max-width: 600px; margin: 0 auto; min-height: 60vh;">
+  <h2 style="font-family:'Montserrat',sans-serif;font-weight:900;color:#0f2266;margin-bottom:20px;text-align:center;">Manage Your Booking</h2>
+  <div class="admin-card" style="padding: 30px;">
+
+        <div style="font-size:.78rem;opacity:.8">Find your trip details and booking status</div>
+      </div>
+      <button class="modal-close" >✕</button>
+    </div>
+    <div class="modal-body">
+      <form onsubmit="handleManageBookingSearch(event)">
+        <label class="form-label">Booking Reference (e.g. NNA-XXXXX) OR Mobile Number *</label>
+        <input type="text" class="form-input" id="mb-ref-phone" placeholder="NNA-XXXXX or +48123456789" required>
+
+        <label class="form-label">Primary Contact Last Name *</label>
+        <input type="text" class="form-input" id="mb-lastname" placeholder="Enter last name" required>
+
+        <button type="submit" class="btn-submit-modal">🔍 Search Booking</button>
+      </form>
+
+      <div id="mb-result-container" style="margin-top:24px;display:none"></div>
+    </div>
+
+  </div>
+</div>
 
 </div>
 
@@ -45,7 +70,7 @@
 <script src="public/js/api/packages.js"></script>
 <script src="public/js/api/bookings.js"></script>
 <script src="public/js/components/modals.js"></script>
-<script src="public/js/pages/home.js"></script>
+<script src="public/js/pages/manage-booking.js"></script>
 
 </body>
 </html>
