@@ -237,6 +237,40 @@ button{cursor:pointer;font-family:inherit}
 
 @keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 
+
+/* DISABLED PACKAGE STYLES */
+.trip-card.disabled { opacity: 0.95; }
+.card-img-wrap { position: relative; }
+.coming-soon-badge { position: absolute; top: 12px; left: 12px; background: #e53e3e; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 0.72rem; font-weight: 800; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; letter-spacing: 0.8px; z-index: 2; box-shadow: 0 2px 8px rgba(0,0,0,0.25); }
+.btn-book.disabled, .btn-submit-modal.disabled { background: #94a3b8 !important; color: #f1f5f9 !important; cursor: not-allowed !important; box-shadow: none !important; pointer-events: none; }
+
+/* REFACTORED ITINERARY DROPDOWN BOX */
+.itinerary-dropdown-card { background: #f8fafc; border: 1.5px solid #dde4f5; border-radius: 12px; padding: 20px; margin-top: 16px; }
+.itinerary-select { width: 100%; padding: 12px; border: 1.5px solid #cbd5e0; border-radius: 8px; font-family: 'Open Sans', sans-serif; font-size: 0.9rem; font-weight: 600; color: #0f2266; background: #fff; margin-bottom: 16px; outline: none; cursor: pointer; }
+.itinerary-content-box { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px; font-size: 0.92rem; color: #334155; line-height: 1.7; whitespace: pre-line; }
+
+/* ADMIN DASHBOARD UI */
+.admin-wrap { max-width: 1200px; margin: 0 auto; padding: 32px 20px 80px; }
+.admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; border-bottom: 2px solid #e2e8f0; padding-bottom: 16px; }
+.admin-title { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.8rem; color: #0f2266; }
+.admin-nav { display: flex; gap: 12px; margin-bottom: 24px; }
+.admin-tab-btn { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.88rem; padding: 10px 20px; border-radius: 8px; border: 1.5px solid #2952c8; background: #fff; color: #2952c8; cursor: pointer; transition: all 0.2s; }
+.admin-tab-btn.active { background: #2952c8; color: #fff; }
+.admin-card { background: #fff; border-radius: 16px; padding: 28px; border: 1px solid #dde4f5; box-shadow: 0 4px 20px rgba(41,82,200,0.08); margin-bottom: 32px; }
+.admin-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.admin-form-full { grid-column: 1 / -1; }
+.admin-table-wrap { overflow-x: auto; }
+.admin-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.88rem; }
+.admin-table th { background: #f1f5f9; color: #0f2266; font-family: 'Montserrat', sans-serif; font-weight: 700; padding: 12px 14px; border-bottom: 2px solid #cbd5e0; }
+.admin-table td { padding: 12px 14px; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }
+.status-pill { font-weight: 700; font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; display: inline-block; }
+.status-pending { background: #fef3c7; color: #92400e; }
+.status-paid { background: #dcfce7; color: #166534; }
+.status-failed { background: #fee2e2; color: #991b1b; }
+.btn-sm-edit { background: #2952c8; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; font-weight: 700; font-size: 0.78rem; cursor: pointer; }
+.btn-sm-logout { background: #e53e3e; color: #fff; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 0.82rem; cursor: pointer; }
+.toggle-switch-wrap { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+
 /* RESPONSIVE */
 @media(max-width:980px){
   .main-wrap{grid-template-columns:1fr}
@@ -668,6 +702,222 @@ button{cursor:pointer;font-family:inherit}
     </section>
   </div>
 
+
+  <!-- ADMIN PANEL VIEW (/admin) -->
+  <div id="admin-view" style="display:none">
+    <div class="admin-wrap">
+
+      <!-- ADMIN LOGIN FORM -->
+      <div id="admin-login-card" class="admin-card" style="max-width:420px;margin:40px auto">
+        <h2 style="font-family:'Montserrat',sans-serif;font-weight:900;color:#0f2266;margin-bottom:8px;text-align:center">🔐 Admin Login</h2>
+        <p style="font-size:0.85rem;color:#64748b;text-align:center;margin-bottom:24px">Access NNA VITTALO Management Portal</p>
+        <form onsubmit="handleAdminLogin(event)">
+          <label class="form-label">Username</label>
+          <input type="text" id="admin-user" class="form-input" placeholder="admin" required />
+
+          <label class="form-label">Password</label>
+          <input type="password" id="admin-pass" class="form-input" placeholder="••••••••" required />
+
+          <button type="submit" class="btn-submit-modal">Log In</button>
+        </form>
+      </div>
+
+      <!-- ADMIN DASHBOARD CONTAINER -->
+      <div id="admin-dashboard" style="display:none">
+        <div class="admin-header">
+          <div>
+            <div class="admin-title">⚙️ Admin Dashboard</div>
+            <div style="font-size:0.85rem;color:#64748b">Manage packages, availability, priority display, and bookings</div>
+          </div>
+          <button class="btn-sm-logout" onclick="handleAdminLogout()">Logout 🚪</button>
+        </div>
+
+        <div class="admin-nav">
+          <button class="admin-tab-btn active" id="tab-btn-packages" onclick="switchAdminTab('packages')">📦 Package Management</button>
+          <button class="admin-tab-btn" id="tab-btn-bookings" onclick="switchAdminTab('bookings')">📑 Bookings Management</button>
+        </div>
+
+        <!-- PACKAGE MANAGEMENT TAB -->
+        <div id="admin-tab-packages">
+          <!-- CREATE / EDIT PACKAGE FORM -->
+          <div class="admin-card">
+            <h3 id="admin-form-heading" style="font-family:'Montserrat',sans-serif;font-weight:800;color:#0f2266;margin-bottom:18px">➕ Create New Package</h3>
+            <form onsubmit="handleSavePackage(event)">
+              <input type="hidden" id="pkg-form-id" />
+
+              <div class="admin-form-grid">
+                <div>
+                  <label class="form-label">Package Title *</label>
+                  <input type="text" id="pkg-form-title" class="form-input" placeholder="e.g. Kayaking Getaway — Rivers & Lakes" required oninput="autoGenerateSlug()" />
+                </div>
+                <div>
+                  <label class="form-label">Slug *</label>
+                  <input type="text" id="pkg-form-slug" class="form-input" placeholder="e.g. kayaking-getaway" required />
+                </div>
+
+                <div>
+                  <label class="form-label">Activity Type / Tag *</label>
+                  <input type="text" id="pkg-form-activity" class="form-input" placeholder="e.g. Kayaking" required />
+                </div>
+                <div>
+                  <label class="form-label">Location *</label>
+                  <input type="text" id="pkg-form-location" class="form-input" placeholder="e.g. Wolka Kozodawska, Warsaw, Poland" required />
+                </div>
+
+                <div>
+                  <label class="form-label">Duration (Days) *</label>
+                  <input type="number" id="pkg-form-duration" class="form-input" value="1" min="1" required />
+                </div>
+                <div>
+                  <label class="form-label">Difficulty Level *</label>
+                  <select id="pkg-form-difficulty" class="form-input">
+                    <option value="Beginner">Beginner</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="form-label">Price (PLN) *</label>
+                  <input type="number" step="0.01" id="pkg-form-price-pln" class="form-input" placeholder="259.00" required oninput="calcEurPrice()" />
+                </div>
+                <div>
+                  <label class="form-label">Price (EUR)</label>
+                  <input type="number" step="0.01" id="pkg-form-price-eur" class="form-input" placeholder="59.50" />
+                </div>
+
+                <div>
+                  <label class="form-label">Hero Image URL *</label>
+                  <input type="url" id="pkg-form-hero-img" class="form-input" placeholder="https://images.unsplash.com/..." required />
+                </div>
+                <div>
+                  <label class="form-label">Gallery Images (Comma separated URLs)</label>
+                  <input type="text" id="pkg-form-gallery-imgs" class="form-input" placeholder="https://..., https://..." />
+                </div>
+
+                <div class="admin-form-full">
+                  <label class="form-label">Departure Dates (Comma separated YYYY-MM-DD) *</label>
+                  <input type="text" id="pkg-form-dates" class="form-input" placeholder="2026-04-26, 2026-05-10, 2026-06-01" required />
+                </div>
+
+                <div class="admin-form-full">
+                  <label class="form-label">Amenities / Included Services (Comma separated)</label>
+                  <input type="text" id="pkg-form-amenities" class="form-input" placeholder="Kayak Equipment, Guide, Safety Gear" />
+                </div>
+
+                <div class="admin-form-full">
+                  <label class="form-label">Description *</label>
+                  <textarea id="pkg-form-desc" class="form-input" rows="3" placeholder="Package description..." required></textarea>
+                </div>
+
+                <div class="admin-form-full">
+                  <label class="form-label">Itinerary Details (Text/Structured)</label>
+                  <textarea id="pkg-form-itinerary" class="form-input" rows="4" placeholder="Day 1: Arrival & Briefing&#10;Day 2: River Exploration"></textarea>
+                </div>
+
+                <div>
+                  <label class="form-label">Priority / Display Order (Lower = First)</label>
+                  <input type="number" id="pkg-form-priority" class="form-input" value="0" />
+                </div>
+
+                <div>
+                  <label class="form-label">Package Availability Controls</label>
+                  <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px">
+                    <label style="font-size:0.88rem;font-weight:600;display:flex;align-items:center;gap:8px">
+                      <input type="checkbox" id="pkg-form-is-enabled" checked onchange="toggleDisableOptions()" /> Enable Package
+                    </label>
+                    <div id="disabled-options-wrap" style="display:none;margin-left:24px;background:#fff5f5;padding:10px;border-radius:8px;border:1px solid #fed7d7">
+                      <label style="font-size:0.82rem;font-weight:600;color:#c53030;display:flex;align-items:center;gap:8px">
+                        <input type="checkbox" id="pkg-form-show-homepage" checked /> Show on Homepage (with disabled CTA / Coming Soon badge)
+                      </label>
+                      <div style="font-size:0.75rem;color:#742a2a;margin-top:4px">If unchecked, this package will be hidden completely from the homepage list.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="display:flex;gap:12px;margin-top:20px">
+                <button type="submit" class="btn-submit-modal" style="flex:1">💾 Save Package</button>
+                <button type="button" class="btn-details" style="padding:12px 24px" onclick="resetPackageForm()">Clear Form</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- PACKAGES LIST TABLE -->
+          <div class="admin-card">
+            <h3 style="font-family:'Montserrat',sans-serif;font-weight:800;color:#0f2266;margin-bottom:16px">Existing Packages</h3>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Priority</th>
+                    <th>Title</th>
+                    <th>Activity</th>
+                    <th>Price (PLN)</th>
+                    <th>Status</th>
+                    <th>Homepage Visibility</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-packages-list-body">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOOKINGS MANAGEMENT TAB -->
+        <div id="admin-tab-bookings" style="display:none">
+          <div class="admin-card">
+            <h3 style="font-family:'Montserrat',sans-serif;font-weight:800;color:#0f2266;margin-bottom:18px">📑 All User Bookings</h3>
+
+            <!-- SEARCH & FILTERS -->
+            <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:14px;margin-bottom:20px">
+              <div>
+                <label class="form-label">Search Bookings</label>
+                <input type="text" id="booking-search-input" class="form-input" placeholder="Search guest name, phone, or Ref ID (NNA-XXX)..." oninput="filterAdminBookings()" />
+              </div>
+              <div>
+                <label class="form-label">Filter by Package</label>
+                <select id="booking-filter-pkg" class="form-input" onchange="filterAdminBookings()">
+                  <option value="ALL">All Packages</option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label">Filter by Departure Date</label>
+                <select id="booking-filter-date" class="form-input" onchange="filterAdminBookings()">
+                  <option value="ALL">All Departure Dates</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Booking Ref</th>
+                    <th>Guest Name</th>
+                    <th>Contact Info</th>
+                    <th>Package Title</th>
+                    <th>Departure Date</th>
+                    <th>Total Price</th>
+                    <th>Guests</th>
+                    <th>Payment Status</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-bookings-list-body">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <!-- DYNAMIC DEDICATED PACKAGE PAGE VIEW (/packages/[slug]) -->
   <div id="package-view" style="display:none">
     <div class="pkg-page-wrap">
@@ -702,10 +952,14 @@ button{cursor:pointer;font-family:inherit}
           <h2 class="pkg-section-title">Included Amenities & Services ✨</h2>
           <div class="pkg-amenities-list" id="pkg-view-amenities"></div>
 
-          <!-- Day-by-Day Itinerary Section -->
+          <!-- Day-by-Day Itinerary Section (Refactored) -->
           <div class="pkg-itinerary-section" id="pkg-view-itinerary-wrapper">
-            <h2 class="pkg-itinerary-title">DAY-BY-DAY ITINERARY</h2>
-            <div class="itinerary-timeline" id="pkg-view-itinerary-list"></div>
+            <h2 class="pkg-itinerary-title">DAY-BY-DAY ITINERARY 🗺️</h2>
+            <div class="itinerary-dropdown-card">
+              <label class="form-label">Select Day / Section</label>
+              <select id="itinerary-dropdown-select" class="itinerary-select" onchange="handleItinerarySelectChange()"></select>
+              <div id="itinerary-content-display" class="itinerary-content-box">Select an option above to view details.</div>
+            </div>
           </div>
         </div>
 
@@ -1086,31 +1340,58 @@ function renderPackageView(pkg) {
     </div>
   `).join('');
 
-  // Day-by-Day Itinerary Section
-  const itineraryContainer = document.getElementById('pkg-view-itinerary-list');
-  let itineraryList = pkg.itinerary;
-  if (!itineraryList || !Array.isArray(itineraryList) || itineraryList.length === 0) {
-    itineraryList = [
-      { day: 1, title: 'Arrival & Welcome Briefing', description: 'Meet the team, receive your safety equipment and gear, and enjoy a warm group welcome dinner.' },
-      { day: 2, title: 'Main Adventure Day', description: 'Full day guided tour and outdoor activity with expert certified instructors.' },
-      { day: 3, title: 'Wrap-up & Departure', description: 'Morning session, photo exchange, certificate presentation and farewell.' }
-    ];
+  // Day-by-Day Itinerary Section (Refactored to Dropdown / Content Box)
+  const itinerarySelect = document.getElementById('itinerary-dropdown-select');
+  const itineraryDisplay = document.getElementById('itinerary-content-display');
+
+  if (itinerarySelect && itineraryDisplay) {
+    let itineraryList = pkg.itinerary;
+    let itineraryText = pkg.itinerary_text;
+
+    if (itineraryText) {
+      itinerarySelect.innerHTML = '<option value="all">Full Itinerary Overview</option>';
+      itineraryDisplay.textContent = itineraryText;
+      window.currentPkgItineraryMap = { all: itineraryText };
+    } else if (Array.isArray(itineraryList) && itineraryList.length > 0) {
+      window.currentPkgItineraryMap = {};
+      let optionsHtml = '';
+      itineraryList.forEach((item, idx) => {
+        const key = `day_${item.day || (idx + 1)}`;
+        const titleText = `Day ${item.day || (idx + 1)}: ${item.title || 'Details'}`;
+        optionsHtml += `<option value="${key}">${titleText}</option>`;
+        window.currentPkgItineraryMap[key] = item.description || titleText;
+      });
+      itinerarySelect.innerHTML = optionsHtml;
+      const firstKey = `day_${itineraryList[0].day || 1}`;
+      itineraryDisplay.textContent = window.currentPkgItineraryMap[firstKey] || '';
+    } else {
+      itinerarySelect.innerHTML = `
+        <option value="d1">Day 1: Arrival & Welcome Briefing</option>
+        <option value="d2">Day 2: Main Adventure Day</option>
+        <option value="d3">Day 3: Wrap-up & Departure</option>
+      `;
+      window.currentPkgItineraryMap = {
+        d1: 'Meet the team, receive your safety equipment and gear, and enjoy a warm group welcome dinner.',
+        d2: 'Full day guided tour and outdoor activity with expert certified instructors.',
+        d3: 'Morning session, photo exchange, certificate presentation and farewell.'
+      };
+      itineraryDisplay.textContent = window.currentPkgItineraryMap['d1'];
+    }
   }
 
-  itineraryContainer.innerHTML = itineraryList.map((item, idx) => `
-    <div class="itinerary-item">
-      <div class="itinerary-number">${item.day || (idx + 1)}</div>
-      <div class="itinerary-accordion ${idx === 0 ? 'open' : ''}" id="itinerary-accordion-${idx}">
-        <div class="itinerary-header" onclick="toggleItineraryAccordion(${idx})">
-          <div class="itinerary-day-title">Day ${item.day || (idx + 1)}: ${item.title}</div>
-          <div class="itinerary-icon">▼</div>
-        </div>
-        <div class="itinerary-content">
-          ${item.description}
-        </div>
-      </div>
-    </div>
-  `).join('');
+  // Handle Disabled CTA State for Package Page
+  const bookBtn = document.querySelector('#package-view .btn-submit-modal');
+  if (bookBtn) {
+    if (pkg.is_enabled === false) {
+      bookBtn.classList.add('disabled');
+      bookBtn.disabled = true;
+      bookBtn.textContent = '🔒 Package Coming Soon';
+    } else {
+      bookBtn.classList.remove('disabled');
+      bookBtn.disabled = false;
+      bookBtn.textContent = '🚀 Book Your Spot';
+    }
+  }
 
   // Price Display (PLN and EUR)
   const pricePln = Number(pkg.price_pln).toFixed(0);
@@ -1561,3 +1842,468 @@ window.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
+
+<script>
+
+function handleItinerarySelectChange() {
+  const select = document.getElementById('itinerary-dropdown-select');
+  const display = document.getElementById('itinerary-content-display');
+  if (select && display && window.currentPkgItineraryMap) {
+    display.textContent = window.currentPkgItineraryMap[select.value] || '';
+  }
+}
+
+</script>
+
+<script>
+
+// ADMIN STATE & AUTHENTICATION
+let adminAuthenticated = localStorage.getItem('nna_admin_logged_in') === 'true';
+let allAdminBookings = [];
+
+function checkAdminAuth() {
+  if (adminAuthenticated) {
+    const card = document.getElementById('admin-login-card');
+    const dash = document.getElementById('admin-dashboard');
+    if (card) card.style.display = 'none';
+    if (dash) dash.style.display = 'block';
+    renderAdminPackages();
+    fetchAdminBookings();
+  } else {
+    const card = document.getElementById('admin-login-card');
+    const dash = document.getElementById('admin-dashboard');
+    if (card) card.style.display = 'block';
+    if (dash) dash.style.display = 'none';
+  }
+}
+
+function handleAdminLogin(e) {
+  e.preventDefault();
+  const u = document.getElementById('admin-user').value.trim();
+  const p = document.getElementById('admin-pass').value.trim();
+
+  if (u === 'admin' && p === '2026admin@') {
+    adminAuthenticated = true;
+    localStorage.setItem('nna_admin_logged_in', 'true');
+    showToast('✅ Admin login successful!');
+    checkAdminAuth();
+  } else {
+    showToast('❌ Invalid username or password.');
+  }
+}
+
+function handleAdminLogout() {
+  adminAuthenticated = false;
+  localStorage.removeItem('nna_admin_logged_in');
+  showToast('Logged out of Admin Portal.');
+  checkAdminAuth();
+}
+
+function switchAdminTab(tab) {
+  const btnPkgs = document.getElementById('tab-btn-packages');
+  const btnBks = document.getElementById('tab-btn-bookings');
+  const tabPkgs = document.getElementById('admin-tab-packages');
+  const tabBks = document.getElementById('admin-tab-bookings');
+
+  if (btnPkgs) btnPkgs.classList.toggle('active', tab === 'packages');
+  if (btnBks) btnBks.classList.toggle('active', tab === 'bookings');
+  if (tabPkgs) tabPkgs.style.display = tab === 'packages' ? 'block' : 'none';
+  if (tabBks) tabBks.style.display = tab === 'bookings' ? 'block' : 'none';
+}
+
+function toggleDisableOptions() {
+  const isEnabled = document.getElementById('pkg-form-is-enabled').checked;
+  const wrap = document.getElementById('disabled-options-wrap');
+  if (wrap) wrap.style.display = isEnabled ? 'none' : 'block';
+}
+
+function autoGenerateSlug() {
+  const title = document.getElementById('pkg-form-title').value;
+  const slugInput = document.getElementById('pkg-form-slug');
+  if (slugInput && !slugInput.dataset.manual) {
+    slugInput.value = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  }
+}
+
+function calcEurPrice() {
+  const pln = parseFloat(document.getElementById('pkg-form-price-pln').value) || 0;
+  const eurInput = document.getElementById('pkg-form-price-eur');
+  if (eurInput) eurInput.value = (pln * PLN_TO_EUR).toFixed(2);
+}
+
+function resetPackageForm() {
+  const heading = document.getElementById('admin-form-heading');
+  if (heading) heading.textContent = '➕ Create New Package';
+  document.getElementById('pkg-form-id').value = '';
+  document.getElementById('pkg-form-title').value = '';
+  const slugInput = document.getElementById('pkg-form-slug');
+  if (slugInput) {
+    slugInput.value = '';
+    delete slugInput.dataset.manual;
+  }
+  document.getElementById('pkg-form-activity').value = '';
+  document.getElementById('pkg-form-location').value = '';
+  document.getElementById('pkg-form-duration').value = '1';
+  document.getElementById('pkg-form-difficulty').value = 'Beginner';
+  document.getElementById('pkg-form-price-pln').value = '';
+  document.getElementById('pkg-form-price-eur').value = '';
+  document.getElementById('pkg-form-hero-img').value = '';
+  document.getElementById('pkg-form-gallery-imgs').value = '';
+  document.getElementById('pkg-form-dates').value = '';
+  document.getElementById('pkg-form-amenities').value = '';
+  document.getElementById('pkg-form-desc').value = '';
+  document.getElementById('pkg-form-itinerary').value = '';
+  document.getElementById('pkg-form-priority').value = '0';
+  document.getElementById('pkg-form-is-enabled').checked = true;
+  document.getElementById('pkg-form-show-homepage').checked = true;
+  toggleDisableOptions();
+}
+
+async function handleSavePackage(e) {
+  e.preventDefault();
+  const pkgId = document.getElementById('pkg-form-id').value;
+
+  const title = document.getElementById('pkg-form-title').value.trim();
+  const slug = document.getElementById('pkg-form-slug').value.trim();
+  const activity_type = document.getElementById('pkg-form-activity').value.trim();
+  const location = document.getElementById('pkg-form-location').value.trim();
+  const duration_days = parseInt(document.getElementById('pkg-form-duration').value) || 1;
+  const difficulty = document.getElementById('pkg-form-difficulty').value;
+  const price_pln = parseFloat(document.getElementById('pkg-form-price-pln').value) || 0;
+  const price_eur = parseFloat(document.getElementById('pkg-form-price-eur').value) || (price_pln * PLN_TO_EUR);
+  const hero_image_url = document.getElementById('pkg-form-hero-img').value.trim();
+
+  const galleryRaw = document.getElementById('pkg-form-gallery-imgs').value.trim();
+  const gallery_images = galleryRaw ? galleryRaw.split(',').map(s => s.trim()).filter(Boolean) : [hero_image_url];
+
+  const datesRaw = document.getElementById('pkg-form-dates').value.trim();
+  const departure_dates = datesRaw ? datesRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+  const amenitiesRaw = document.getElementById('pkg-form-amenities').value.trim();
+  const amenities = amenitiesRaw ? amenitiesRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
+
+  const description = document.getElementById('pkg-form-desc').value.trim();
+  const itinerary_text = document.getElementById('pkg-form-itinerary').value.trim();
+  const priority = parseInt(document.getElementById('pkg-form-priority').value) || 0;
+
+  const is_enabled = document.getElementById('pkg-form-is-enabled').checked;
+  const show_on_homepage = is_enabled ? true : document.getElementById('pkg-form-show-homepage').checked;
+
+  const payload = {
+    slug,
+    title,
+    activity_type,
+    location,
+    duration_days,
+    difficulty,
+    price_pln,
+    price_eur,
+    hero_image_url,
+    gallery_images,
+    departure_dates,
+    amenities,
+    description,
+    itinerary_text,
+    priority,
+    is_enabled,
+    show_on_homepage
+  };
+
+  showToast('💾 Saving package to Supabase...');
+
+  try {
+    let err = null;
+    if (pkgId) {
+      const { error } = await _supabase.from('packages').update(payload).eq('id', pkgId);
+      err = error;
+    } else {
+      const { error } = await _supabase.from('packages').insert([payload]);
+      err = error;
+    }
+
+    if (err) {
+      console.error('Save package error:', err);
+      showToast(`❌ Error saving package: ${err.message}`);
+    } else {
+      showToast('✅ Package saved successfully!');
+      resetPackageForm();
+      await fetchPackages();
+      renderAdminPackages();
+    }
+  } catch (ex) {
+    console.error('Exception saving package:', ex);
+    showToast('❌ Failed to save package');
+  }
+}
+
+function renderAdminPackages() {
+  const tbody = document.getElementById('admin-packages-list-body');
+  if (!tbody) return;
+
+  tbody.innerHTML = packagesData.map(pkg => `
+    <tr>
+      <td><strong>${pkg.priority || 0}</strong></td>
+      <td><strong>${pkg.title}</strong><br><small style="color:#64748b">${pkg.slug}</small></td>
+      <td>${pkg.activity_type}</td>
+      <td>${pkg.price_pln} PLN</td>
+      <td>
+        ${pkg.is_enabled !== false
+          ? '<span class="status-pill status-paid">Enabled</span>'
+          : '<span class="status-pill status-failed">Disabled</span>'}
+      </td>
+      <td>
+        ${pkg.is_enabled !== false
+          ? 'Visible'
+          : (pkg.show_on_homepage !== false ? 'Shown (Disabled CTA)' : 'Hidden')}
+      </td>
+      <td>
+        <button class="btn-sm-edit" onclick="editPackageInAdmin('${pkg.id}')">Edit ✏️</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function editPackageInAdmin(id) {
+  const pkg = packagesData.find(p => p.id === id);
+  if (!pkg) return;
+
+  const heading = document.getElementById('admin-form-heading');
+  if (heading) heading.textContent = `✏️ Edit Package: ${pkg.title}`;
+
+  document.getElementById('pkg-form-id').value = pkg.id;
+  document.getElementById('pkg-form-title').value = pkg.title || '';
+  const slugInput = document.getElementById('pkg-form-slug');
+  if (slugInput) {
+    slugInput.value = pkg.slug || '';
+    slugInput.dataset.manual = 'true';
+  }
+  document.getElementById('pkg-form-activity').value = pkg.activity_type || '';
+  document.getElementById('pkg-form-location').value = pkg.location || '';
+  document.getElementById('pkg-form-duration').value = pkg.duration_days || 1;
+  document.getElementById('pkg-form-difficulty').value = pkg.difficulty || 'Beginner';
+  document.getElementById('pkg-form-price-pln').value = pkg.price_pln || '';
+  document.getElementById('pkg-form-price-eur').value = pkg.price_eur || '';
+  document.getElementById('pkg-form-hero-img').value = pkg.hero_image_url || '';
+  document.getElementById('pkg-form-gallery-imgs').value = (pkg.gallery_images || []).join(', ');
+  document.getElementById('pkg-form-dates').value = (pkg.departure_dates || []).join(', ');
+  document.getElementById('pkg-form-amenities').value = (pkg.amenities || []).join(', ');
+  document.getElementById('pkg-form-desc').value = pkg.description || '';
+  document.getElementById('pkg-form-itinerary').value = pkg.itinerary_text || (typeof pkg.itinerary === 'string' ? pkg.itinerary : JSON.stringify(pkg.itinerary || ''));
+  document.getElementById('pkg-form-priority').value = pkg.priority || 0;
+
+  const isEnabled = pkg.is_enabled !== false;
+  document.getElementById('pkg-form-is-enabled').checked = isEnabled;
+  document.getElementById('pkg-form-show-homepage').checked = pkg.show_on_homepage !== false;
+  toggleDisableOptions();
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+async function fetchAdminBookings() {
+  try {
+    const { data, error } = await _supabase.from('bookings').select('*, packages(title)').order('created_at', { ascending: false });
+    if (error) {
+      console.error('Fetch bookings error:', error);
+      return;
+    }
+    allAdminBookings = data || [];
+    populateAdminBookingFilters();
+    renderAdminBookings(allAdminBookings);
+  } catch (e) {
+    console.error('Exception fetching bookings:', e);
+  }
+}
+
+function populateAdminBookingFilters() {
+  const pkgSelect = document.getElementById('booking-filter-pkg');
+  const dateSelect = document.getElementById('booking-filter-date');
+  if (!pkgSelect || !dateSelect) return;
+
+  const pkgs = new Set();
+  const dates = new Set();
+
+  allAdminBookings.forEach(b => {
+    if (b.packages && b.packages.title) pkgs.add(b.packages.title);
+    if (b.departure_date) dates.add(b.departure_date);
+  });
+
+  pkgSelect.innerHTML = '<option value="ALL">All Packages</option>' + Array.from(pkgs).map(p => `<option value="${p}">${p}</option>`).join('');
+  dateSelect.innerHTML = '<option value="ALL">All Departure Dates</option>' + Array.from(dates).map(d => `<option value="${d}">${d}</option>`).join('');
+}
+
+function filterAdminBookings() {
+  const query = (document.getElementById('booking-search-input').value || '').toLowerCase().trim();
+  const pkgFilter = document.getElementById('booking-filter-pkg').value;
+  const dateFilter = document.getElementById('booking-filter-date').value;
+
+  const filtered = allAdminBookings.filter(b => {
+    const name = (b.primary_contact_name || '').toLowerCase();
+    const phone = (b.primary_contact_phone || '').toLowerCase();
+    const ref = (b.booking_reference || '').toLowerCase();
+    const matchesSearch = !query || name.includes(query) || phone.includes(query) || ref.includes(query);
+
+    const pkgTitle = b.packages ? b.packages.title : '';
+    const matchesPkg = pkgFilter === 'ALL' || pkgTitle === pkgFilter;
+    const matchesDate = dateFilter === 'ALL' || b.departure_date === dateFilter;
+
+    return matchesSearch && matchesPkg && matchesDate;
+  });
+
+  renderAdminBookings(filtered);
+}
+
+function renderAdminBookings(bookings) {
+  const tbody = document.getElementById('admin-bookings-list-body');
+  if (!tbody) return;
+
+  if (bookings.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#64748b;padding:20px">No bookings found matching filters.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = bookings.map(b => {
+    const statusClass = b.payment_status === 'paid' ? 'status-paid' : (b.payment_status === 'failed' ? 'status-failed' : 'status-pending');
+    return `
+      <tr>
+        <td><strong>${b.booking_reference}</strong></td>
+        <td>${b.primary_contact_name}</td>
+        <td>${b.primary_contact_email}<br><small style="color:#64748b">${b.primary_contact_phone}</small></td>
+        <td>${b.packages ? b.packages.title : '—'}</td>
+        <td>${b.departure_date || '—'}</td>
+        <td><strong>${b.total_price_pln} PLN</strong></td>
+        <td>${b.number_of_guests || 1}</td>
+        <td><span class="status-pill ${statusClass}">${b.payment_status || 'pending'}</span></td>
+      </tr>
+    `;
+  }).join('');
+}
+
+</script>
+
+
+<script>
+// OVERRIDE renderTrips & routing for priority sorting and disabled packages
+window.fetchPackages = async function() {
+  try {
+    const { data, error } = await _supabase.from('packages').select('*').order('priority', { ascending: true });
+    if (error || !data || data.length === 0) {
+      console.warn('Using fallback packages data due to Supabase fetch error:', error);
+      packagesData = FALLBACK_PACKAGES;
+    } else {
+      packagesData = data;
+    }
+  } catch (e) {
+    console.error('Fetch exception, using fallback:', e);
+    packagesData = FALLBACK_PACKAGES;
+  }
+  handleRouting();
+};
+
+window.handleRouting = function() {
+  const hash = window.location.hash;
+  const path = window.location.pathname;
+
+  if (hash === '#/admin' || hash === '#admin' || path === '/admin') {
+    renderAdminView();
+    return;
+  }
+
+  let slug = null;
+  if (hash.startsWith('#/packages/')) {
+    slug = hash.replace('#/packages/', '');
+  } else if (path.startsWith('/packages/')) {
+    slug = path.replace('/packages/', '');
+  }
+
+  if (slug) {
+    const pkg = packagesData.find(p => p.slug === slug);
+    if (pkg) {
+      renderPackageView(pkg);
+    } else {
+      showHomeView();
+    }
+  } else {
+    showHomeView();
+  }
+};
+
+window.renderAdminView = function() {
+  document.getElementById('home-view').style.display = 'none';
+  document.getElementById('package-view').style.display = 'none';
+  document.getElementById('admin-view').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  checkAdminAuth();
+};
+
+window.renderTrips = function(data) {
+  const list = document.getElementById('tripsList');
+  const count = document.getElementById('tripCount');
+  if (!list) return;
+
+  // Filter for homepage visibility
+  const visibleTrips = data.filter(pkg => {
+    if (pkg.is_enabled === false && pkg.show_on_homepage === false) return false;
+    return true;
+  });
+
+  list.innerHTML = '';
+  if (count) count.innerHTML = `Showing <span style="color:#2952c8">${visibleTrips.length} trips</span> available`;
+
+  visibleTrips.forEach(trip => {
+    const isDisabled = trip.is_enabled === false;
+    const card = document.createElement('div');
+    card.className = `trip-card ${isDisabled ? 'disabled' : ''}`;
+    card.onclick = (e) => {
+      if (e.target.tagName !== 'BUTTON') {
+        navigateToPackage(trip.slug);
+      }
+    };
+
+    const eurPrice = (trip.price_pln * PLN_TO_EUR).toFixed(0);
+
+    card.innerHTML = `
+      <div class="trip-img card-img-wrap">
+        ${isDisabled ? '<div class="coming-soon-badge">Coming Soon</div>' : ''}
+        <img src="${trip.hero_image_url}" alt="${trip.title}" loading="lazy">
+        <div class="trip-badges">
+          <span class="badge badge-blue">${trip.activity_type}</span>
+          <span class="badge badge-white">${trip.difficulty}</span>
+        </div>
+      </div>
+      <div class="trip-body">
+        <div class="trip-tags">
+          <span class="tag tag-sport">${trip.activity_type}</span>
+          <span class="tag tag-water">${trip.duration_days} Day${trip.duration_days > 1 ? 's' : ''}</span>
+        </div>
+        <h3 class="trip-title">${trip.title}</h3>
+        <div class="trip-loc">📍 ${trip.location}</div>
+        <div class="trip-date-text">📅 Next: ${trip.departure_dates ? trip.departure_dates[0] : 'Upcoming'}</div>
+
+        <div class="trip-features">
+          <span class="feature-tag">⏱️ ${trip.duration_days} Day(s)</span>
+          <span class="feature-tag">🎒 Equipment Included</span>
+          <span class="feature-tag">🎯 Guided Tour</span>
+        </div>
+
+        <div class="trip-footer">
+          <div>
+            <div class="trip-price-label">Starting from</div>
+            <div class="trip-price">
+              ${Number(trip.price_pln).toFixed(0)} <span>PLN</span>
+              <small>(~${eurPrice} EUR)</small>
+            </div>
+            <div class="trip-included"><span>✓</span> All passes & equipment included</div>
+          </div>
+          <div class="trip-btns">
+            <button class="btn-details" onclick="event.stopPropagation(); navigateToPackage('${trip.slug}')">View Package</button>
+            <button class="btn-book ${isDisabled ? 'disabled' : ''}" ${isDisabled ? 'disabled' : ''} onclick="event.stopPropagation(); ${isDisabled ? '' : `openBookingModalDirect('${trip.slug}')`}">
+              ${isDisabled ? 'Book Now' : 'Book Now'}
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+};
+</script>
